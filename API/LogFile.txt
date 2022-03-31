@@ -1,0 +1,276 @@
+2022-03-26 22:37:23.973 +04:00 [INF] Now listening on: http://localhost:5208
+2022-03-26 22:37:23.988 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-03-26 22:37:23.988 +04:00 [INF] Hosting environment: Development
+2022-03-26 22:37:23.988 +04:00 [INF] Content root path: C:\Users\omari\source\repos\nexus-game-store\API\
+2022-03-26 22:37:25.768 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-03-26 22:37:26.040 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 278.0342ms
+2022-03-26 22:37:26.102 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-03-26 22:37:26.104 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 2.3506ms
+2022-03-26 22:37:26.495 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-03-26 22:37:26.683 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 189.7691ms
+2022-03-26 22:37:30.397 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 215
+2022-03-26 22:37:30.403 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-26 22:37:30.432 +04:00 [INF] Route matched with {action = "Registrer", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Nullable`1[System.Int32]]] Registrer(Infrastructure.Entities.User.PassedNewUserDto) on controller API.Controllers.AuthController (API).
+2022-03-26 22:37:31.691 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-03-26 22:37:32.396 +04:00 [INF] Executed DbCommand (53ms) [Parameters=[@__UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[FirstName], [u].[LastName], [u].[Password], [u].[PaymentInfoId], [u].[RoleId], [u].[Salt], [u].[TelephoneNumber], [u].[UserName]
+FROM [dbo].[User] AS [u]
+WHERE [u].[UserName] = @__UserName_0
+2022-03-26 22:37:32.596 +04:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.String'.
+2022-03-26 22:37:32.601 +04:00 [INF] Executed action API.Controllers.AuthController.Registrer (API) in 2163.9973ms
+2022-03-26 22:37:32.602 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-26 22:37:32.605 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 215 - 400 - text/plain;+charset=utf-8 2208.7621ms
+2022-03-26 22:37:34.049 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 215
+2022-03-26 22:37:34.050 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-26 22:37:34.050 +04:00 [INF] Route matched with {action = "Registrer", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Nullable`1[System.Int32]]] Registrer(Infrastructure.Entities.User.PassedNewUserDto) on controller API.Controllers.AuthController (API).
+2022-03-26 22:37:34.053 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-03-26 22:37:34.061 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[FirstName], [u].[LastName], [u].[Password], [u].[PaymentInfoId], [u].[RoleId], [u].[Salt], [u].[TelephoneNumber], [u].[UserName]
+FROM [dbo].[User] AS [u]
+WHERE [u].[UserName] = @__UserName_0
+2022-03-26 22:37:34.118 +04:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.String'.
+2022-03-26 22:37:34.118 +04:00 [INF] Executed action API.Controllers.AuthController.Registrer (API) in 67.4091ms
+2022-03-26 22:37:34.118 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-26 22:37:34.118 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 215 - 400 - text/plain;+charset=utf-8 69.5595ms
+2022-03-26 22:37:35.502 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 215
+2022-03-26 22:37:35.502 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-26 22:37:35.502 +04:00 [INF] Route matched with {action = "Registrer", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Nullable`1[System.Int32]]] Registrer(Infrastructure.Entities.User.PassedNewUserDto) on controller API.Controllers.AuthController (API).
+2022-03-26 22:37:35.549 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-03-26 22:37:35.552 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[@__UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[FirstName], [u].[LastName], [u].[Password], [u].[PaymentInfoId], [u].[RoleId], [u].[Salt], [u].[TelephoneNumber], [u].[UserName]
+FROM [dbo].[User] AS [u]
+WHERE [u].[UserName] = @__UserName_0
+2022-03-26 22:37:35.611 +04:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.String'.
+2022-03-26 22:37:35.611 +04:00 [INF] Executed action API.Controllers.AuthController.Registrer (API) in 108.9083ms
+2022-03-26 22:37:35.611 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-26 22:37:35.611 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 215 - 400 - text/plain;+charset=utf-8 109.5422ms
+2022-03-26 22:37:36.118 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 215
+2022-03-26 22:37:36.118 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-26 22:37:36.118 +04:00 [INF] Route matched with {action = "Registrer", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Nullable`1[System.Int32]]] Registrer(Infrastructure.Entities.User.PassedNewUserDto) on controller API.Controllers.AuthController (API).
+2022-03-26 22:37:36.119 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-03-26 22:37:36.121 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[FirstName], [u].[LastName], [u].[Password], [u].[PaymentInfoId], [u].[RoleId], [u].[Salt], [u].[TelephoneNumber], [u].[UserName]
+FROM [dbo].[User] AS [u]
+WHERE [u].[UserName] = @__UserName_0
+2022-03-26 22:37:36.181 +04:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.String'.
+2022-03-26 22:37:36.182 +04:00 [INF] Executed action API.Controllers.AuthController.Registrer (API) in 63.2106ms
+2022-03-26 22:37:36.182 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-26 22:37:36.182 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 215 - 400 - text/plain;+charset=utf-8 63.8188ms
+2022-03-26 22:39:49.941 +04:00 [INF] Now listening on: http://localhost:5208
+2022-03-26 22:39:49.965 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-03-26 22:39:49.966 +04:00 [INF] Hosting environment: Development
+2022-03-26 22:39:49.967 +04:00 [INF] Content root path: C:\Users\omari\source\repos\nexus-game-store\API\
+2022-03-26 22:39:51.054 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-03-26 22:39:51.336 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 289.4885ms
+2022-03-26 22:39:51.412 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-03-26 22:39:51.417 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 4.5241ms
+2022-03-26 22:39:51.747 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-03-26 22:39:51.891 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 143.5477ms
+2022-03-26 22:39:54.533 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 215
+2022-03-26 22:39:54.540 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-26 22:39:54.569 +04:00 [INF] Route matched with {action = "Registrer", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Nullable`1[System.Int32]]] Registrer(Infrastructure.Entities.User.PassedNewUserDto) on controller API.Controllers.AuthController (API).
+2022-03-26 22:39:55.697 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-03-26 22:39:56.403 +04:00 [INF] Executed DbCommand (55ms) [Parameters=[@__UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[FirstName], [u].[LastName], [u].[Password], [u].[PaymentInfoId], [u].[RoleId], [u].[Salt], [u].[TelephoneNumber], [u].[UserName]
+FROM [dbo].[User] AS [u]
+WHERE [u].[UserName] = @__UserName_0
+2022-03-26 22:39:56.608 +04:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.String'.
+2022-03-26 22:39:56.616 +04:00 [INF] Executed action API.Controllers.AuthController.Registrer (API) in 2039.9353ms
+2022-03-26 22:39:56.618 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-26 22:39:56.623 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 215 - 400 - text/plain;+charset=utf-8 2090.2198ms
+2022-03-26 22:43:47.643 +04:00 [INF] Now listening on: http://localhost:5208
+2022-03-26 22:43:47.676 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-03-26 22:43:47.678 +04:00 [INF] Hosting environment: Development
+2022-03-26 22:43:47.679 +04:00 [INF] Content root path: C:\Users\omari\source\repos\nexus-game-store\API\
+2022-03-26 22:43:48.900 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-03-26 22:43:49.163 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 268.4507ms
+2022-03-26 22:43:49.224 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-03-26 22:43:49.226 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 2.4168ms
+2022-03-26 22:43:49.375 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-03-26 22:43:49.500 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 124.1742ms
+2022-03-26 22:44:22.431 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 215
+2022-03-26 22:44:22.438 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-26 22:44:22.464 +04:00 [INF] Route matched with {action = "Registrer", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Nullable`1[System.Int32]]] Registrer(Infrastructure.Entities.User.PassedNewUserDto) on controller API.Controllers.AuthController (API).
+2022-03-26 22:44:23.576 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-03-26 22:44:24.284 +04:00 [INF] Executed DbCommand (53ms) [Parameters=[@__UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[FirstName], [u].[LastName], [u].[Password], [u].[PaymentInfoId], [u].[RoleId], [u].[Salt], [u].[TelephoneNumber], [u].[UserName]
+FROM [dbo].[User] AS [u]
+WHERE [u].[UserName] = @__UserName_0
+2022-03-26 22:44:24.476 +04:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.String'.
+2022-03-26 22:44:24.483 +04:00 [INF] Executed action API.Controllers.AuthController.Registrer (API) in 2013.2398ms
+2022-03-26 22:44:24.485 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-26 22:44:24.490 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 215 - 400 - text/plain;+charset=utf-8 2059.7933ms
+2022-03-28 13:42:07.400 +04:00 [INF] Now listening on: http://localhost:5208
+2022-03-28 13:42:07.423 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-03-28 13:42:07.424 +04:00 [INF] Hosting environment: Development
+2022-03-28 13:42:07.425 +04:00 [INF] Content root path: C:\Users\omari\source\repos\nexus-game-store\API\
+2022-03-28 13:42:10.326 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-03-28 13:42:10.707 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 384.5370ms
+2022-03-28 13:42:10.765 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-03-28 13:42:10.769 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 4.2510ms
+2022-03-28 13:42:11.069 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-03-28 13:42:11.170 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 100.9369ms
+2022-03-28 13:57:10.213 +04:00 [INF] Now listening on: http://localhost:5208
+2022-03-28 13:57:10.233 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-03-28 13:57:10.234 +04:00 [INF] Hosting environment: Development
+2022-03-28 13:57:10.235 +04:00 [INF] Content root path: C:\Users\omari\source\repos\nexus-game-store\API\
+2022-03-28 13:57:12.722 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-03-28 13:57:12.950 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 233.9059ms
+2022-03-28 13:57:13.011 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-03-28 13:57:13.017 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 5.6875ms
+2022-03-28 13:57:13.375 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-03-28 13:57:13.524 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 148.7557ms
+2022-03-28 13:57:17.715 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/login application/json 50
+2022-03-28 13:57:17.724 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Login (API)'
+2022-03-28 13:57:17.754 +04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Infrastructure.Entities.User.UserDto]] Login(API.Controllers.LoginModel) on controller API.Controllers.AuthController (API).
+2022-03-28 13:57:19.164 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-03-28 13:57:20.261 +04:00 [INF] Executed DbCommand (49ms) [Parameters=[@__UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[FirstName], [u].[LastName], [u].[Password], [u].[PaymentInfoId], [u].[RoleId], [u].[Salt], [u].[TelephoneNumber], [u].[UserName]
+FROM [dbo].[User] AS [u]
+WHERE [u].[UserName] = @__UserName_0
+2022-03-28 13:57:20.394 +04:00 [INF] Executing OkObjectResult, writing value of type 'Infrastructure.Entities.User.UserDto'.
+2022-03-28 13:57:20.405 +04:00 [INF] Executed action API.Controllers.AuthController.Login (API) in 2645.77ms
+2022-03-28 13:57:20.407 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Login (API)'
+2022-03-28 13:57:20.412 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/login application/json 50 - 200 - application/json;+charset=utf-8 2696.0668ms
+2022-03-28 13:57:30.787 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 214
+2022-03-28 13:57:30.789 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-28 13:57:30.793 +04:00 [INF] Route matched with {action = "Registrer", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Nullable`1[System.Int32]]] Registrer(Infrastructure.Entities.User.PassedNewUserDto) on controller API.Controllers.AuthController (API).
+2022-03-28 13:57:30.806 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-03-28 13:57:30.814 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[@__UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[FirstName], [u].[LastName], [u].[Password], [u].[PaymentInfoId], [u].[RoleId], [u].[Salt], [u].[TelephoneNumber], [u].[UserName]
+FROM [dbo].[User] AS [u]
+WHERE [u].[UserName] = @__UserName_0
+2022-03-28 13:57:30.953 +04:00 [INF] Executed DbCommand (6ms) [Parameters=[@p0='?' (Size = 128), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = DateTime2), @p4='?' (Size = 128), @p5='?' (Size = 128), @p6='?' (Size = 64), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?' (Size = 64), @p10='?' (Size = 32), @p11='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [dbo].[User] ([Adress], [CityId], [DateCreated], [DateUpdated], [FirstName], [LastName], [Password], [PaymentInfoId], [RoleId], [Salt], [TelephoneNumber], [UserName])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11);
+SELECT [Id]
+FROM [dbo].[User]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2022-03-28 13:57:30.984 +04:00 [INF] Executing ObjectResult, writing value of type 'System.Int32'.
+2022-03-28 13:57:30.986 +04:00 [INF] Executed action API.Controllers.AuthController.Registrer (API) in 191.2358ms
+2022-03-28 13:57:30.987 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-28 13:57:30.988 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 214 - 200 - application/json;+charset=utf-8 201.2864ms
+2022-03-28 13:57:38.915 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 215
+2022-03-28 13:57:38.916 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-28 13:57:38.917 +04:00 [INF] Route matched with {action = "Registrer", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Nullable`1[System.Int32]]] Registrer(Infrastructure.Entities.User.PassedNewUserDto) on controller API.Controllers.AuthController (API).
+2022-03-28 13:57:38.962 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-03-28 13:57:38.965 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[FirstName], [u].[LastName], [u].[Password], [u].[PaymentInfoId], [u].[RoleId], [u].[Salt], [u].[TelephoneNumber], [u].[UserName]
+FROM [dbo].[User] AS [u]
+WHERE [u].[UserName] = @__UserName_0
+2022-03-28 13:57:38.982 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 128), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = DateTime2), @p4='?' (Size = 128), @p5='?' (Size = 128), @p6='?' (Size = 64), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?' (Size = 64), @p10='?' (Size = 32), @p11='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [dbo].[User] ([Adress], [CityId], [DateCreated], [DateUpdated], [FirstName], [LastName], [Password], [PaymentInfoId], [RoleId], [Salt], [TelephoneNumber], [UserName])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11);
+SELECT [Id]
+FROM [dbo].[User]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2022-03-28 13:57:38.987 +04:00 [INF] Executing ObjectResult, writing value of type 'System.Int32'.
+2022-03-28 13:57:38.988 +04:00 [INF] Executed action API.Controllers.AuthController.Registrer (API) in 68.5686ms
+2022-03-28 13:57:38.989 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-28 13:57:38.990 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 215 - 200 - application/json;+charset=utf-8 74.6800ms
+2022-03-29 10:56:37.594 +04:00 [INF] Now listening on: http://localhost:5208
+2022-03-29 10:56:37.617 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-03-29 10:56:37.618 +04:00 [INF] Hosting environment: Development
+2022-03-29 10:56:37.618 +04:00 [INF] Content root path: C:\Users\omari\source\repos\nexus-game-store\API\
+2022-03-29 10:56:38.596 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-03-29 10:56:38.984 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 390.0090ms
+2022-03-29 10:56:39.048 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-03-29 10:56:39.051 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 2.6545ms
+2022-03-29 10:56:39.369 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-03-29 10:56:39.466 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 96.3469ms
+2022-03-29 10:56:47.665 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/login application/json 52
+2022-03-29 10:56:47.672 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Login (API)'
+2022-03-29 10:56:47.700 +04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Infrastructure.Entities.User.UserDto]] Login(API.Controllers.LoginModel) on controller API.Controllers.AuthController (API).
+2022-03-29 10:56:49.056 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-03-29 10:56:50.141 +04:00 [INF] Executed DbCommand (51ms) [Parameters=[@__UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[FirstName], [u].[LastName], [u].[Password], [u].[PaymentInfoId], [u].[RoleId], [u].[Salt], [u].[TelephoneNumber], [u].[UserName]
+FROM [dbo].[User] AS [u]
+WHERE [u].[UserName] = @__UserName_0
+2022-03-29 10:56:50.263 +04:00 [INF] Executed action API.Controllers.AuthController.Login (API) in 2557.3562ms
+2022-03-29 10:56:50.265 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Login (API)'
+2022-03-29 10:56:50.270 +04:00 [ERR] An unhandled exception has occurred while executing the request.
+System.Exception: Incorect Input
+   at Application.User.UserService.LoginAsync(String username, String password) in C:\Users\omari\source\repos\nexus-game-store\Application\User\UserService.cs:line 74
+   at API.Controllers.AuthController.Login(LoginModel model) in C:\Users\omari\source\repos\nexus-game-store\API\Controllers\AuthController.cs:line 23
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
+2022-03-29 10:56:50.619 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/login application/json 52 - 500 - application/json 2953.6654ms
+2022-03-29 10:57:02.181 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 217
+2022-03-29 10:57:02.183 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-29 10:57:02.188 +04:00 [INF] Route matched with {action = "Registrer", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Nullable`1[System.Int32]]] Registrer(Infrastructure.Entities.User.PassedNewUserDto) on controller API.Controllers.AuthController (API).
+2022-03-29 10:57:02.210 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-03-29 10:57:02.218 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[@__UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[FirstName], [u].[LastName], [u].[Password], [u].[PaymentInfoId], [u].[RoleId], [u].[Salt], [u].[TelephoneNumber], [u].[UserName]
+FROM [dbo].[User] AS [u]
+WHERE [u].[UserName] = @__UserName_0
+2022-03-29 10:57:02.279 +04:00 [INF] Executed action API.Controllers.AuthController.Registrer (API) in 89.0956ms
+2022-03-29 10:57:02.280 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-29 10:57:02.281 +04:00 [ERR] An unhandled exception has occurred while executing the request.
+System.Exception:  testi
+   at Application.User.UserService.RegistrerAsync(PassedNewUserDto entity) in C:\Users\omari\source\repos\nexus-game-store\Application\User\UserService.cs:line 31
+   at API.Controllers.AuthController.Registrer(PassedNewUserDto entity) in C:\Users\omari\source\repos\nexus-game-store\API\Controllers\AuthController.cs:line 29
+   at lambda_method61(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
+2022-03-29 10:57:02.291 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 217 - 500 - application/json 109.3255ms
+2022-03-29 10:57:51.420 +04:00 [INF] Now listening on: http://localhost:5208
+2022-03-29 10:57:51.439 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-03-29 10:57:51.440 +04:00 [INF] Hosting environment: Development
+2022-03-29 10:57:51.441 +04:00 [INF] Content root path: C:\Users\omari\source\repos\nexus-game-store\API\
+2022-03-29 10:57:52.477 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-03-29 10:57:52.707 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 233.8018ms
+2022-03-29 10:57:52.768 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-03-29 10:57:52.770 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 2.6142ms
+2022-03-29 10:57:53.086 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-03-29 10:57:53.181 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 94.6634ms
+2022-03-29 10:58:02.100 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 217
+2022-03-29 10:58:02.107 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-29 10:58:02.139 +04:00 [INF] Route matched with {action = "Registrer", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Nullable`1[System.Int32]]] Registrer(Infrastructure.Entities.User.PassedNewUserDto) on controller API.Controllers.AuthController (API).
+2022-03-29 10:58:03.221 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-03-29 10:58:03.833 +04:00 [INF] Executed DbCommand (53ms) [Parameters=[@__UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[FirstName], [u].[LastName], [u].[Password], [u].[PaymentInfoId], [u].[RoleId], [u].[Salt], [u].[TelephoneNumber], [u].[UserName]
+FROM [dbo].[User] AS [u]
+WHERE [u].[UserName] = @__UserName_0
+2022-03-29 10:58:03.950 +04:00 [INF] Executed action API.Controllers.AuthController.Registrer (API) in 1804.2917ms
+2022-03-29 10:58:03.951 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-03-29 10:58:03.956 +04:00 [ERR] An unhandled exception has occurred while executing the request.
+System.Exception:  testi
+   at Application.User.UserService.RegistrerAsync(PassedNewUserDto entity) in C:\Users\omari\source\repos\nexus-game-store\Application\User\UserService.cs:line 31
+   at API.Controllers.AuthController.Registrer(PassedNewUserDto entity) in C:\Users\omari\source\repos\nexus-game-store\API\Controllers\AuthController.cs:line 29
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
+2022-03-29 10:58:04.117 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/RegistrerUser application/json 217 - 500 - application/json 2017.1863ms
