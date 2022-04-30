@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Enums
+namespace Infrastructure.UnitOfWorkRepo
 {
-    public enum PlatformEntity
+    public interface IUnitOfWork
     {
-        pc=1,
-
+        Task CompleteAsync();
     }
 }

@@ -1,27 +1,45 @@
-﻿using Application.User;
-using Infrastructure;
+﻿using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Entities;
 using Infrastructure.Entities.UserRepo;
 using Infrastructure.Entities.User;
 using Infrastructure.Repositories;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Shared;
+using API.Context;
+using API.Middlewares;
 
 namespace API
 {
     public static class ServiceExtension
     {
-        public static void AddDependencies(this IServiceCollection Services)
+        public static void ConfigureSwagger(this IServiceCollection Services)
         {
-            Services.AddControllers();           
-            Services.AddEndpointsApiExplorer();
-            Services.AddSwaggerGen();
-            Services.AddScoped<IUserService, UserService>();
-            Services.AddScoped<IUserRepository, UserRepository>();
-            Services.AddDbContext<EntityDbContext>((sp, options) =>
+
+            Services.AddSwaggerGen(x =>
             {
-                options.UseSqlServer(Environment.GetEnvironmentVariable("DefaultConnection", EnvironmentVariableTarget.Process));
-                //write this before update-database
-                //$env: DefaultConnection = "Data Source=(Local);Initial Catalog=GamesStore;Integrated Security=true;TrustServerCertificate=True"
+                x.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
+                });
+                x.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                     {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Id = JwtBearerDefaults.AuthenticationScheme,
+                                Type = ReferenceType.SecurityScheme
+                            }
+                        },
+                        Array.Empty<string>()
+                        }
+                     });
             });
 
         }
@@ -37,6 +55,16 @@ namespace API
                 });
             });
         }
-
+        public static void AddOtherServices(this IServiceCollection Services)
+        {
+            Services.AddScoped<ValidationFilterAttribute>();
+            Services.AddScoped(UserContextFactory.Create);
+            Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+        }
+        public static void AddOptionsForObjects(this IServiceCollection Services, IConfiguration conf)
+        {
+            Services.Configure<JwtSettings>(conf.GetSection(typeof(JwtSettings).Name));
+            Services.Configure<MailSettings>(conf.GetSection(typeof(MailSettings).Name));
+        }
     }
 }

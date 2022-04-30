@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Enums
+namespace Shared
 {
-    public enum PlatformEntity
+    public class MailSettings
     {
-        pc=1,
-
+        public string From { get; set; }
+        public string Password { get; set; }
     }
 }

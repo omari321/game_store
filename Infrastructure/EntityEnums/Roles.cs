@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Enums
+namespace Infrastructure.Entities.UserRepo
 {
-    public enum PlatformEntity
+    public enum Roles
     {
-        pc=1,
-
+        Admin=1,
+        Manager=2,
+        NormalUser=3//aka glexi
     }
 }

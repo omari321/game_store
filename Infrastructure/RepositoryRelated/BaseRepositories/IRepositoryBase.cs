@@ -9,11 +9,9 @@ namespace Infrastructure
 {
     public interface IRepositoryBase<T> where T : class
     {
-        Task<IEnumerable<T>> GetAllAsync(bool trackChanges);
+        Task<IEnumerable<T>> GetAllAsync();
+        IQueryable<T> GetAllQuery();
         Task<T> FindByConditionAsync(Expression<Func<T, bool>> expression);
         Task CreateAsync(T entity);
-        Task Update(T entity);
-        Task Delete(T entity);
-        void Save();
     }
 }

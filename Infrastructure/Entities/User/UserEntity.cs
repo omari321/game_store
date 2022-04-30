@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Entities.City;
 using Infrastructure.Entities.PaymentInfo;
+using Infrastructure.Entities.Token;
 using Infrastructure.Entities.UserRepo;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,8 +16,7 @@ namespace Infrastructure.Entities.User
     [Table("User",Schema ="dbo")]
     public class UserEntity:BaseEntity
     {
-        [Key]
-        public int  Id { get; set; }
+        public int Id { get; set; }
         [Unicode(false)]
         [MaxLength(128)]
         [Required]
@@ -32,11 +32,14 @@ namespace Infrastructure.Entities.User
         [Unicode(true)]
         [MaxLength(128)]
         [Required]
-        public string  FirstName { get; set; }
+        public string FirstName { get; set; }
         [Unicode(true)]
         [MaxLength(128)]
         [Required]
         public string LastName { get; set; }
+        public string? VerificationToken { get; set; }
+        public DateTime? Verified { get; set; }
+        public bool IsVerified => Verified.HasValue || VerificationToken == null;
         [Unicode(true)]
         [MaxLength(128)]
         [Required]
@@ -45,13 +48,15 @@ namespace Infrastructure.Entities.User
         [Required]
         public string TelephoneNumber { get; set; }
         [Required]
-        public RoleFlagEntitysEnum RoleId { get; set; }
+        public string Email { get; set; }
+        [Required]
+        public Roles Role { get; set; }
         [Required]
         public int CityId { get; set; }
         public CityEntity City { get; set; }
 
-        public int? PaymentInfoId { get; set; }
-        public PaymentInfoEntity PaymentInfo { get; set; }
+        public PaymentInfoEntity? PaymentInfo { get; set; }
+        public List<RefreshToken>? RefreshTokens { get; set; }
 
     }
 }
