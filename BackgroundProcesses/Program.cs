@@ -12,11 +12,11 @@ var host = builder.ConfigureServices((context,services )=>
 {
     var config=context.Configuration;
     services.AddApplicationServices();
-    services.AddServices(config);
+    services.AddInfrastructureServices(config);
     services.AddOptionsForObjects(config);
 
     services.AddHostedService<Processing>();
-    
+    services.AddConnectionString(config);
     //Workers
     services.AddSingleton<IMailVerifyProcessor, MailVerifyProcessor>();
 }).Build();

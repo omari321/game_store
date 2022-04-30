@@ -18,5 +18,9 @@ namespace Infrastructure.UnitOfWorkRepo
         {
             await _entityDbContext.SaveChangesAsync();
         }
+        public  void CompleteSync()
+        {
+            _entityDbContext.SaveChanges();
+        }
     }
 }

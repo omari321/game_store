@@ -29,7 +29,9 @@ namespace Infrastructure.RepositoryRelated.Repositories
         {
             try
             {
-                return await GetAllQuery().Where(x=>x.VerificationToken!=null).ToListAsync();
+                var x = GetAllQuery().Where(x=>x.VerificationToken!=null).ToList();
+                return x;
+                
             }
             catch (Exception ex)
             {

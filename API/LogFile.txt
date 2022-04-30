@@ -2081,3 +2081,159 @@ WHERE [u].[VerificationToken] IS NOT NULL
 2022-04-30 23:23:55.694 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/api/Auth/rame - - - 200 0 - 51117.2477ms
 2022-04-30 23:26:09.372 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/api/Authenticate/verify-email/F29F7537D891F1E0827F9068A8CB8061C7BD0AA2C07F56801BF942BD6086FD7B64096CA8177BA044C2728090D1556DD0D7739000FE6CCA188AFB48F9D3822FF8 - -
 2022-04-30 23:26:09.378 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/api/Authenticate/verify-email/F29F7537D891F1E0827F9068A8CB8061C7BD0AA2C07F56801BF942BD6086FD7B64096CA8177BA044C2728090D1556DD0D7739000FE6CCA188AFB48F9D3822FF8 - - - 404 0 - 6.1269ms
+2022-05-01 00:02:38.114 +04:00 [INF] Now listening on: http://localhost:5208
+2022-05-01 00:02:38.142 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-01 00:02:38.143 +04:00 [INF] Hosting environment: Development
+2022-05-01 00:02:38.143 +04:00 [INF] Content root path: C:\Users\omari\source\repos\nexus-game-store\API\
+2022-05-01 00:02:40.857 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-05-01 00:02:41.244 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 391.9054ms
+2022-05-01 00:02:41.409 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-05-01 00:02:41.417 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 7.6312ms
+2022-05-01 00:02:42.080 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-05-01 00:02:42.257 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 176.9676ms
+2022-05-01 00:02:49.133 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/api/Auth/rame - -
+2022-05-01 00:02:49.323 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.rame (API)'
+2022-05-01 00:02:49.345 +04:00 [INF] Route matched with {action = "rame", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] rame() on controller API.Controllers.AuthController (API).
+2022-05-01 00:02:49.349 +04:00 [INF] Authorization failed for the request at filter 'API.Attributes.AuthorizeAttribute'.
+2022-05-01 00:02:49.352 +04:00 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2022-05-01 00:02:49.365 +04:00 [INF] Executed action API.Controllers.AuthController.rame (API) in 9.1645ms
+2022-05-01 00:02:49.368 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.rame (API)'
+2022-05-01 00:02:49.371 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/api/Auth/rame - - - 401 - application/json;+charset=utf-8 238.0148ms
+2022-05-01 00:02:53.028 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/Authenticate application/json 50
+2022-05-01 00:02:53.041 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Authenticate (API)'
+2022-05-01 00:02:53.057 +04:00 [INF] Route matched with {action = "Authenticate", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Authenticate(Infrastructure.Entities.User.Dto.LoginDto) on controller API.Controllers.AuthController (API).
+2022-05-01 00:02:54.102 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-01 00:02:54.950 +04:00 [INF] Executed DbCommand (59ms) [Parameters=[@__model_UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[Adress], [t].[CityId], [t].[DateCreated], [t].[DateUpdated], [t].[Email], [t].[FirstName], [t].[LastName], [t].[Password], [t].[PaymentInfoId], [t].[Role], [t].[Salt], [t].[TelephoneNumber], [t].[UserName], [t].[VerificationToken], [t].[Verified], [r].[Id], [r].[Created], [r].[CreatedByIp], [r].[Expires], [r].[ReasonRevoked], [r].[ReplacedByToken], [r].[Revoked], [r].[RevokedByIp], [r].[Token], [r].[UserEntityId], [r].[role]
+FROM (
+    SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+    FROM [dbo].[User] AS [u]
+    WHERE [u].[UserName] = @__model_UserName_0
+) AS [t]
+LEFT JOIN [RefreshToken] AS [r] ON [t].[Id] = [r].[UserEntityId]
+ORDER BY [t].[Id]
+2022-05-01 00:02:55.283 +04:00 [INF] Executed DbCommand (5ms) [Parameters=[@__token_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [dbo].[User] AS [u]
+        WHERE EXISTS (
+            SELECT 1
+            FROM [RefreshToken] AS [r]
+            WHERE ([u].[Id] = [r].[UserEntityId]) AND ([r].[Token] = @__token_0))) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2022-05-01 00:02:55.429 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (DbType = DateTime2), @p6='?' (Size = 4000), @p7='?' (Size = 4000), @p8='?' (DbType = Int32), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [RefreshToken] ([Created], [CreatedByIp], [Expires], [ReasonRevoked], [ReplacedByToken], [Revoked], [RevokedByIp], [Token], [UserEntityId], [role])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9);
+SELECT [Id]
+FROM [RefreshToken]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2022-05-01 00:02:55.482 +04:00 [INF] Executing OkObjectResult, writing value of type 'Infrastructure.Entities.User.Dto.AuthenticateResponse'.
+2022-05-01 00:02:55.493 +04:00 [INF] Executed action API.Controllers.AuthController.Authenticate (API) in 2433.4252ms
+2022-05-01 00:02:55.495 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Authenticate (API)'
+2022-05-01 00:02:55.499 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/Authenticate application/json 50 - 200 - application/json;+charset=utf-8 2471.1104ms
+2022-05-01 00:03:03.530 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/api/Auth/rame - -
+2022-05-01 00:03:03.640 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-01 00:03:03.655 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-01 00:03:03.662 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.rame (API)'
+2022-05-01 00:03:03.663 +04:00 [INF] Route matched with {action = "rame", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] rame() on controller API.Controllers.AuthController (API).
+2022-05-01 00:03:09.769 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[VerificationToken] IS NOT NULL
+2022-05-01 00:03:09.812 +04:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2022-05-01 00:03:09.820 +04:00 [INF] Executed action API.Controllers.AuthController.rame (API) in 6152.9192ms
+2022-05-01 00:03:09.821 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.rame (API)'
+2022-05-01 00:03:09.822 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/api/Auth/rame - - - 200 0 - 6292.5017ms
+2022-05-01 00:10:48.734 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-01 00:10:49.048 +04:00 [INF] Executed DbCommand (21ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2022-05-01 00:10:49.080 +04:00 [INF] Executed DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2022-05-01 00:10:49.083 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2022-05-01 00:10:49.083 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2022-05-01 00:10:49.104 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2022-05-01 00:10:49.118 +04:00 [INF] No migrations were applied. The database is already up to date.
+2022-05-01 00:18:52.865 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-01 00:18:53.175 +04:00 [INF] Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2022-05-01 00:18:53.206 +04:00 [INF] Executed DbCommand (17ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2022-05-01 00:18:53.210 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2022-05-01 00:18:53.210 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2022-05-01 00:18:53.232 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2022-05-01 00:18:53.245 +04:00 [INF] No migrations were applied. The database is already up to date.
+2022-05-01 00:55:26.194 +04:00 [INF] Now listening on: http://localhost:5208
+2022-05-01 00:55:26.213 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-01 00:55:26.214 +04:00 [INF] Hosting environment: Development
+2022-05-01 00:55:26.215 +04:00 [INF] Content root path: C:\Users\omari\source\repos\nexus-game-store\API\
+2022-05-01 00:55:26.607 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-05-01 00:55:26.827 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 225.9279ms
+2022-05-01 00:55:26.891 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-05-01 00:55:26.893 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 2.3248ms
+2022-05-01 00:55:27.159 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-05-01 00:55:27.270 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 111.7674ms
+2022-05-01 00:56:31.467 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-05-01 00:56:31.475 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 8.4838ms
+2022-05-01 00:56:31.506 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-05-01 00:56:31.508 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 2.1067ms
+2022-05-01 00:56:31.841 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-05-01 00:56:31.843 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/favicon-32x32.png - -
+2022-05-01 00:56:31.846 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 4.9849ms
+2022-05-01 00:56:31.856 +04:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2022-05-01 00:56:31.857 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/favicon-32x32.png - - - 200 628 image/png 14.2472ms
+2022-05-01 00:57:19.426 +04:00 [INF] Now listening on: http://localhost:5208
+2022-05-01 00:57:19.455 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-01 00:57:19.457 +04:00 [INF] Hosting environment: Development
+2022-05-01 00:57:19.457 +04:00 [INF] Content root path: C:\Users\omari\source\repos\nexus-game-store\API\
+2022-05-01 00:57:21.092 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-05-01 00:57:21.379 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 294.3392ms
+2022-05-01 00:57:21.447 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-05-01 00:57:21.451 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 4.0894ms
+2022-05-01 00:57:21.736 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-05-01 00:57:21.864 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 127.3488ms
+2022-05-01 00:59:04.304 +04:00 [INF] Now listening on: http://localhost:5208
+2022-05-01 00:59:04.329 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-01 00:59:04.330 +04:00 [INF] Hosting environment: Development
+2022-05-01 00:59:04.331 +04:00 [INF] Content root path: C:\Users\omari\source\repos\nexus-game-store\API\
+2022-05-01 00:59:05.951 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-05-01 00:59:06.233 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 286.7677ms
+2022-05-01 00:59:06.290 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-05-01 00:59:06.292 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 2.5362ms
+2022-05-01 00:59:06.633 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-05-01 00:59:06.748 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 115.1709ms
+2022-05-01 01:01:03.704 +04:00 [INF] Now listening on: http://localhost:5208
+2022-05-01 01:01:03.728 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-01 01:01:03.730 +04:00 [INF] Hosting environment: Development
+2022-05-01 01:01:03.731 +04:00 [INF] Content root path: C:\Users\omari\source\repos\nexus-game-store\API\
+2022-05-01 01:01:05.708 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-05-01 01:01:06.115 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 420.2897ms
+2022-05-01 01:01:06.204 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-05-01 01:01:06.207 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 3.0942ms
+2022-05-01 01:01:06.571 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-05-01 01:01:06.695 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 123.5393ms
+2022-05-01 01:15:28.012 +04:00 [INF] Now listening on: http://localhost:5208
+2022-05-01 01:15:28.039 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-01 01:15:28.040 +04:00 [INF] Hosting environment: Development
+2022-05-01 01:15:28.041 +04:00 [INF] Content root path: C:\Users\omari\source\repos\nexus-game-store\API\
+2022-05-01 01:15:33.348 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-05-01 01:15:33.630 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 287.1212ms
+2022-05-01 01:15:33.688 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-05-01 01:15:33.692 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 3.9379ms
+2022-05-01 01:15:33.978 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-05-01 01:15:34.090 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 112.3647ms

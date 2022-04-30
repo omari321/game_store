@@ -24,14 +24,16 @@ namespace BackgroundProcesses.SendMail
 
         public async Task SendMail(CancellationToken cancellationToken)
         {
-            //while (!cancellationToken.IsCancellationRequested)
-            //{
+            while (!cancellationToken.IsCancellationRequested)
+            {
                 _logger.LogInformation("send mails");
                 using var scope = ServiceProvider.CreateScope();
+                
                 var mailService = scope.ServiceProvider.GetService<IMailService>();
                 await mailService.SendMailConfirmationCodes();
-                await Task.Delay(1000 * 15);
-            //}
+                Thread.Sleep(15000);
+                //Task.Delay(15000, cancellationToken);
+            }
         }
         public void Dispose()
         {

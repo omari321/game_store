@@ -179,7 +179,7 @@ namespace Application.Services.AuthenticationManagment
         public async Task<bool> RegisterUser(RegistrerDto model)
         {
             // validate
-            var user = await _userRepository.FindByConditionAsync(x => x.UserName == model.Username && x.Email == model.Email);
+            var user = await _userRepository.FindByConditionAsync(x => x.UserName == model.Username);
             if (user != null)
             {
                 throw new CustomException("account already exists", 400);

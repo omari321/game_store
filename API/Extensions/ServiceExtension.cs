@@ -57,6 +57,7 @@ namespace API
         }
         public static void AddOtherServices(this IServiceCollection Services)
         {
+
             Services.AddScoped<ValidationFilterAttribute>();
             Services.AddScoped(UserContextFactory.Create);
             Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
@@ -65,6 +66,12 @@ namespace API
         {
             Services.Configure<JwtSettings>(conf.GetSection(typeof(JwtSettings).Name));
             Services.Configure<MailSettings>(conf.GetSection(typeof(MailSettings).Name));
+        }
+        public static void AddConnectionString (this IServiceCollection Services, IConfiguration conf)
+        {
+
+            Services.AddDbContext<EntityDbContext>(options =>
+                options.UseSqlServer(conf.GetConnectionString("DefaultConnection")));
         }
     }
 }

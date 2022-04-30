@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Entities.User;
 using Infrastructure.RepositoryRelated.IRepositories;
+using Infrastructure.UnitOfWorkRepo;
 using Microsoft.Extensions.Options;
 using Shared;
 using System;
@@ -16,17 +17,20 @@ namespace Application.Services.Mail
     {
         private MailSettings _mailSettings { get; set; }
         private readonly IUserRepository _userRepository;
-
+        private readonly IUnitOfWork _unitOfWork;
         public MailService(IOptions<MailSettings> appSettings,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+             IUnitOfWork unitOfWork)
         {
             _mailSettings = appSettings.Value;
             _userRepository=userRepository;
+            _unitOfWork=unitOfWork;
         }
         public async Task SendMailConfirmationCodes()
         {
            var people=await _userRepository.GetMailsForConfirmationAsync();
-           if (people.Any())
+           
+            if (people.Any())
             {
                 people.ForEach(async x =>
                 {
@@ -37,6 +41,7 @@ namespace Application.Services.Mail
                     try
                     {
                         await SendAsync(x.Email, subject, message);
+                        x.VerificationToken = null;
                     }
                     catch (Exception ex)
                     {
@@ -44,6 +49,8 @@ namespace Application.Services.Mail
                     }
                 });
             }
+            _unitOfWork.CompleteSync();
+            return;
         }
 
         public Task<bool> SendNewPassword(UserEntity entity)
@@ -73,7 +80,7 @@ namespace Application.Services.Mail
                 Body = body
             })
             {
-                await smtp.SendMailAsync(message);
+                 smtp.Send(message);
             }
         }
     }

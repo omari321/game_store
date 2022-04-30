@@ -9,5 +9,6 @@ namespace Infrastructure.UnitOfWorkRepo
     public interface IUnitOfWork
     {
         Task CompleteAsync();
+        void CompleteSync();
     }
 }

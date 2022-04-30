@@ -15,10 +15,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
 builder.Services.ConfigureCors();
-builder.Services.AddServices(builder.Configuration);
+builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddOtherServices();
 builder.Services.AddOptionsForObjects(builder.Configuration);
 builder.Services.AddApplicationServices();
+builder.Services.AddConnectionString(builder.Configuration);
 
 var app = builder.Build();
 

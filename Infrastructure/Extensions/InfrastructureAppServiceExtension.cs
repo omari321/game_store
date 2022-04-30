@@ -15,10 +15,8 @@ namespace Infrastructure.Extensions
 {
     public static class InfrastructureAppServiceExtension
     {
-        public static void AddServices(this IServiceCollection Services, IConfiguration conf)
+        public static void AddInfrastructureServices(this IServiceCollection Services, IConfiguration conf)
         {
-            Services.AddDbContext<EntityDbContext>(options => 
-                options.UseSqlServer(conf.GetConnectionString("DefaultConnection")));
 
             Services.AddScoped<IUnitOfWork, UnitOfWork>();
             Services.AddScoped<IUserRepository, UserRepository>();

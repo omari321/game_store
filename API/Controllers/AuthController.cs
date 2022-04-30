@@ -104,12 +104,6 @@ namespace API.Controllers
             var res = await _authenticationService.RegisterUser(model);
             return Ok(new {status="registration successfull you will soon recieve link on email pls confirm" }.ToJSON());
         }
-        [HttpGet("rame")]
-        public async Task<IActionResult> rame()
-        {
-            await _mailService.SendMailConfirmationCodes();
-            return Ok();
-        }
 
     }
 }
