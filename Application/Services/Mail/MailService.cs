@@ -29,10 +29,11 @@ namespace Application.Services.Mail
         public async Task SendMailConfirmationCodes()
         {
            var people=await _userRepository.GetMailsForConfirmationAsync();
-           
+
             if (people.Any())
             {
-                people.ForEach(async x =>
+
+                foreach (var x in people)
                 {
                     string subject = $"veryfying your email address";
                     //archans magram lurjad entity aris gamoyenebuli 
@@ -41,15 +42,15 @@ namespace Application.Services.Mail
                     try
                     {
                         await SendAsync(x.Email, subject, message);
-                        x.VerificationToken = null;
                     }
                     catch (Exception ex)
                     {
-                       
+
                     }
-                });
+                    x.VerificationToken = null;
+                }
             }
-            _unitOfWork.CompleteSync();
+            await _unitOfWork.CompleteAsync();
             return;
         }
 
@@ -80,7 +81,7 @@ namespace Application.Services.Mail
                 Body = body
             })
             {
-                 smtp.Send(message);
+                 await smtp.SendMailAsync(message);
             }
         }
     }

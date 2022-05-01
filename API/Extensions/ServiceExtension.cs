@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Shared;
 using API.Context;
 using API.Middlewares;
+using System.Text.Json.Serialization;
 
 namespace API
 {
@@ -42,6 +43,14 @@ namespace API
                      });
             });
 
+            Services
+            .AddMvc()
+            // Or .AddControllers(...)
+            .AddJsonOptions(opts =>
+            {
+                var enumConverter = new JsonStringEnumConverter();
+                opts.JsonSerializerOptions.Converters.Add(enumConverter);
+            });
         }
         public static void ConfigureCors(this IServiceCollection services)
         {

@@ -61,14 +61,13 @@ namespace API.Controllers
             var res = await _authenticationService.ChangePassword(model,(int)_userContext.userId);
             return Ok(res);
         }
-        //[AllowAnonymous]
-        //[HttpPost("ForgotPassword")]
-        ////[ServiceFilter(typeof(ValidationFilterAttribute))]
-        //public async Task<IActionResult> ForgotPassword(ForgotPasswordDto model)
-        //{
-        //    var res = await _authenticationService.SendNewPassword(model.email);
-        //    return Ok(res);
-        //}
+        [AllowAnonymous]
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword(string mail)
+        {
+            var res = await _authenticationService.SendNewPassword(mail);
+            return Ok(res);
+        }
 
         [HttpPost("revoke-token")]
         public async Task<IActionResult> RevokeToken()

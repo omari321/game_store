@@ -39,7 +39,7 @@ namespace Infrastructure.Entities.User
         public string LastName { get; set; }
         public string? VerificationToken { get; set; }
         public DateTime? Verified { get; set; }
-        public bool IsVerified => Verified.HasValue || VerificationToken == null;
+        public bool IsVerified => Verified.HasValue;
         [Unicode(true)]
         [MaxLength(128)]
         [Required]

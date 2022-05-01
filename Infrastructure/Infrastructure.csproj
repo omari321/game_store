@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <Folder Include="Entities\PaymentInfo\Dto\" />
-    <Folder Include="Entities\User\Dto\" />
   </ItemGroup>
 
   <ItemGroup>

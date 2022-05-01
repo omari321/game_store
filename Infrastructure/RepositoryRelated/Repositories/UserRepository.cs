@@ -27,7 +27,7 @@ namespace Infrastructure.RepositoryRelated.Repositories
         }
         public async Task<List<UserEntity>> GetMailsForConfirmationAsync()
         {
-            return GetAllQuery().Where(x=>x.VerificationToken!=null).ToList();
+            return await GetAllQuery().Where(x=>x.VerificationToken!=null).ToListAsync();
         }
     }
 }

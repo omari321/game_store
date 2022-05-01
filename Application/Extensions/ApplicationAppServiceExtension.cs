@@ -1,4 +1,5 @@
-﻿using Application.Services.AuthenticationManagment;
+﻿using Application.Services.Admin;
+using Application.Services.AuthenticationManagment;
 using Application.Services.JwtUtils;
 using Application.Services.Mail;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,7 @@ namespace Application.Extensions
                 });
             });
             Services.AddScoped<IMailService, MailService>();
+            Services.AddScoped<IAdminService, AdminService>();
         }
     }
 }

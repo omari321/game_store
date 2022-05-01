@@ -26,13 +26,12 @@ namespace BackgroundProcesses.SendMail
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                //_logger.LogInformation("send mails");
-                //using var scope = ServiceProvider.CreateScope();
+                _logger.LogInformation("send mails");
+                using var scope = ServiceProvider.CreateScope();
 
-                //var mailService = scope.ServiceProvider.GetService<IMailService>();
-                //await mailService.SendMailConfirmationCodes();
-                Thread.Sleep(15000);
-                //await Task.Delay(15000);
+                var mailService = scope.ServiceProvider.GetService<IMailService>();
+                await mailService.SendMailConfirmationCodes();
+                await Task.Delay(15000);
             }
         }
         public void Dispose()

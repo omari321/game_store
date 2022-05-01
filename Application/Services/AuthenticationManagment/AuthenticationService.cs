@@ -10,6 +10,7 @@ using Infrastructure.Entities.Token;
 using System.Security.Cryptography;
 using Infrastructure.Entities.UserRepo;
 using AutoMapper;
+using Application.Services.Mail;
 
 namespace Application.Services.AuthenticationManagment
 {
@@ -19,10 +20,12 @@ namespace Application.Services.AuthenticationManagment
         private readonly JwtSettings _jwtSettings;
         private readonly IJwtUtilsService _jwtUtils;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMailService _mailService;
         private readonly IMapper _mapper;
         public AuthenticationService(IOptions<JwtSettings> options, IUserRepository userRepository,
             IJwtUtilsService jwtUtils,
             IUnitOfWork unitOfWork,
+            IMailService mailService,
             IMapper mapper)
         {
             _userRepository = userRepository;
@@ -30,6 +33,7 @@ namespace Application.Services.AuthenticationManagment
             _jwtUtils = jwtUtils;
             _unitOfWork = unitOfWork;
             _mapper = mapper;     
+            _mailService = mailService;
          }
         public async Task<AuthenticateResponse> Authenticate(LoginDto model, string ipAddress)
         {
@@ -42,11 +46,14 @@ namespace Application.Services.AuthenticationManagment
                     await PasswordEncryptor.EncryptPassword(model.Password, Convert.FromBase64String(user.Salt))!= user.Password
                 )
             )
-                throw new CustomException("Username or password is incorrect", 400);
-            //if (!user.IsVerified)
-            //{
-            //    throw new AppException("Username not verified");
-            //}
+            {
+               throw new CustomException("Username or password is incorrect", 400);
+            }
+               
+            if (!user.IsVerified)
+            {
+                throw new CustomException("Username not verified",400);
+            }
 
 
             // authentication successful so generate jwt and refresh tokens
@@ -182,7 +189,12 @@ namespace Application.Services.AuthenticationManagment
             var user = await _userRepository.FindByConditionAsync(x => x.UserName == model.Username);
             if (user != null)
             {
-                throw new CustomException("account already exists", 400);
+                throw new CustomException("user already exists", 400);
+            }
+            var mail = await _userRepository.FindByConditionAsync(x => x.Email == model.Email);
+            if (mail != null)
+            {
+                throw new CustomException("email already exists", 400);
             }
 
             // map model to new account object
@@ -227,7 +239,6 @@ namespace Application.Services.AuthenticationManagment
             if (account == null)
                 throw new CustomException("Verification failed", 400);
             account.Verified = DateTime.UtcNow;
-            account.VerificationToken = null;
             await _unitOfWork.CompleteAsync();
             return true;
         }
@@ -240,7 +251,7 @@ namespace Application.Services.AuthenticationManagment
             RandomNumberGenerator.Fill(salt);
             user.Password = await PasswordEncryptor.EncryptPassword(newPass.ToString(), salt);
             user.Salt = Convert.ToBase64String(salt);
-            //await _mailService.SendMailConfirmationCode(user);
+            await _mailService.SendNewPassword(user);
             await _unitOfWork.CompleteAsync();
             return true;
         }
