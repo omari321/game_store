@@ -18,7 +18,7 @@ namespace Infrastructure.Entities.User
             byte[] salt = new byte[128 / 8];
             RandomNumberGenerator.Fill(salt);
             var Password = await PasswordEncryptor.EncryptPassword("string", salt);
-            var Salt = Convert.ToBase64String(salt);
+            var Salt =   Convert.ToBase64String(salt);
             builder.HasData
                 (
                     new UserEntity
