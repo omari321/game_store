@@ -30,6 +30,7 @@ namespace Infrastructure.Entities.User
                         FirstName = "admin",
                         LastName = "admin",
                         Adress = "admin",
+                        Verified=DateTime.Now,
                         TelephoneNumber = "551001100",
                         Email = "O_pirtskhalaishvili@cu.edu.ge",
                         Role = Roles.Admin,
