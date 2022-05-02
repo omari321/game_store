@@ -1,5 +1,5 @@
-﻿namespace API.Extensions
-{
+﻿namespace Shared
+{ 
     public static class JSONHelper
     {
         public static string ToJSON(this object obj)

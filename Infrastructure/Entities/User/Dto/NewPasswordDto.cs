@@ -10,7 +10,7 @@ namespace Infrastructure.Entities.User.Dto
     public class NewPasswordDto
     {
         [Required]
-        public string oldPassword { get; set; }
+        public string OldPassword { get; set; }
         [Required]
         public string newPassword { get; set; }
     }

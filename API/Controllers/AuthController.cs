@@ -8,6 +8,7 @@ using Infrastructure.Entities.User;
 using Infrastructure.Entities.User.Dto;
 using Infrastructure.Entities.UserRepo;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.Controllers

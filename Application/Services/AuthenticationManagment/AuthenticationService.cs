@@ -62,7 +62,7 @@ namespace Application.Services.AuthenticationManagment
             user.RefreshTokens.Add(refreshToken);
 
             // remove old refresh tokens from user
-            await removeOldRefreshTokens(user);
+            await RemoveOldRefreshTokens(user);
 
             // save changes to db
             //_userRepository.Update(user);
@@ -73,13 +73,13 @@ namespace Application.Services.AuthenticationManagment
 
         public async Task<AuthenticateResponse> RefreshToken(string token, string ipAddress)
         {
-            var user = await getUserByRefreshToken(token);
+            var user = await GetUserByRefreshToken(token);
             var refreshToken = user.RefreshTokens.Single(x => x.Token == token);
 
             if (refreshToken.IsRevoked)
             {
                 // revoke all descendant tokens in case this token has been compromised
-                await revokeDescendantRefreshTokens(refreshToken, user, ipAddress, $"Attempted reuse of revoked ancestor token: {token}");
+                await RevokeDescendantRefreshTokens(refreshToken, user, ipAddress, $"Attempted reuse of revoked ancestor token: {token}");
                 //await _userRepository.Update(user);
                 await _unitOfWork.CompleteAsync();
             }
@@ -88,11 +88,11 @@ namespace Application.Services.AuthenticationManagment
                 throw new CustomException("Invalid token", 400);
 
             // replace old refresh token with a new one (rotate token)
-            var newRefreshToken = await rotateRefreshToken(refreshToken, ipAddress);
+            var newRefreshToken = await RotateRefreshToken(refreshToken, ipAddress);
             user.RefreshTokens.Add(newRefreshToken);
 
             // remove old refresh tokens from user
-            removeOldRefreshTokens(user);
+            RemoveOldRefreshTokens(user);
 
             // save changes to db
             //_userRepository.Update(user);
@@ -106,7 +106,7 @@ namespace Application.Services.AuthenticationManagment
 
         public async Task<bool> RevokeToken(string token, string ipAddress)
         {
-            var user = await getUserByRefreshToken(token);
+            var user = await GetUserByRefreshToken(token);
 
             var refreshToken = user.RefreshTokens.Single(x => x.Token == token);
             await _unitOfWork.CompleteAsync();
@@ -116,7 +116,7 @@ namespace Application.Services.AuthenticationManagment
             }
 
             // revoke token and save
-            revokeRefreshToken(refreshToken, ipAddress, "Revoked without replacement");
+            RevokeRefreshToken(refreshToken, ipAddress, "Revoked without replacement");
             //_userRepository.Update(user);
             await _unitOfWork.CompleteAsync();
             return true;
@@ -136,7 +136,7 @@ namespace Application.Services.AuthenticationManagment
 
         // helper methods
 
-        private async Task<UserEntity> getUserByRefreshToken(string token)
+        private async Task<UserEntity> GetUserByRefreshToken(string token)
         {
             var user = await _userRepository.GetUserByToken(token);
 
@@ -146,14 +146,14 @@ namespace Application.Services.AuthenticationManagment
             return user;
         }
 
-        private async Task<RefreshToken> rotateRefreshToken(RefreshToken refreshToken, string ipAddress)
+        private async Task<RefreshToken> RotateRefreshToken(RefreshToken refreshToken, string ipAddress)
         {
             var newRefreshToken =await _jwtUtils.GenerateRefreshTokenAsync(ipAddress);
-            revokeRefreshToken(refreshToken, ipAddress, "Replaced by new token", newRefreshToken.Token);
+            RevokeRefreshToken(refreshToken, ipAddress, "Replaced by new token", newRefreshToken.Token);
             return newRefreshToken;
         }
 
-        private async Task removeOldRefreshTokens(UserEntity user)
+        private async Task RemoveOldRefreshTokens(UserEntity user)
         {
             // remove old inactive refresh tokens from user based on TTL in app settings
             user.RefreshTokens.RemoveAll(x =>
@@ -161,20 +161,20 @@ namespace Application.Services.AuthenticationManagment
                 x.Created.AddDays(_jwtSettings.RefreshTokenTTL) <= DateTime.UtcNow);
         }
 
-        private async Task revokeDescendantRefreshTokens(RefreshToken refreshToken, UserEntity user, string ipAddress, string reason)
+        private async Task RevokeDescendantRefreshTokens(RefreshToken refreshToken, UserEntity user, string ipAddress, string reason)
         {
             // recursively traverse the refresh token chain and ensure all descendants are revoked
             if (!string.IsNullOrEmpty(refreshToken.ReplacedByToken))
             {
                 var childToken = user.RefreshTokens.FirstOrDefault(x => x.Token == refreshToken.ReplacedByToken);
                 if (childToken.IsActive)
-                    revokeRefreshToken(childToken, ipAddress, reason);
+                    RevokeRefreshToken(childToken, ipAddress, reason);
                 else
-                    revokeDescendantRefreshTokens(childToken, user, ipAddress, reason);
+                    RevokeDescendantRefreshTokens(childToken, user, ipAddress, reason);
             }
         }
 
-        private Task revokeRefreshToken(RefreshToken token, string ipAddress, string reason = null, string replacedByToken = null)
+        private Task RevokeRefreshToken(RefreshToken token, string ipAddress, string reason = null, string replacedByToken = null)
         {
             token.Revoked = DateTime.UtcNow;
             token.RevokedByIp = ipAddress;
