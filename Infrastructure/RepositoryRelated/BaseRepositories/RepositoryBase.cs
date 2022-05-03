@@ -17,6 +17,11 @@ namespace Infrastructure.Repositories
             _entityDbContext = entityDbContext;
         }
 
+        public async Task<bool> CheckIfAnyByConditionAsync(Expression<Func<T, bool>> expression)
+        {
+            return await _entityDbContext.Set<T>().AnyAsync();
+        }
+
         public async Task CreateAsync(T entity)
         {
             await _entityDbContext.Set<T>().AddAsync(entity);
@@ -35,7 +40,7 @@ namespace Infrastructure.Repositories
 
         public  IQueryable<T> GetAllQuery()
         {
-            return _entityDbContext.Set<T>();
+            return _entityDbContext.Set<T>().AsQueryable();
         }
     }
 }

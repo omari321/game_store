@@ -25,10 +25,11 @@ namespace Infrastructure.Entities.User.Dto
         public string FirstName { get; set; }
         [Required(ErrorMessage = "LastName is required")]
         public string LastName { get; set; }
-
+        [Required]
         public string? Adress { get; set; }
-
+        [Phone]
         public string TelephoneNumber { get; set; }
+        [Required]
         public int CityId { get; set; }
     }
 }

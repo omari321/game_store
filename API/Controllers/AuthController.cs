@@ -102,7 +102,7 @@ namespace API.Controllers
         public async Task<IActionResult> Registrer(RegistrerDto model)
         {
             var res = await _authenticationService.RegisterUser(model);
-            return Ok(new {status="registration successfull you will soon recieve link on email pls confirm" }.ToJSON());
+            return Ok(new {status="registration successfull you will soon recieve link on email pls confirm" });
         }
 
     }

@@ -2,6 +2,7 @@
 using Application.Services.AuthenticationManagment;
 using Application.Services.JwtUtils;
 using Application.Services.Mail;
+using Application.Services.Publisher;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,8 @@ namespace Application.Extensions
             });
             Services.AddScoped<IMailService, MailService>();
             Services.AddScoped<IAdminService, AdminService>();
+            Services.AddScoped<IMailService,MailService>();
+            Services.AddScoped<IPublisherService,PublisherService>();
         }
     }
 }

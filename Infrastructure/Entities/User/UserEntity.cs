@@ -1,4 +1,5 @@
-﻿using Infrastructure.Entities.City;
+﻿using DataAnnotationsExtensions;
+using Infrastructure.Entities.City;
 using Infrastructure.Entities.PaymentInfo;
 using Infrastructure.Entities.Token;
 using Infrastructure.Entities.UserRepo;

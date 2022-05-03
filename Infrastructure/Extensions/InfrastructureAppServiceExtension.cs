@@ -20,7 +20,10 @@ namespace Infrastructure.Extensions
 
             Services.AddScoped<IUnitOfWork, UnitOfWork>();
             Services.AddScoped<IUserRepository, UserRepository>();
-            
+            Services.AddScoped<IVideogameRepository, VideogameRepository>();
+            Services.AddScoped<IPublisherRepository, PublisherRepository>();
+            Services.AddScoped<ICityRepository,CityRepository>();
+            Services.AddScoped<ICountryRepository, CountryRepository>();
         }
     }
 }
