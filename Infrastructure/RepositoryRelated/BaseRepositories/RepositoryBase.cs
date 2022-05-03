@@ -16,21 +16,26 @@ namespace Infrastructure.Repositories
         {
             _entityDbContext = entityDbContext;
         }
-        public async Task CreateAsync(T entity)=>
+
+        public async Task CreateAsync(T entity)
+        {
             await _entityDbContext.Set<T>().AddAsync(entity);
+        }
 
-        public async Task Delete(T entity) => await Task.Run(() =>
-        _entityDbContext.Set<T>().Remove(entity));
+        public async Task<T> FindByConditionAsync(Expression<Func<T, bool>> expression)
+        {
+            return await _entityDbContext.Set<T>().Where(expression).FirstOrDefaultAsync();
+        }
 
-        public async Task<T> FindByConditionAsync(Expression<Func<T, bool>> expression) => 
-            await _entityDbContext.Set<T>().FindAsync(expression);
 
-        public async Task<IEnumerable<T>> GetAllAsync(bool trackChanges) =>
-            await _entityDbContext.Set<T>().ToListAsync();
+        public async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await _entityDbContext.Set<T>().ToListAsync();
+        }
 
-        public void Save() =>_entityDbContext.SaveChanges();
-
-        public async Task Update(T entity)=>
-            await Task.Run(()=> _entityDbContext.Set<T>().Update(entity));
+        public  IQueryable<T> GetAllQuery()
+        {
+            return _entityDbContext.Set<T>();
+        }
     }
 }

@@ -8,5 +8,7 @@ namespace Infrastructure.Enums
 {
     public enum PlatformEntity
     {
+        pc=1,
+
     }
 }

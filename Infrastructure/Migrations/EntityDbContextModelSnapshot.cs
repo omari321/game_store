@@ -22,48 +22,6 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Infrastructure.Entities.BoughtGames.BoughtGamesEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<double>("BoughtPrice")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDigital")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VideoGameEntityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VideoGameId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("key")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("VideoGameEntityId");
-
-                    b.ToTable("BoughtGames", "dbo");
-                });
-
             modelBuilder.Entity("Infrastructure.Entities.City.CityEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -98,77 +56,16 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             CountryId = 1,
-                            DateCreated = new DateTime(2022, 3, 26, 2, 32, 53, 319, DateTimeKind.Local).AddTicks(5218),
+                            DateCreated = new DateTime(2022, 4, 30, 18, 51, 7, 856, DateTimeKind.Local).AddTicks(3476),
                             Name = "Seattle"
                         },
                         new
                         {
                             Id = 2,
                             CountryId = 2,
-                            DateCreated = new DateTime(2022, 3, 26, 2, 32, 53, 319, DateTimeKind.Local).AddTicks(5220),
+                            DateCreated = new DateTime(2022, 4, 30, 18, 51, 7, 856, DateTimeKind.Local).AddTicks(3483),
                             Name = "Tokyo"
                         });
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.CommentLikes.CommentLikesEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("PositiveComment")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("commentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("commentId", "PositiveComment");
-
-                    b.ToTable("CommentLikes", "dbo");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.Comments.CommentsEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VideoGameId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("VideoGameId");
-
-                    b.ToTable("Comments", "dbo");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.Country.CountryEntity", b =>
@@ -199,187 +96,15 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 3, 26, 2, 32, 53, 319, DateTimeKind.Local).AddTicks(5094),
+                            DateCreated = new DateTime(2022, 4, 30, 18, 51, 7, 856, DateTimeKind.Local).AddTicks(3624),
                             Name = "USA"
                         },
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2022, 3, 26, 2, 32, 53, 319, DateTimeKind.Local).AddTicks(5104),
+                            DateCreated = new DateTime(2022, 4, 30, 18, 51, 7, 856, DateTimeKind.Local).AddTicks(3626),
                             Name = "Japan(OwO)"
                         });
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.Developer.DeveloperEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PublisherName")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Developer", "dbo");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.DiscountInfo.DiscountInfoEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DiscountInfo")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<double>("PaymentPercentage")
-                        .HasColumnType("float");
-
-                    b.Property<bool>("active")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DiscountInfo", "dbo");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.GameCategoryEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("CategoryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Category", "dbo");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.GameReviews.GameReviewsEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("PositiveReview")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId", "PositiveReview");
-
-                    b.ToTable("GamesReview", "dbo");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.GamesCategories.GamesCategoriesEntity", b =>
-                {
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("GameId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("GameCategories", "dbo");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.GameVisits.GameVisitsEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("VisitDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId");
-
-                    b.ToTable("GameVisits", "dbo");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.OwnedGames.OwnedGamesEntity", b =>
-                {
-                    b.Property<int>("VideoGameId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("key")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("VideoGameId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("OwnedGames", "dbo");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.PaymentInfo.PaymentInfoEntity", b =>
@@ -428,7 +153,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("PaymentInfo", "dbo");
                 });
 
-            modelBuilder.Entity("Infrastructure.Entities.PhysicalGamesKey.PhysicalGamesKeysEntitys", b =>
+            modelBuilder.Entity("Infrastructure.Entities.Token.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -436,56 +161,43 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("AlreadyUsed")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Game")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GameIdId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Key")
+                    b.Property<string>("CreatedByIp")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Expires")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReasonRevoked")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReplacedByToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Revoked")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RevokedByIp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("role")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GameIdId");
+                    b.HasIndex("UserEntityId");
 
-                    b.ToTable("PhysicalGamesKeys");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.Publisher.PublisherEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeveloperName")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Publisher", "dbo");
+                    b.ToTable("RefreshToken");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.User.UserEntity", b =>
@@ -511,6 +223,10 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime?>("DateUpdated")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -531,7 +247,7 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("PaymentInfoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.Property<string>("Salt")
@@ -550,6 +266,12 @@ namespace Infrastructure.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(128)");
 
+                    b.Property<string>("VerificationToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Verified")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
@@ -557,108 +279,23 @@ namespace Infrastructure.Migrations
                     b.HasIndex("PaymentInfoId");
 
                     b.ToTable("User", "dbo");
-                });
 
-            modelBuilder.Entity("Infrastructure.Entities.UserShoppingCart.UserShoppingCartEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VideoGameId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("VideoGameId");
-
-                    b.ToTable("UserShoppingCart", "dbo");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.VideoGame.VideoGameEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AvailQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DeveloperId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DiscountId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlatformId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<int>("PublicsherId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("VideoGameName")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DeveloperId");
-
-                    b.HasIndex("DiscountId");
-
-                    b.HasIndex("PublicsherId");
-
-                    b.ToTable("VideoGame", "dbo");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.BoughtGames.BoughtGamesEntity", b =>
-                {
-                    b.HasOne("Infrastructure.Entities.User.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Infrastructure.Entities.VideoGame.VideoGameEntity", "VideoGameEntity")
-                        .WithMany()
-                        .HasForeignKey("VideoGameEntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-
-                    b.Navigation("VideoGameEntity");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Adress = "admin",
+                            CityId = 1,
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "O_pirtskhalaishvili@cu.edu.ge",
+                            FirstName = "admin",
+                            LastName = "admin",
+                            Password = "o28AksuvLP62ja4y2bY5YuEgZHuQbaOSaUw1ItmzOSs=",
+                            Role = 1,
+                            Salt = "7BqUpjgiKwCP1ZVAAlV/Sg==",
+                            TelephoneNumber = "551001100",
+                            UserName = "string"
+                        });
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.City.CityEntity", b =>
@@ -672,105 +309,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("Infrastructure.Entities.CommentLikes.CommentLikesEntity", b =>
+            modelBuilder.Entity("Infrastructure.Entities.Token.RefreshToken", b =>
                 {
-                    b.HasOne("Infrastructure.Entities.Comments.CommentsEntity", "comment")
-                        .WithMany()
-                        .HasForeignKey("commentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("comment");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.Comments.CommentsEntity", b =>
-                {
-                    b.HasOne("Infrastructure.Entities.User.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Infrastructure.Entities.VideoGame.VideoGameEntity", "VideoGame")
-                        .WithMany("commentsEntity")
-                        .HasForeignKey("VideoGameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-
-                    b.Navigation("VideoGame");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.GameReviews.GameReviewsEntity", b =>
-                {
-                    b.HasOne("Infrastructure.Entities.VideoGame.VideoGameEntity", "Game")
-                        .WithMany()
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.GamesCategories.GamesCategoriesEntity", b =>
-                {
-                    b.HasOne("Infrastructure.Entities.GameCategoryEntity", "Category")
-                        .WithMany("gamesCategoriesEntities")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Infrastructure.Entities.VideoGame.VideoGameEntity", "Game")
-                        .WithMany("gamesCategoriesEntities")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Game");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.GameVisits.GameVisitsEntity", b =>
-                {
-                    b.HasOne("Infrastructure.Entities.VideoGame.VideoGameEntity", "Game")
-                        .WithMany()
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.OwnedGames.OwnedGamesEntity", b =>
-                {
-                    b.HasOne("Infrastructure.Entities.User.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Infrastructure.Entities.VideoGame.VideoGameEntity", "VideoGame")
-                        .WithMany()
-                        .HasForeignKey("VideoGameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-
-                    b.Navigation("VideoGame");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.PhysicalGamesKey.PhysicalGamesKeysEntitys", b =>
-                {
-                    b.HasOne("Infrastructure.Entities.VideoGame.VideoGameEntity", "GameId")
-                        .WithMany("physicalGamesKeysEntitys")
-                        .HasForeignKey("GameIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("GameId");
+                    b.HasOne("Infrastructure.Entities.User.UserEntity", null)
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserEntityId");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.User.UserEntity", b =>
@@ -790,52 +333,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("PaymentInfo");
                 });
 
-            modelBuilder.Entity("Infrastructure.Entities.UserShoppingCart.UserShoppingCartEntity", b =>
-                {
-                    b.HasOne("Infrastructure.Entities.User.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Infrastructure.Entities.VideoGame.VideoGameEntity", "VideoGame")
-                        .WithMany()
-                        .HasForeignKey("VideoGameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-
-                    b.Navigation("VideoGame");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.VideoGame.VideoGameEntity", b =>
-                {
-                    b.HasOne("Infrastructure.Entities.Developer.DeveloperEntity", "Developer")
-                        .WithMany("videoGameEntities")
-                        .HasForeignKey("DeveloperId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Infrastructure.Entities.DiscountInfo.DiscountInfoEntity", "Discount")
-                        .WithMany("videoGameEntities")
-                        .HasForeignKey("DiscountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Infrastructure.Entities.Publisher.PublisherEntity", "Publicsher")
-                        .WithMany("videoGameEntities")
-                        .HasForeignKey("PublicsherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Developer");
-
-                    b.Navigation("Discount");
-
-                    b.Navigation("Publicsher");
-                });
-
             modelBuilder.Entity("Infrastructure.Entities.City.CityEntity", b =>
                 {
                     b.Navigation("userEntities");
@@ -846,38 +343,14 @@ namespace Infrastructure.Migrations
                     b.Navigation("cityEntity");
                 });
 
-            modelBuilder.Entity("Infrastructure.Entities.Developer.DeveloperEntity", b =>
-                {
-                    b.Navigation("videoGameEntities");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.DiscountInfo.DiscountInfoEntity", b =>
-                {
-                    b.Navigation("videoGameEntities");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.GameCategoryEntity", b =>
-                {
-                    b.Navigation("gamesCategoriesEntities");
-                });
-
             modelBuilder.Entity("Infrastructure.Entities.PaymentInfo.PaymentInfoEntity", b =>
                 {
                     b.Navigation("userEntities");
                 });
 
-            modelBuilder.Entity("Infrastructure.Entities.Publisher.PublisherEntity", b =>
+            modelBuilder.Entity("Infrastructure.Entities.User.UserEntity", b =>
                 {
-                    b.Navigation("videoGameEntities");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.VideoGame.VideoGameEntity", b =>
-                {
-                    b.Navigation("commentsEntity");
-
-                    b.Navigation("gamesCategoriesEntities");
-
-                    b.Navigation("physicalGamesKeysEntitys");
+                    b.Navigation("RefreshTokens");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,34 +1,109 @@
-﻿using Application.User;
+﻿using API.Attributes;
+using API.Context;
+using API.Extensions;
+using API.Middlewares;
+using Application.Services.AuthenticationManagment;
+using Application.Services.Mail;
 using Infrastructure.Entities.User;
+using Infrastructure.Entities.User.Dto;
 using Infrastructure.Entities.UserRepo;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.Controllers
 {
-    public record LoginModel([Required] string Username, [Required] string Password);
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController:ControllerBase
+    [Authorize(Roles.NormalUser, Roles.Admin)]
+    public class AuthController : ControllerBase
     {
-        private readonly IUserService _UserService;
-        public AuthController(IUserService userService)
+        private readonly IAuthenticationService _authenticationService;
+        private readonly UserContext _userContext;
+        private readonly IMailService _mailService;
+        public AuthController(IAuthenticationService authenticationService,UserContext userContext, IMailService mailService)
         {
-            _UserService = userService;
+            _authenticationService = authenticationService;
+            _userContext = userContext;
+            _mailService = mailService;
         }
 
-        [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginModel model)
+        [AllowAnonymous]
+        [HttpPost("[action]")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> Authenticate(LoginDto model)
         {
-            return Ok(await _UserService.LoginAsync(model.Username, model.Password));
+            var response = await _authenticationService.Authenticate(model,_userContext.ClientIpAddress);
+            this.SetTokenCookie(response.RefreshToken);
+            return Ok(response);
         }
-        [HttpPost("RegistrerUser")]
-        public async Task<ActionResult<int?>> Registrer(PassedNewUserDto entity)
+        [AllowAnonymous]
+        [HttpGet("verify-email/{token}")]
+        public async Task<IActionResult> VerifyEmail(string token)
         {
-
-             return (await _UserService.RegistrerAsync(entity)).Value;
+            await _authenticationService.VerifyEmail(token);
+            return Ok(new { message = "Verification successful, you can now login" });
         }
 
+
+        [AllowAnonymous]
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+            var response = await _authenticationService.RefreshToken(refreshToken, _userContext.ClientIpAddress);
+            
+            return Ok(response);
+        }
+        [HttpPost("ChangePassword")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> ChangePassword(NewPasswordDto model)
+        {
+            var res = await _authenticationService.ChangePassword(model,(int)_userContext.userId);
+            return Ok(res);
+        }
+        [AllowAnonymous]
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword(string mail)
+        {
+            var res = await _authenticationService.SendNewPassword(mail);
+            return Ok(res);
+        }
+
+        [HttpPost("revoke-token")]
+        public async Task<IActionResult> RevokeToken()
+        {
+            var token =  Request.Cookies["refreshToken"];
+
+            if (string.IsNullOrEmpty(token))
+                return BadRequest(new { message = "Token is required" });
+
+            await _authenticationService.RevokeToken(token, _userContext.ClientIpAddress);
+            return Ok(new { message = "Token revoked" });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var users = await _authenticationService.GetAll();
+            return Ok(users);
+        }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var user = await _authenticationService.GetById(id);
+            return Ok(user);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("[action]")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> Registrer(RegistrerDto model)
+        {
+            var res = await _authenticationService.RegisterUser(model);
+            return Ok(new {status="registration successfull you will soon recieve link on email pls confirm" }.ToJSON());
+        }
 
     }
 }
