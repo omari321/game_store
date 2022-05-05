@@ -2,6 +2,7 @@
 using AutoMapper;
 using Infrastructure.Entities.Publisher;
 using Infrastructure.Entities.Publisher.Dto;
+using Infrastructure.Entities.Videogame.Dtos;
 using Infrastructure.RepositoryRelated.IRepositories;
 using Infrastructure.UnitOfWorkRepo;
 using System;
@@ -26,7 +27,7 @@ namespace Application.Services.Publisher
 
         public async Task AddPublisher(AddPublisherDto model)
         {
-            var exists = await _publisherRepository.CheckIfAnyByConditionAsync(x => x.PublisherName == name);
+            var exists = await _publisherRepository.CheckIfAnyByConditionAsync(x => x.PublisherName == model.PublisherName);
             if (exists)
             {
                 throw new CustomException("this publiser already exists", 400);
@@ -40,7 +41,7 @@ namespace Application.Services.Publisher
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<List<GetGamesByPublisherDto>> GetGamesByPublisher(string publisherName)
+        public async Task<GetGamesByPublisherDto> GetGamesByPublisher(string publisherName)
         {
             var publisher = await _publisherRepository.FindByConditionAsync(x => x.PublisherName == publisherName);
             if (publisher==null)
@@ -48,7 +49,12 @@ namespace Application.Services.Publisher
                 throw new CustomException("this publiser does not  exist", 400);
             }
             var item = await _publisherRepository.GetGamesByPublisherAsync(x => x.Id== publisher.Id);
-            return _mapper.Map<List<GetGamesByPublisherDto>>(item);
+            var Dto = new GetGamesByPublisherDto
+            {
+                PublisherName = publisherName,
+                GameList = _mapper.Map<List<ReturnGameDto>>(item.videoGameEntities),
+            };
+            return Dto;
         }
 
         public async Task<IEnumerable<GetPublisherDto>> GetPublishers()

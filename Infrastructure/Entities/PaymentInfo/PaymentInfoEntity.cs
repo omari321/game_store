@@ -21,18 +21,13 @@ namespace Infrastructure.Entities.PaymentInfo
         [MaxLength(64)]
         public string OwnerName { get; set; }
         //todo:  momavalshi ,Dasa hesh ia
-        [Required]
         [MaxLength(32)]
         public string CardNumber { get; set; }
-        [Required]
         [MaxLength(16)]
         public string CSV { get; set; }
-        [Required]
         [MaxLength(64)]
         public string Salt { get; set; }
-        [Required]
         public PaymentTypesEntityEnum PaymentTypeId { get; set; }
-        [Required]
         public DateTime ExpireDate { get; set; }
 
         public List<UserEntity> userEntities { get; set; }

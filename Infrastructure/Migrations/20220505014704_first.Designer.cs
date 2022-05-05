@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(EntityDbContext))]
-    [Migration("20220430145108_first")]
+    [Migration("20220505014704_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,29 @@ namespace Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Infrastructure.Entities.Categories.CategoryEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Category", "dbo");
+                });
 
             modelBuilder.Entity("Infrastructure.Entities.City.CityEntity", b =>
                 {
@@ -58,14 +81,14 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             CountryId = 1,
-                            DateCreated = new DateTime(2022, 4, 30, 18, 51, 7, 856, DateTimeKind.Local).AddTicks(3476),
+                            DateCreated = new DateTime(2022, 5, 5, 5, 47, 4, 262, DateTimeKind.Local).AddTicks(4285),
                             Name = "Seattle"
                         },
                         new
                         {
                             Id = 2,
                             CountryId = 2,
-                            DateCreated = new DateTime(2022, 4, 30, 18, 51, 7, 856, DateTimeKind.Local).AddTicks(3483),
+                            DateCreated = new DateTime(2022, 5, 5, 5, 47, 4, 262, DateTimeKind.Local).AddTicks(4295),
                             Name = "Tokyo"
                         });
                 });
@@ -98,13 +121,13 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 4, 30, 18, 51, 7, 856, DateTimeKind.Local).AddTicks(3624),
+                            DateCreated = new DateTime(2022, 5, 5, 5, 47, 4, 262, DateTimeKind.Local).AddTicks(4490),
                             Name = "USA"
                         },
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2022, 4, 30, 18, 51, 7, 856, DateTimeKind.Local).AddTicks(3626),
+                            DateCreated = new DateTime(2022, 5, 5, 5, 47, 4, 262, DateTimeKind.Local).AddTicks(4492),
                             Name = "Japan(OwO)"
                         });
                 });
@@ -153,6 +176,31 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PaymentInfo", "dbo");
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.Publisher.PublisherEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PublisherName")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Publisher", "dbo");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.Token.RefreshToken", b =>
@@ -292,12 +340,88 @@ namespace Infrastructure.Migrations
                             Email = "O_pirtskhalaishvili@cu.edu.ge",
                             FirstName = "admin",
                             LastName = "admin",
-                            Password = "o28AksuvLP62ja4y2bY5YuEgZHuQbaOSaUw1ItmzOSs=",
+                            Password = "3PtISEJDqaOI1xgzGHYzpkGCbshwLgq7K0Y/0gPObsU=",
                             Role = 1,
-                            Salt = "7BqUpjgiKwCP1ZVAAlV/Sg==",
+                            Salt = "mT/0MRWlzYAGTlz4Me+mzw==",
                             TelephoneNumber = "551001100",
-                            UserName = "string"
+                            UserName = "string",
+                            Verified = new DateTime(2022, 5, 5, 5, 47, 4, 277, DateTimeKind.Local).AddTicks(1303)
                         });
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.Videogame.VideogameEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<double?>("OldPrice")
+                        .HasColumnType("float");
+
+                    b.Property<int>("PlatformId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int>("PublicsherId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VideogameName")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PublicsherId");
+
+                    b.ToTable("Videogame", "dbo");
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.VideogameCategories.VideogameCategoryEntity", b =>
+                {
+                    b.Property<int>("VideogameId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VideogameId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("VideogameCategory", "dbo");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.City.CityEntity", b =>
@@ -335,6 +459,41 @@ namespace Infrastructure.Migrations
                     b.Navigation("PaymentInfo");
                 });
 
+            modelBuilder.Entity("Infrastructure.Entities.Videogame.VideogameEntity", b =>
+                {
+                    b.HasOne("Infrastructure.Entities.Publisher.PublisherEntity", "Publicsher")
+                        .WithMany("videoGameEntities")
+                        .HasForeignKey("PublicsherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Publicsher");
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.VideogameCategories.VideogameCategoryEntity", b =>
+                {
+                    b.HasOne("Infrastructure.Entities.Categories.CategoryEntity", "Category")
+                        .WithMany("videogameCategoryEntities")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Infrastructure.Entities.Videogame.VideogameEntity", "Game")
+                        .WithMany("videogameCategoryEntities")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.Categories.CategoryEntity", b =>
+                {
+                    b.Navigation("videogameCategoryEntities");
+                });
+
             modelBuilder.Entity("Infrastructure.Entities.City.CityEntity", b =>
                 {
                     b.Navigation("userEntities");
@@ -350,9 +509,19 @@ namespace Infrastructure.Migrations
                     b.Navigation("userEntities");
                 });
 
+            modelBuilder.Entity("Infrastructure.Entities.Publisher.PublisherEntity", b =>
+                {
+                    b.Navigation("videoGameEntities");
+                });
+
             modelBuilder.Entity("Infrastructure.Entities.User.UserEntity", b =>
                 {
                     b.Navigation("RefreshTokens");
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.Videogame.VideogameEntity", b =>
+                {
+                    b.Navigation("videogameCategoryEntities");
                 });
 #pragma warning restore 612, 618
         }

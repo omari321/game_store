@@ -14,5 +14,6 @@ namespace Infrastructure
         Task<T> FindByConditionAsync(Expression<Func<T, bool>> expression);
         Task CreateAsync(T entity);
         Task<bool> CheckIfAnyByConditionAsync(Expression<Func<T, bool>> expression);
+        Task Delete(T entity);
     }
 }

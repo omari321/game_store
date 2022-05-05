@@ -10,8 +10,8 @@ namespace Application.Services.CityCountry
 {
     public interface ICityCountryService
     {
-        Task AddCountry(AddCityDto model);
-        Task AddCity(AddCountryDto model);
+        Task AddCity(AddCityDto model);
+        Task AddCountry(AddCountryDto model);
         Task<IEnumerable<GetCountryDto>> GetAllCountries();
         Task<IEnumerable<GetCityDto>> GetAllCities();          
     }

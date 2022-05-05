@@ -70,6 +70,11 @@ namespace API
             Services.AddScoped<ValidationFilterAttribute>();
             Services.AddScoped(UserContextFactory.Create);
             Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            Services.AddSingleton(sp =>
+            {
+                var webHostEnvironment= sp.CreateScope().ServiceProvider.GetService<IWebHostEnvironment>();
+                return new BasePath(webHostEnvironment.ContentRootPath);
+            });
         }
         public static void AddOptionsForObjects(this IServiceCollection Services, IConfiguration conf)
         {

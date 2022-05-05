@@ -10,6 +10,6 @@ namespace Infrastructure.RepositoryRelated.IRepositories
 {
     public interface IPublisherRepository:IRepositoryBase<PublisherEntity>
     {
-        Task<List<PublisherEntity>> GetGamesByPublisherAsync(Expression<Func<PublisherEntity, bool>> expression);
+        Task<PublisherEntity> GetGamesByPublisherAsync(Expression<Func<PublisherEntity, bool>> expression);
     }
 }

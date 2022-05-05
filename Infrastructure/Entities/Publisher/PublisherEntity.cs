@@ -14,7 +14,6 @@ namespace Infrastructure.Entities.Publisher
     public class PublisherEntity: BaseEntity
     {
         public int Id { get; set; }
-        [Required]
         [StringLength(64)]
         [Unicode(true)]
         public string PublisherName { get; set; }

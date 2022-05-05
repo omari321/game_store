@@ -30,7 +30,7 @@ namespace Application.Services.CityCountry
             _countryRepository = countryRepository;
             _mapper = mapper;
         }
-        public async Task AddCity(AddCountryDto model)
+        public async Task AddCountry(AddCountryDto model)
         {
             var exists = await _countryRepository.CheckIfAnyByConditionAsync(x => x.Name == model.CountryName);
             if (exists)
@@ -45,7 +45,7 @@ namespace Application.Services.CityCountry
             await _countryRepository.CreateAsync(newCountry);
             await _unitOfWork.CompleteAsync();
         }
-        public async Task AddCountry(AddCityDto model)
+        public async Task AddCity(AddCityDto model)
         {
             var exists = await _cityRepository.CheckIfAnyByConditionAsync(x => x.Name == model.CityName);
             if (exists)

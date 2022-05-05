@@ -20,6 +20,7 @@ builder.Services.AddOtherServices();
 builder.Services.AddOptionsForObjects(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddConnectionString(builder.Configuration);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

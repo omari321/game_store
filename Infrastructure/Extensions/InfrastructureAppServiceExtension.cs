@@ -24,6 +24,12 @@ namespace Infrastructure.Extensions
             Services.AddScoped<IPublisherRepository, PublisherRepository>();
             Services.AddScoped<ICityRepository,CityRepository>();
             Services.AddScoped<ICountryRepository, CountryRepository>();
+            Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            Services.AddScoped<IVideogameCategoryRepository, VideogameCategoryRepository>();
+        }
+        public static void AddInfrastructureMapper(this IServiceCollection Services)
+        {
+
         }
     }
 }

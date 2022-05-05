@@ -19,7 +19,7 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> CheckIfAnyByConditionAsync(Expression<Func<T, bool>> expression)
         {
-            return await _entityDbContext.Set<T>().AnyAsync();
+            return await _entityDbContext.Set<T>().AnyAsync(expression);
         }
 
         public async Task CreateAsync(T entity)
@@ -31,7 +31,7 @@ namespace Infrastructure.Repositories
         {
             return await _entityDbContext.Set<T>().Where(expression).FirstOrDefaultAsync();
         }
-
+        public async Task Delete(T entity) => _entityDbContext.Set<T>().Remove(entity);
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {

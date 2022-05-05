@@ -18,9 +18,9 @@ namespace Infrastructure.RepositoryRelated.Repositories
         {
         }
 
-        public async Task<List<PublisherEntity>> GetGamesByPublisherAsync(Expression<Func<PublisherEntity, bool>> expression)
+        public async Task<PublisherEntity> GetGamesByPublisherAsync(Expression<Func<PublisherEntity, bool>> expression)
         {
-            return await GetAllQuery().Where(expression).Include(x => x.videoGameEntities).ToListAsync();
+            return await GetAllQuery().Where(expression).Include(x => x.videoGameEntities).FirstAsync();
         }
     }
 }

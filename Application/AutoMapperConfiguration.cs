@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Infrastructure.Entities.Categories;
+using Infrastructure.Entities.Categories.Dtos;
 using Infrastructure.Entities.City;
 using Infrastructure.Entities.City.Dtos;
 using Infrastructure.Entities.Country;
@@ -9,6 +11,7 @@ using Infrastructure.Entities.User;
 using Infrastructure.Entities.User.Dto;
 using Infrastructure.Entities.Videogame;
 using Infrastructure.Entities.Videogame.Dtos;
+using Infrastructure.Entities.VideogameCategories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +29,15 @@ namespace Application
             CreateMap<PublisherEntity, GetPublisherDto>()
                 .ForMember(x => x.PublisherId,
                 opt => opt.MapFrom(c => c.Id));
-            CreateMap<VideogameEntity, ReturnGameDto>();
+            CreateMap<VideogameEntity,ReturnGameDto>();
             CreateMap<CityEntity, GetCityDto>();
-            CreateMap<CountryEntity,GetCountryDto>();
+            CreateMap<CountryEntity,GetCountryDto>()
+                .ForMember(x=>x.CountryName,
+                opt=>opt.MapFrom(c=>c.Name));
+            CreateMap<AddGameDto, VideogameEntity>();
+            CreateMap<VideogameEntity,GameNamesDto>();
+            CreateMap<CategoryEntity,GetCategoriesDto>();
+
         }
             
     }
