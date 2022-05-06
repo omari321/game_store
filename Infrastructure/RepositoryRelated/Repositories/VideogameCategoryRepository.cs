@@ -1,5 +1,8 @@
-﻿using Infrastructure.Entities;
+﻿using AutoMapper;
+using Infrastructure.Entities;
+using Infrastructure.Entities.Videogame.Dtos;
 using Infrastructure.Entities.VideogameCategories;
+using Infrastructure.Paging;
 using Infrastructure.Repositories;
 using Infrastructure.RepositoryRelated.IRepositories;
 using Microsoft.EntityFrameworkCore;
@@ -14,8 +17,10 @@ namespace Infrastructure.RepositoryRelated.Repositories
 {
     public class VideogameCategoryRepository : RepositoryBase<VideogameCategoryEntity>, IVideogameCategoryRepository
     {
-        public VideogameCategoryRepository(EntityDbContext entityDbContext) : base(entityDbContext)
+        private readonly IMapper _mapper;
+        public VideogameCategoryRepository(EntityDbContext entityDbContext,IMapper mapper) : base(entityDbContext)
         {
+            _mapper = mapper;
         }
 
         public async Task<List<VideogameCategoryEntity>> GetCategoriesByGame(Expression<Func<VideogameCategoryEntity, bool>> expression)
@@ -23,9 +28,39 @@ namespace Infrastructure.RepositoryRelated.Repositories
             return await GetAllQuery().Where(expression).Include(x=>x.Category).ToListAsync();
         }
 
-        public async Task<List<VideogameCategoryEntity>> GetGamesByCategory(Expression<Func<VideogameCategoryEntity, bool>> expression)
+        public async Task<PageReturnDto<ReturnGameDto>> GetGamesByCategory(QueryParams model, Expression<Func<VideogameCategoryEntity, bool>> expression)
         {
-            return await GetAllQuery().Where(expression).Include(x => x.Game).ToListAsync();
+            var count= await GetAllQuery().Where(expression).CountAsync();
+            var item=await GetAllQuery().Where(expression)
+                .Include(x => x.Videogame)
+                .Skip((model.Page - 1) * model.ItemsPerPage)
+                .Take(model.ItemsPerPage)
+                .ToListAsync();
+            var Dto = item.Select(x =>
+            {
+                return _mapper.Map<ReturnGameDto>(x.Videogame);
+            }); 
+            return new PageReturnDto<ReturnGameDto>(Dto, count, model.Page, model.ItemsPerPage);
+        }
+
+        public async Task<PageReturnDto<ReturnGameDto>> SearchGamesByCategory(VideoGameParameters model, Expression<Func<VideogameCategoryEntity, bool>> expression)
+        {
+            var count = await GetAllQuery().Where(expression).CountAsync();
+            var item = await GetAllQuery().Where(expression)
+                .Include(x => x.Videogame)
+                .Where(x => x.Videogame.VideogameName.Contains(model.SearchTerm)
+                            &&
+                            x.Videogame.Price > model.MinPrice
+                            &&
+                            x.Videogame.Price < model.MaxPrice)
+                .Skip((model.Page - 1) * model.ItemsPerPage)
+                .Take(model.ItemsPerPage)
+                .ToListAsync();
+            var Dto = item.Select(x =>
+            {
+                return _mapper.Map<ReturnGameDto>(x.Videogame);
+            });
+            return new PageReturnDto<ReturnGameDto>(Dto, count, model.Page, model.ItemsPerPage);
         }
     }
 }

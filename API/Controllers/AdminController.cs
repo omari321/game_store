@@ -15,6 +15,7 @@ using Infrastructure.Entities.UserRepo;
 using Infrastructure.Entities.Videogame.Dtos;
 using Infrastructure.Entities.VideogameCategories.Dto;
 using Infrastructure.Paging;
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -26,19 +27,10 @@ namespace API.Controllers
     {
         private readonly IAdminService _AdminService;
         private readonly ICityCountryService _cityCountryService;
-        private readonly IPublisherService _publisherService;
-        private readonly IVideogameService _videogameService;
-        private readonly ICategoryService _categoryService;
-        private readonly IVideogameCategoryService _videogameCategoryService;
-        public AdminController(IAdminService AdminService, ICityCountryService cityCountryService,IPublisherService publisherService, IVideogameService videogameService,
-            ICategoryService categoryService,IVideogameCategoryService videogameCategoryService)
+        public AdminController(IAdminService AdminService, ICityCountryService cityCountryService)
         {
             _AdminService = AdminService;
             _cityCountryService = cityCountryService;
-            _publisherService = publisherService;
-            _videogameService = videogameService;
-            _categoryService = categoryService;
-            _videogameCategoryService = videogameCategoryService;
         }
         [HttpPost("[action]")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
@@ -60,27 +52,7 @@ namespace API.Controllers
             await _cityCountryService.AddCity(model);
             return Ok(new { status = "City Added Succesfully" });
         }
-        [HttpPost("[action]")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> AddPublisher(AddPublisherDto model)
-        {
-            await _publisherService.AddPublisher(model);
-            return Ok(new { status = "Publisher Added Succesfully" });
-        }
-        [HttpPost("[action]")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> AddGame(AddGameDto model)
-        {
-            await _videogameService.AddGame(model);
-            return Ok(new { status = "Game Added Succesfully" });
-        }
-        [HttpPut("[action]")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> UpdateGame(UpdateGameDto model)
-        {
-            await _videogameService.UpdateGame(model);
-            return Ok(new { status = "Game updated Succesfully" });
-        }
+
         [HttpGet("[action]")]
         public async Task<IActionResult> GetCities()
         {          
@@ -91,58 +63,7 @@ namespace API.Controllers
         {
             return Ok(await _cityCountryService.GetAllCountries());
         }
-        [HttpGet("[action]")]
-        public async Task<IActionResult> GetPublisers()
-        {
-            return Ok(await _publisherService.GetPublishers());
-        }
-        [HttpGet("[action]")]
-        public async Task<IActionResult> GetGameByPublisher(string name)
-        {
-            return Ok(await _publisherService.GetGamesByPublisher(name));
-        }
-        [HttpPost("[action]")]
-        public async Task<IActionResult> AddCategory(CreateCategoryDto model)
-        {
-            await _categoryService.AddCategory(model);
-            return Ok(new {status="Category succesfully created"});
-        }
-        [HttpGet("[action]")]
-        public async Task<IActionResult> GetCategories()
-        {
-            return Ok(await _categoryService.GetCategories());
-        }
-        [HttpGet("[action]/{categoryId}")]
-        public async Task<IActionResult> GetGamesByCategory(int categoryId)
-        {
-            return Ok(await _categoryService.GetGamesByCategory(categoryId));
-        }
-        [HttpGet("[action]/{gameId}")]
-        public async Task<IActionResult> GetCategoriesByGame(int gameId)
-        {
-            return Ok(await _categoryService.GetCategoriesByGame(gameId));
-        }
-        [HttpPost("[action]")]
-        public async Task<IActionResult> AddGameCategory(CreateRemoveDto model)
-        {
-            await _videogameCategoryService.AddGameCategory(model);
-            return Ok(new {status="Games' Category has been added"});
-        }
-        [HttpPost("[action]")]
-        public async Task<IActionResult> RemoveGameCategory(CreateRemoveDto model)
-        {
-            await _videogameCategoryService.RemoveGameCategory(model);
-            return Ok(new { status = "Games' Category has been removed" });
-        }
-        [HttpGet("[action]")]
-        public async Task<IActionResult> GetAllAsync([FromQuery]QueryParams model)
-        {
-            return Ok(await _videogameService.GetAllAsync(model));
-        }
-        [HttpGet("[action]")]
-        public async Task<IActionResult> SearchGames([FromQuery]VideoGameParameters videoGameParameters)
-        {
-            return Ok(await _videogameService.SearchGames(videoGameParameters)); 
-        }
+
+
     }
 }

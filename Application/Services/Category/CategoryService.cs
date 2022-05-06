@@ -3,6 +3,7 @@ using AutoMapper;
 using Infrastructure.Entities.Categories;
 using Infrastructure.Entities.Categories.Dtos;
 using Infrastructure.Entities.Videogame.Dtos;
+using Infrastructure.Paging;
 using Infrastructure.RepositoryRelated.IRepositories;
 using Infrastructure.UnitOfWorkRepo;
 using System;
@@ -54,23 +55,26 @@ namespace Application.Services.Category
             return _mapper.Map<List<GetCategoriesDto>>(items);
         }
 
-        public async Task<GamesByCategoryDto> GetGamesByCategory(int categoryId)
+        public async Task<PageReturnDto<ReturnGameDto>> GetGamesByCategory(QueryParams model, int categoryId)
         {
-            var CategoryGames = await _videogameCategoryRepository.GetGamesByCategory(x => x.CategoryId == categoryId);
-            if (CategoryGames==null)
+            var exists = await _categoryRepository.CheckIfAnyByConditionAsync(x => x.Id== categoryId);
+            if (!exists)
             {
                 throw new CustomException("this category id does not exist", 400);
             }
-            var ReturnData = new GamesByCategoryDto
-            {
-                CategoryId = categoryId,
-                Games = CategoryGames.Select(x =>
-                {
-                    return _mapper.Map<ReturnGameDto>(x.Game);
-                }),
-                
-            };
-            return ReturnData;
+            var CategoryGames = await _videogameCategoryRepository.GetGamesByCategory(model,x => x.CategoryId == categoryId);
+           
+            //var ReturnData = new GamesByCategoryDto
+            //{
+            //    CategoryId = categoryId,
+            //    Games = CategoryGames.Select(x =>
+            //    {
+            //        return _mapper.Map<ReturnGameDto>(x.Videogame);
+            //    }),
+
+            //};
+            //return ReturnData;
+            return CategoryGames;
         }
 
         public async Task<CategoriesByGame> GetCategoriesByGame(int gameId)
@@ -89,6 +93,17 @@ namespace Application.Services.Category
                 }),
             };
             return ReturnData;
+        }
+
+        public async Task<PageReturnDto<ReturnGameDto>> SearchGamesByCategory(VideoGameParameters model, int categoryId)
+        {
+            var exists = await _categoryRepository.CheckIfAnyByConditionAsync(x => x.Id == categoryId);
+            if (!exists)
+            {
+                throw new CustomException("this category id does not exist", 400);
+            }
+            var CategoryGames = await _videogameCategoryRepository.SearchGamesByCategory(model, x => x.CategoryId == categoryId);
+            return CategoryGames;
         }
     }
 }

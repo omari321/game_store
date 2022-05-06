@@ -21,7 +21,6 @@ builder.Services.AddOptionsForObjects(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddConnectionString(builder.Configuration);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

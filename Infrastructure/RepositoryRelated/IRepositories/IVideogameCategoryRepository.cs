@@ -1,4 +1,6 @@
-﻿using Infrastructure.Entities.VideogameCategories;
+﻿using Infrastructure.Entities.Videogame.Dtos;
+using Infrastructure.Entities.VideogameCategories;
+using Infrastructure.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,8 @@ namespace Infrastructure.RepositoryRelated.IRepositories
 {
     public interface IVideogameCategoryRepository : IRepositoryBase<VideogameCategoryEntity>
     {
-        Task<List<VideogameCategoryEntity>> GetGamesByCategory(Expression<Func<VideogameCategoryEntity, bool>> expression);
+        Task<PageReturnDto<ReturnGameDto>> GetGamesByCategory(QueryParams model, Expression<Func<VideogameCategoryEntity, bool>> expression);
         Task<List<VideogameCategoryEntity>> GetCategoriesByGame(Expression<Func<VideogameCategoryEntity, bool>> expression);
+        Task<PageReturnDto<ReturnGameDto>> SearchGamesByCategory(VideoGameParameters model, Expression<Func<VideogameCategoryEntity, bool>> expression);
     }
 }

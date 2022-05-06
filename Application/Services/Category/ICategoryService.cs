@@ -1,4 +1,6 @@
 ﻿using Infrastructure.Entities.Categories.Dtos;
+using Infrastructure.Entities.Videogame.Dtos;
+using Infrastructure.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,8 @@ namespace Application.Services.Category
     {
         Task AddCategory(CreateCategoryDto model);
         Task<List<GetCategoriesDto>> GetCategories();
-        Task<GamesByCategoryDto> GetGamesByCategory(int categoryId);
+        Task<PageReturnDto<ReturnGameDto>> GetGamesByCategory(QueryParams model, int categoryId);
+        Task<PageReturnDto<ReturnGameDto>> SearchGamesByCategory(VideoGameParameters model, int categoryId);
         Task<CategoriesByGame> GetCategoriesByGame(int gameId);
     }
 }

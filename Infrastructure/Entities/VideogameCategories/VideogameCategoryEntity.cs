@@ -15,7 +15,7 @@ namespace Infrastructure.Entities.VideogameCategories
     {
         [Key]
         public int VideogameId { get; set; }
-        public VideogameEntity Game { get; set; }
+        public VideogameEntity Videogame { get; set; }
         [Key]
         public int CategoryId { get; set; }
         public CategoryEntity Category { get; set; }

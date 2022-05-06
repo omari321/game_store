@@ -55,6 +55,7 @@
 
   <ItemGroup>
     <Folder Include="Images\Games\" />
+    <Folder Include="Files\" />
   </ItemGroup>
 
 </Project>

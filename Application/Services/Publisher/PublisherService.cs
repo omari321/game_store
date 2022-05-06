@@ -3,6 +3,7 @@ using AutoMapper;
 using Infrastructure.Entities.Publisher;
 using Infrastructure.Entities.Publisher.Dto;
 using Infrastructure.Entities.Videogame.Dtos;
+using Infrastructure.Paging;
 using Infrastructure.RepositoryRelated.IRepositories;
 using Infrastructure.UnitOfWorkRepo;
 using System;
@@ -41,20 +42,21 @@ namespace Application.Services.Publisher
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<GetGamesByPublisherDto> GetGamesByPublisher(string publisherName)
+        public async Task<PageReturnDto<ReturnGameDto>> GetGamesByPublisher(QueryParams model,string publisherName)
         {
             var publisher = await _publisherRepository.FindByConditionAsync(x => x.PublisherName == publisherName);
             if (publisher==null)
             {
                 throw new CustomException("this publiser does not  exist", 400);
             }
-            var item = await _publisherRepository.GetGamesByPublisherAsync(x => x.Id== publisher.Id);
-            var Dto = new GetGamesByPublisherDto
-            {
-                PublisherName = publisherName,
-                GameList = _mapper.Map<List<ReturnGameDto>>(item.videoGameEntities),
-            };
-            return Dto;
+            var item = await _publisherRepository.GetGamesByPublisherAsync(model,x => x.Id== publisher.Id);
+            //var Dto = new GetGamesByPublisherDto
+            //{
+            //    PublisherName = publisherName,
+            //    GameList = _mapper.Map<List<ReturnGameDto>>(item.videoGameEntities),
+            //};
+            //return Dto;
+            return item;
         }
 
         public async Task<IEnumerable<GetPublisherDto>> GetPublishers()

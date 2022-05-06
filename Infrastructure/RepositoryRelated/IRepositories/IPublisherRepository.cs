@@ -1,4 +1,6 @@
 ﻿using Infrastructure.Entities.Publisher;
+using Infrastructure.Entities.Videogame.Dtos;
+using Infrastructure.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,6 @@ namespace Infrastructure.RepositoryRelated.IRepositories
 {
     public interface IPublisherRepository:IRepositoryBase<PublisherEntity>
     {
-        Task<PublisherEntity> GetGamesByPublisherAsync(Expression<Func<PublisherEntity, bool>> expression);
+        Task<PageReturnDto<ReturnGameDto>> GetGamesByPublisherAsync(QueryParams model, Expression<Func<PublisherEntity, bool>> expression);
     }
 }

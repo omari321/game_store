@@ -37,14 +37,6 @@ namespace API.Controllers
             this.SetTokenCookie(response.RefreshToken);
             return Ok(response);
         }
-        [AllowAnonymous]
-        [HttpGet("verify-email/{token}")]
-        public async Task<IActionResult> VerifyEmail(string token)
-        {
-            await _authenticationService.VerifyEmail(token);
-            return Ok(new { message = "Verification successful, you can now login" });
-        }
-
 
         [AllowAnonymous]
         [HttpPost("refresh-token")]
@@ -81,7 +73,14 @@ namespace API.Controllers
             await _authenticationService.RevokeToken(token, _userContext.ClientIpAddress);
             return Ok(new { message = "Token revoked" });
         }
-
+        [AllowAnonymous]
+        [HttpPost("[action]")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> Registrer(RegistrerDto model)
+        {
+            var res = await _authenticationService.RegisterUser(model);
+            return Ok(new {status="registration successfull you will soon recieve link on email pls confirm" });
+        }
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -95,14 +94,12 @@ namespace API.Controllers
             var user = await _authenticationService.GetById(id);
             return Ok(user);
         }
-
         [AllowAnonymous]
-        [HttpPost("[action]")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> Registrer(RegistrerDto model)
+        [HttpGet("verify-email/{token}")]
+        public async Task<IActionResult> VerifyEmail(string token)
         {
-            var res = await _authenticationService.RegisterUser(model);
-            return Ok(new {status="registration successfull you will soon recieve link on email pls confirm" });
+            await _authenticationService.VerifyEmail(token);
+            return Ok(new { message = "Verification successful, you can now login" });
         }
 
     }
