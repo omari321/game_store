@@ -29,7 +29,7 @@ namespace Application
             CreateMap<PublisherEntity, GetPublisherDto>()
                 .ForMember(x => x.PublisherId,
                 opt => opt.MapFrom(c => c.Id));
-            CreateMap<VideogameEntity,ReturnGameDto>();
+            CreateMap<VideogameEntity,PagingGameDto>();
             CreateMap<CityEntity, GetCityDto>();
             CreateMap<CountryEntity,GetCountryDto>()
                 .ForMember(x=>x.CountryName,
@@ -37,7 +37,7 @@ namespace Application
             CreateMap<AddGameDto, VideogameEntity>();
             CreateMap<VideogameEntity,GameNamesDto>();
             CreateMap<CategoryEntity,GetCategoriesDto>();
-
+            CreateMap<UserEntity, UserDto>();
         }
             
     }

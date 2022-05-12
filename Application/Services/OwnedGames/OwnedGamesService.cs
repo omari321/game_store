@@ -1,0 +1,67 @@
+﻿using Application.Exceptions;
+using Infrastructure.Entities.OwnedGames;
+using Infrastructure.Entities.Transactions;
+using Infrastructure.Entities.Videogame.Dtos;
+using Infrastructure.Paging;
+using Infrastructure.RepositoryRelated.IRepositories;
+using Infrastructure.UnitOfWorkRepo;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Application.Services.OwnedGames
+{
+    public class OwnedGamesService : IOwnedGamesService
+    {
+        private readonly IOwnedGamesRepository _ownedGamesRepository;
+        private readonly IVideogameRepository _videogameRepository;
+        private readonly ITransactionsRepository _transactionsRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        public OwnedGamesService(IOwnedGamesRepository ownedGamesRepository,IVideogameRepository videogameRepository,ITransactionsRepository transactionsRepository,IUnitOfWork unitOfWork)
+        {
+            _ownedGamesRepository = ownedGamesRepository;
+            _videogameRepository = videogameRepository;
+            _unitOfWork = unitOfWork;
+            _transactionsRepository= transactionsRepository;
+        }
+
+        public async Task<bool> AdminAddGameForUser(int userId, int gameId)
+        {
+            var exists = await _videogameRepository.CheckIfAnyByConditionAsync(x => x.Id == gameId);
+            if (!exists)
+            {
+                throw new CustomException("game with this id does not exist", 404);
+            }
+            var ownedGame = new OwnedGamesEntity
+            {
+                VideogameId=gameId,
+                UserId=userId,
+                DateCreated=DateTime.Now
+            };
+            await _ownedGamesRepository.CreateAsync(ownedGame);
+            var transaction = new TransactionsEntity
+            {
+                VideogameId = gameId,
+                UserId = userId,
+                PayedAmount = 0,
+                DateCreated = DateTime.Now
+            };
+            await _transactionsRepository.CreateAsync(transaction);
+            await _unitOfWork.CompleteAsync();
+            return true;
+        }
+
+        public async Task<bool> CheckIfOwnsGame(int userId, int gameId)
+        {
+            return await _ownedGamesRepository.CheckIfAnyByConditionAsync(x => x.UserId == userId && x.VideogameId == gameId);
+        }
+
+        public async Task<PageReturnDto<GameNamesDto>> GetUserOwnedGames(QueryParams model, int userId)
+        {
+            return await _ownedGamesRepository.GetOwnedGames(model, userId);
+        }
+
+    }
+}

@@ -1,6 +1,7 @@
-﻿using Infrastructure.Entities.Publisher;
+﻿using Infrastructure.Entities.OwnedGames;
+using Infrastructure.Entities.Publisher;
+using Infrastructure.Entities.Transactions;
 using Infrastructure.Entities.VideogameCategories;
-using Infrastructure.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -26,10 +27,12 @@ namespace Infrastructure.Entities.Videogame
         [Unicode(true)]
         [MaxLength(2000)]
         public string Description { get; set; }
-        public PlatformEntity PlatformId { get; set; }
         [MaxLength(100)]
-        public string? ImageUrl { get; set; }
+        public string? ThumbnailUrl { get; set; }
+        public string? DownloadFileUrl { get; set; }
         public List<VideogameCategoryEntity> videogameCategoryEntities{ get; set; }
+        public List<TransactionsEntity> transactionsEntities { get; set; }
+        public List<OwnedGamesEntity> ownedGamesEntities { get; set; }  
         //public List<CommentsEntity> commentsEntity { get; set; }
         //public List<GameLikesEntity> gameLikesEntity { get; set; }
     }

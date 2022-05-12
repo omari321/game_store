@@ -37,7 +37,7 @@ namespace Application.Services.Mail
                 {
                     string subject = $"veryfying your email address";
                     //archans magram lurjad entity aris gamoyenebuli 
-                    string message = $"hello {x.FirstName} please click <a href=\"http://localhost:5208/api/Authenticate/verify-email/{x.VerificationToken}\">Visit W3Schools.com!</a> ";
+                    string message = $"hello {x.FirstName} please click <a href=\"http://localhost:5208/api/Auth/verify-email/{x.VerificationToken}\">Visit W3Schools.com!</a> ";
 
                     try
                     {
@@ -47,7 +47,7 @@ namespace Application.Services.Mail
                     {
 
                     }
-                    x.VerificationToken = null;
+                    x.MailSent = DateTime.Now;
                 }
             }
             await _unitOfWork.CompleteAsync();

@@ -12,6 +12,6 @@ namespace Infrastructure.RepositoryRelated.IRepositories
 {
     public interface IPublisherRepository:IRepositoryBase<PublisherEntity>
     {
-        Task<PageReturnDto<ReturnGameDto>> GetGamesByPublisherAsync(QueryParams model, Expression<Func<PublisherEntity, bool>> expression);
+        Task<PageReturnDto<PagingGameDto>> GetGamesByPublisherAsync(QueryParams model, Expression<Func<PublisherEntity, bool>> expression);
     }
 }

@@ -10,6 +10,6 @@ namespace Infrastructure.Entities.Publisher.Dto
     public class GetGamesByPublisherDto
     {
        // public string PublisherName { get; set; }
-        public IEnumerable<ReturnGameDto> GameList { get; set; }
+        public IEnumerable<PagingGameDto> GameList { get; set; }
     }
 }

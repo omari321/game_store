@@ -26,10 +26,9 @@ namespace Infrastructure.Extensions
             Services.AddScoped<ICountryRepository, CountryRepository>();
             Services.AddScoped<ICategoryRepository, CategoryRepository>();
             Services.AddScoped<IVideogameCategoryRepository, VideogameCategoryRepository>();
-        }
-        public static void AddInfrastructureMapper(this IServiceCollection Services)
-        {
-
+            Services.AddScoped<IPaymentCredentialRepository , PaymentCredentialRepository>();
+            Services.AddScoped<ITransactionsRepository,TransactionsRepository>();
+            Services.AddScoped<IOwnedGamesRepository, OwnedGamesRepository>();
         }
     }
 }

@@ -1,11 +1,15 @@
 ﻿using Infrastructure.Entities.Categories;
 using Infrastructure.Entities.City;
 using Infrastructure.Entities.Country;
+using Infrastructure.Entities.OwnedGames;
+using Infrastructure.Entities.PaymentCreditentials;
 using Infrastructure.Entities.PaymentInfo;
 using Infrastructure.Entities.Publisher;
+using Infrastructure.Entities.Transactions;
 using Infrastructure.Entities.User;
 using Infrastructure.Entities.Videogame;
 using Infrastructure.Entities.VideogameCategories;
+using Infrastructure.Entities.VideogameImages;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Entities
@@ -19,7 +23,8 @@ namespace Infrastructure.Entities
             : base(options)
         {
         }
-
+        public DbSet<TransactionsEntity> transactionsEntities { get; set; }
+        public DbSet<OwnedGamesEntity> ownedGamesEntities { get; set; }
         public DbSet<CityEntity> cityEntities {get;set;}
         public DbSet<CountryEntity> countryEntities {get;set;}
         public DbSet<PaymentInfoEntity> paymentInfoEntities {get;set;}
@@ -28,6 +33,8 @@ namespace Infrastructure.Entities
         public DbSet<VideogameEntity> videogameEntities { get; set; }
         public DbSet<VideogameCategoryEntity> videogameCategoryEntities { get; set; }
         public DbSet<CategoryEntity> categoryEntities { get; set; }
+        public DbSet<PaymentCredentialsEntity > paymentCreditentialsEntities { get; set; }
+        public DbSet<VideogameImagesEntity> videogameImagesEntities { get;set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CityEntityConfiguration());

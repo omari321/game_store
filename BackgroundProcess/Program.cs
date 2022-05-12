@@ -6,12 +6,13 @@ using Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddApplicationServices();
+builder.Services.AddMailBackgroundProcessingServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddOptionsForObjects(builder.Configuration);
 builder.Services.AddHostedService<Processing>();
 builder.Services.AddConnectionString(builder.Configuration);
 builder.Services.AddSingleton<IMailVerifyProcessor, MailVerifyProcessor>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Add services to the container.
 
 var app = builder.Build();

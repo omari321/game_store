@@ -27,7 +27,7 @@ namespace Infrastructure.Entities.PaymentInfo
         public string CSV { get; set; }
         [MaxLength(64)]
         public string Salt { get; set; }
-        public PaymentTypesEntityEnum PaymentTypeId { get; set; }
+        public PaymentTypes PaymentTypeId { get; set; }
         public DateTime ExpireDate { get; set; }
 
         public List<UserEntity> userEntities { get; set; }

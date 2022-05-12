@@ -11,7 +11,10 @@ namespace Infrastructure.RepositoryRelated.IRepositories
 {
     public interface IVideogameRepository:IRepositoryBase<VideogameEntity>
     {
-        Task<PageReturnDto<ReturnGameDto>> GetAllGamesAsync(QueryParams model);
-        Task<PageReturnDto<ReturnGameDto>> SearchVideoGameAsync(VideoGameParameters videoGameParameters);
+        Task<PageReturnDto<PagingGameDto>> GetAllGamesAsync(QueryParams model);
+        Task<PageReturnDto<PagingGameDto>> SearchVideoGameAsync(VideoGameParameters videoGameParameters);
+        Task<PageReturnDto<GameInformationForAdminDto>> InformationForAdminDto(QueryParams model);
+        Task<PageReturnDto<GameInformationForAdminDto>> SearchInformationForAdmin(QueryParams model,string NameSearchTerm);
+        Task<LoadGameDto> LoadGame(int id);
     }
 }

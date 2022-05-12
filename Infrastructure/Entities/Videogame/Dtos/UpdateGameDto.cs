@@ -17,8 +17,6 @@ namespace Infrastructure.Entities.Videogame.Dtos
         [Display(Name = "Image")]
         [Required(ErrorMessage = "Pick an Image")]
         public IFormFile File { get; set; }
-        [FileExtensions(Extensions = "jpg,jpeg,png")]
-        public string FileName => File?.FileName;
         [Required]
         public string? Description { get; set; }
     }

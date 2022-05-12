@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Entities.User;
 using Infrastructure.Entities.User.Dto;
+using Infrastructure.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace Infrastructure.RepositoryRelated.IRepositories
         Task<UserEntity?> GetUserAndToken(LoginDto model);
         Task<UserEntity> GetUserByToken(string token);
         Task<List<UserEntity>> GetMailsForConfirmationAsync();
+        Task<IEnumerable<UserEntity>> GetAdminsMagers();
+        Task<PageReturnDto<UserDto>> SearchUser(SearchUserDto model);
     }
 }

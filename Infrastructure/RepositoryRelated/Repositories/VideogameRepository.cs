@@ -2,6 +2,7 @@
 using Infrastructure.Entities;
 using Infrastructure.Entities.Videogame;
 using Infrastructure.Entities.Videogame.Dtos;
+using Infrastructure.Entities.VideogameCategories;
 using Infrastructure.Paging;
 using Infrastructure.Repositories;
 using Infrastructure.RepositoryRelated.IRepositories;
@@ -21,17 +22,82 @@ namespace Infrastructure.RepositoryRelated.Repositories
         {
             _mapper = mapper;
         }
-        public async Task<PageReturnDto<ReturnGameDto>> GetAllGamesAsync(QueryParams model)
+        public async Task<PageReturnDto<PagingGameDto>> GetAllGamesAsync(QueryParams model)
         {
             var count=await GetAllQuery().CountAsync();
             var chunk = await GetAllQuery()
                 .Skip((model.Page - 1) * model.ItemsPerPage)
                 .Take(model.ItemsPerPage)
                 .ToListAsync();
-            var returnChunk= _mapper.Map<List<ReturnGameDto>>(chunk);
-            return new PageReturnDto<ReturnGameDto>(returnChunk, count, model.Page, model.ItemsPerPage);
+            var returnChunk= _mapper.Map<List<PagingGameDto>>(chunk);
+            return new PageReturnDto<PagingGameDto>(returnChunk, count, model.Page, model.ItemsPerPage);
         }
-        public async Task<PageReturnDto<ReturnGameDto>> SearchVideoGameAsync(VideoGameParameters videoGameParameters)
+        
+        public async Task<PageReturnDto<GameInformationForAdminDto>> InformationForAdminDto(QueryParams model)
+        {
+            var count = await GetAllQuery().CountAsync();
+            var chunk=await GetAllQuery()
+                .Skip((model.Page - 1) * model.ItemsPerPage)
+                .Take(model.ItemsPerPage)
+                //.Select(x => new {x.Id,x.VideogameName,x.videogameCategoryEntities})
+                .Include(x=>x.videogameCategoryEntities)
+                .ThenInclude(z=>z.Category)
+                .ToListAsync();
+            var returnChunk = new List<GameInformationForAdminDto>();
+            chunk.ToList().ForEach(x =>
+            {
+                var item = new GameInformationForAdminDto();
+                item.VideogameId = x.Id;
+                item.VideogameName = x.VideogameName;
+                x.videogameCategoryEntities.ForEach(z =>
+                {
+                    if (z.Category is not null)
+                    { 
+                        item.VideogamesCategories.Add(new() { Id = z.Category.Id, CategoryName = z.Category.CategoryName });
+                    }
+                   
+                });
+                returnChunk.Add(item);
+            });
+            return new PageReturnDto<GameInformationForAdminDto>(returnChunk, count, model.Page, model.ItemsPerPage);
+        }
+
+        public async Task<LoadGameDto> LoadGame(int id)
+        {
+            var item=await GetAllQuery().Where(x => x.Id == id).Include(x=>x.Publicsher).FirstOrDefaultAsync();
+            return _mapper.Map<LoadGameDto>(item);
+        }
+
+        public  async Task<PageReturnDto<GameInformationForAdminDto>> SearchInformationForAdmin(QueryParams model, string NameSearchTerm)
+        {
+            var count = await GetAllQuery().Where(x=>x.VideogameName.Contains(NameSearchTerm)).CountAsync();
+            var chunk = await GetAllQuery()
+                .Where(x => x.VideogameName.Contains(NameSearchTerm))
+                .Skip((model.Page - 1) * model.ItemsPerPage)
+                .Take(model.ItemsPerPage)
+                .Include(x => x.videogameCategoryEntities)
+                .ThenInclude(z => z.Category)
+                .ToListAsync();
+            var returnChunk = new List<GameInformationForAdminDto>();
+            chunk.ToList().ForEach(x =>
+            {
+                var item = new GameInformationForAdminDto();
+                item.VideogameId = x.Id;
+                item.VideogameName = x.VideogameName;
+                x.videogameCategoryEntities.ForEach(z =>
+                {
+                    if (z.Category is not null)
+                    {
+                        item.VideogamesCategories.Add(new() { Id = z.Category.Id, CategoryName = z.Category.CategoryName });
+                    }
+
+                });
+                returnChunk.Add(item);
+            });
+            return new PageReturnDto<GameInformationForAdminDto>(returnChunk, count, model.Page, model.ItemsPerPage);
+        }
+
+        public async Task<PageReturnDto<PagingGameDto>> SearchVideoGameAsync(VideoGameParameters videoGameParameters)
         {
             var query = GetAllQuery().Where(x => x.VideogameName.Contains(videoGameParameters.SearchTerm)
                             &&
@@ -47,8 +113,8 @@ namespace Infrastructure.RepositoryRelated.Repositories
                 .Skip((videoGameParameters.Page - 1) * videoGameParameters.ItemsPerPage)
                 .Take(videoGameParameters.ItemsPerPage)
                 .ToListAsync();
-            var returnChunk = _mapper.Map<List<ReturnGameDto>>(chunk);
-            return new PageReturnDto<ReturnGameDto>(returnChunk, count, videoGameParameters.Page, videoGameParameters.ItemsPerPage);
+            var returnChunk = _mapper.Map<List<PagingGameDto>>(chunk);
+            return new PageReturnDto<PagingGameDto>(returnChunk, count, videoGameParameters.Page, videoGameParameters.ItemsPerPage);
         }
     }
 }

@@ -12,8 +12,8 @@ namespace Infrastructure.RepositoryRelated.IRepositories
 {
     public interface IVideogameCategoryRepository : IRepositoryBase<VideogameCategoryEntity>
     {
-        Task<PageReturnDto<ReturnGameDto>> GetGamesByCategory(QueryParams model, Expression<Func<VideogameCategoryEntity, bool>> expression);
+        Task<PageReturnDto<PagingGameDto>> GetGamesByCategory(QueryParams model, Expression<Func<VideogameCategoryEntity, bool>> expression);
         Task<List<VideogameCategoryEntity>> GetCategoriesByGame(Expression<Func<VideogameCategoryEntity, bool>> expression);
-        Task<PageReturnDto<ReturnGameDto>> SearchGamesByCategory(VideoGameParameters model, Expression<Func<VideogameCategoryEntity, bool>> expression);
+        Task<PageReturnDto<PagingGameDto>> SearchGamesByCategory(VideoGameParameters model, Expression<Func<VideogameCategoryEntity, bool>> expression);
     }
 }

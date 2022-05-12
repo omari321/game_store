@@ -17,6 +17,9 @@ using Infrastructure.Entities.VideogameCategories.Dto;
 using Infrastructure.Paging;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
+using Application.Services.EnumCollections;
+using Application.Services.User;
+using Application.Services.OwnedGames;
 
 namespace API.Controllers
 {
@@ -26,12 +29,22 @@ namespace API.Controllers
     public class AdminController: ControllerBase
     {
         private readonly IAdminService _AdminService;
+        private readonly IVideogameService _videogameService;
         private readonly ICityCountryService _cityCountryService;
-        public AdminController(IAdminService AdminService, ICityCountryService cityCountryService)
+        private readonly IEnumCollections _enumCollection;
+        private readonly IUserService _userService;
+        private readonly IOwnedGamesService _ownedGamesService;
+
+        public AdminController(IAdminService adminService, IVideogameService videogameService, ICityCountryService cityCountryService, IEnumCollections enumCollection, IUserService userService,IOwnedGamesService ownedGamesService)
         {
-            _AdminService = AdminService;
+            _AdminService = adminService;
+            _videogameService = videogameService;
             _cityCountryService = cityCountryService;
+            _enumCollection = enumCollection;
+            _userService = userService;
+            _ownedGamesService = ownedGamesService;
         }
+
         [HttpPost("[action]")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ChangeUserRole(RoleChangeDto model)
@@ -63,7 +76,41 @@ namespace API.Controllers
         {
             return Ok(await _cityCountryService.GetAllCountries());
         }
-
-
+        [HttpGet("[action]/{SearchName}")]
+        public async Task<IActionResult> SearchGameInformationForAdmin([FromQuery] QueryParams model,string SearchName)
+        {
+            return Ok(await _videogameService.SearchInformationForAdmin(model,SearchName));
+        }
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GameInformationForAdmin([FromQuery] QueryParams model)
+        {
+            return Ok(await _videogameService.InformationForAdminDto(model));
+        }
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetRoles()
+        {
+            return Ok(_enumCollection.GetRoles());
+        }
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetAdminManagerUsers()
+        {
+            return Ok(await _userService.GetAdminManagers());
+        }
+        [HttpGet("[action]")]
+        public async Task<IActionResult> SearchUserInfo([FromQuery]SearchUserDto model)
+        {
+            return Ok(await _userService.SearchUser(model));
+        }
+        [HttpPost("[action]")]
+        public async Task<IActionResult> AddGameForUser(int userId,int gameId)
+        {
+            await _ownedGamesService.AdminAddGameForUser(userId, gameId);
+            return Ok(new { status = "game added succesfully" }) ;
+        }
+        [HttpPost("[action]")]
+        public async Task<IActionResult> GetUserOwnedGames([FromQuery] QueryParams model,int userId)
+        {
+            return Ok( await _ownedGamesService.GetUserOwnedGames(model, userId));
+        }
     }
 }

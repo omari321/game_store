@@ -42,7 +42,7 @@ namespace Application.Services.Publisher
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<PageReturnDto<ReturnGameDto>> GetGamesByPublisher(QueryParams model,string publisherName)
+        public async Task<PageReturnDto<PagingGameDto>> GetGamesByPublisher(QueryParams model,string publisherName)
         {
             var publisher = await _publisherRepository.FindByConditionAsync(x => x.PublisherName == publisherName);
             if (publisher==null)

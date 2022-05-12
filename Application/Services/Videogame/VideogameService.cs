@@ -1,10 +1,13 @@
-﻿using Application.Exceptions;
+﻿using Application.BackgroundQueue;
+using Application.BackgroundQueue.ImageProcessors.Dtos;
+using Application.Exceptions;
 using AutoMapper;
 using Infrastructure.Entities.Videogame;
 using Infrastructure.Entities.Videogame.Dtos;
 using Infrastructure.Paging;
 using Infrastructure.RepositoryRelated.IRepositories;
 using Infrastructure.UnitOfWorkRepo;
+using Microsoft.AspNetCore.Http;
 using Shared;
 using System;
 using System.Collections.Generic;
@@ -18,15 +21,20 @@ namespace Application.Services.Videogame
     {
         private readonly BasePath _basePath;
         private readonly IVideogameRepository _videogameRepository;
-        private const string BaseFilePath = @"Images\Games";
+        private const string BaseImagePath = @"Images\Games";
+        private const string BaseFilePath = @"Files";
+        private  readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPEG", ".JPE", ".BMP", ".GIF", ".PNG" };
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IBackgroundQueue<ThumbnailUpdateDto> _queue;
         private readonly IMapper _mapper;
-        public VideogameService(BasePath basePath, IUnitOfWork unitOfWork,IVideogameRepository videogameRepository,IMapper mapper)
+        public VideogameService(BasePath basePath, IUnitOfWork unitOfWork,IVideogameRepository videogameRepository,IMapper mapper
+            ,IBackgroundQueue<ThumbnailUpdateDto> queue)
         {
                 _basePath= basePath;
                 _unitOfWork=unitOfWork;
                 _videogameRepository=videogameRepository;
                 _mapper=mapper;
+                _queue=queue;
         }
         private async Task<VideogameEntity> GetGameByName(string name)
         {
@@ -43,49 +51,66 @@ namespace Application.Services.Videogame
             {
                 throw new CustomException("game with this name already exists", 400);
             }
-            if (model.File.Length>8_200_000)
+            else if (model.File.Length>8_200_000)
             {
                 throw new CustomException("Image too big", 400);
             }
-            var FileName= Path.GetRandomFileName().Split(".").ToArray()[0];
-            var fullPath = Path.Combine(_basePath.ContentRootPath, BaseFilePath, FileName+Path.GetExtension(model.File.FileName));
-            await using (var fileStreams = new FileStream(fullPath,FileMode.Create))
+            else if (!ImageExtensions.Contains(Path.GetExtension(model.File.FileName).ToUpper()))
+            {
+                throw new CustomException("unsaported image type", 400);
+            }
+            var temporaryFileName= Path.GetRandomFileName().Split(".").ToArray()[0];
+            var temporaryFullPath = Path.Combine(_basePath.ContentRootPath, BaseImagePath, temporaryFileName+Path.GetExtension(model.File.FileName));
+            await using (var fileStreams = new FileStream(temporaryFullPath,FileMode.Create))
             {
                 await model.File.CopyToAsync(fileStreams);
             }
             var newGame = _mapper.Map<VideogameEntity>(model);
-            newGame.ImageUrl = fullPath;
+            newGame.ThumbnailUrl = temporaryFullPath;
             await _videogameRepository.CreateAsync(newGame);
             await _unitOfWork.CompleteAsync();
+            var newFilename= Path.GetRandomFileName().Split(".").ToArray()[0];
+            var newFullPath = Path.Combine(_basePath.ContentRootPath, BaseImagePath, newFilename + Path.GetExtension(model.File.FileName));
+            _queue.Enqueue(new ThumbnailUpdateDto {VideogameId=newGame.Id,ThumbnailFilePath=temporaryFullPath,NewPath= newFullPath });
         }
         public async Task UpdateGame(UpdateGameDto model)
         {
             var game = await GetGameByName(model.VideoGameName);
             if (game==null)
             {
-                throw new CustomException("this game does not exist", 400);
+                throw new CustomException("this game does not exist", 404);
             }
-            if (model.File.Length > 8_200_000)
+            else if (model.File.Length > 8_200_000)
             {
                 throw new CustomException("Image too big", 400);
             }
-            var FileName = Path.GetRandomFileName().Split(".").ToArray()[0];
-            var fullPath = Path.Combine(_basePath.ContentRootPath, BaseFilePath, FileName + Path.GetExtension(model.File.FileName));
-            await using (var fileStreams = new FileStream(fullPath, FileMode.Create))
+            else if (!ImageExtensions.Contains(Path.GetExtension(model.File.FileName)))
             {
-                await model.File.CopyToAsync(fileStreams);
+                throw new CustomException("unsaported image type", 400);
             }
-            if (game.ImageUrl!=null)
-            {
-                File.Delete(game.ImageUrl);
-            }
-            var oldPrice = game.Price;
 
+            if (model.File!=null)
+            {
+                var FileName = Path.GetRandomFileName().Split(".").ToArray()[0];
+                var fullPath = Path.Combine(_basePath.ContentRootPath, BaseImagePath, FileName + Path.GetExtension(model.File.FileName));
+                await using (var fileStreams = new FileStream(fullPath, FileMode.Create))
+                {
+                    await model.File.CopyToAsync(fileStreams);
+                }
+                if (game.ThumbnailUrl!=null)
+                {
+                    File.Delete(game.ThumbnailUrl);
+                } 
+                game.ThumbnailUrl = fullPath;
+            }
+          
+            
+            var oldPrice = game.Price;
             game.Price=model.Price??game.Price;
             game.OldPrice = game.OldPrice != null ? game.OldPrice : oldPrice;
             game.Description = model.Description??game.Description;
             game.VideogameName = model.VideoGameName ?? game.VideogameName;
-            game.ImageUrl = fullPath;
+           
             await _unitOfWork.CompleteAsync();
         } 
         public async Task<List<GameNamesDto>> GetNames()
@@ -93,22 +118,63 @@ namespace Application.Services.Videogame
             var items = await _videogameRepository.GetAllAsync();
             return _mapper.Map<List<GameNamesDto>>(items);
         }
-        public async Task<VideogameEntity> VisitGame(int id)
-        {
-            throw new NotImplementedException();
-            // return await _videogameRepository.FindByConditionAsync(x => x.Id == id);
-        }
 
-        public async Task<PageReturnDto<ReturnGameDto>> GetAllAsync(QueryParams model)
+        public async Task<PageReturnDto<PagingGameDto>> GetAllAsync(QueryParams model)
         {
             return await _videogameRepository.GetAllGamesAsync(model);
         }
 
-        public async Task<PageReturnDto<ReturnGameDto>> SearchGames(VideoGameParameters videoGameParameters)
+        public async Task<PageReturnDto<PagingGameDto>> SearchGames(VideoGameParameters videoGameParameters)
         {
             return await _videogameRepository.SearchVideoGameAsync(videoGameParameters);
         }
 
+        
 
+         public async Task<PageReturnDto<GameInformationForAdminDto>> InformationForAdminDto(QueryParams model)
+        {
+            return await _videogameRepository.InformationForAdminDto(model);
+        }
+
+        public async Task<PageReturnDto<GameInformationForAdminDto>> SearchInformationForAdmin(QueryParams model, string NameSearchTerm)
+        {
+            return await _videogameRepository.SearchInformationForAdmin(model, NameSearchTerm);
+        }
+
+        public async Task<bool> UploadGame(IFormFile file)
+        {
+            var FileName = Path.GetRandomFileName().Split(".").ToArray()[0];
+            var fullPath = Path.Combine(_basePath.ContentRootPath, BaseFilePath, FileName+ Path.GetExtension(file.FileName));
+            await using (var fileStreams = new FileStream(fullPath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStreams);
+            }
+            return true;
+        }     
+        public async Task<LoadGameDto> LoadGame(int id)
+        {
+            var checkIfExists = await _videogameRepository.CheckIfAnyByConditionAsync(x => x.Id == id);
+            if (!checkIfExists)
+            {
+                throw new CustomException("this game does not exist", 404);
+            }
+            var loadedGame = await _videogameRepository.LoadGame(id);
+            return loadedGame;
+        }
+
+        public Task GetVideogameImages(int VideogameId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DownloadGame(IFormFile File)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> AddVideogameImages(int gameId, IEnumerable<IFormFile> files)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

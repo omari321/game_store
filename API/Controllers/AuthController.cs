@@ -7,6 +7,8 @@ using Application.Services.Mail;
 using Infrastructure.Entities.User;
 using Infrastructure.Entities.User.Dto;
 using Infrastructure.Entities.UserRepo;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 using System.ComponentModel.DataAnnotations;
@@ -15,7 +17,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles.NormalUser, Roles.Admin)]
+    [Authorize(Roles.NormalUser,Roles.Manager, Roles.Admin)]
     public class AuthController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
@@ -47,13 +49,6 @@ namespace API.Controllers
             
             return Ok(response);
         }
-        [HttpPost("ChangePassword")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> ChangePassword(NewPasswordDto model)
-        {
-            var res = await _authenticationService.ChangePassword(model,(int)_userContext.userId);
-            return Ok(res);
-        }
         [AllowAnonymous]
         [HttpPost("ForgotPassword")]
         public async Task<IActionResult> ForgotPassword(string mail)
@@ -78,6 +73,7 @@ namespace API.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Registrer(RegistrerDto model)
         {
+            //HttpContext.Request.GetEncodedUrl().ToString().Substring(0, HttpContext.Request.GetEncodedUrl().ToString().LastIndexOf("/"));
             var res = await _authenticationService.RegisterUser(model);
             return Ok(new {status="registration successfull you will soon recieve link on email pls confirm" });
         }
@@ -96,7 +92,7 @@ namespace API.Controllers
         }
         [AllowAnonymous]
         [HttpGet("verify-email/{token}")]
-        public async Task<IActionResult> VerifyEmail(string token)
+        public async Task<IActionResult> VerifyEmail([FromRoute]string token)
         {
             await _authenticationService.VerifyEmail(token);
             return Ok(new { message = "Verification successful, you can now login" });

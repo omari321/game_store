@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Enums
+namespace Infrastructure.Entities.Enums
 {
-    public enum PlatformEntity
+    public enum PaymentTypes
     {
-        pc=1,
-
+        MasterCard=1,
+        Visa=2,
     }
 }

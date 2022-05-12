@@ -28,7 +28,7 @@ namespace Infrastructure.RepositoryRelated.Repositories
             return await GetAllQuery().Where(expression).Include(x=>x.Category).ToListAsync();
         }
 
-        public async Task<PageReturnDto<ReturnGameDto>> GetGamesByCategory(QueryParams model, Expression<Func<VideogameCategoryEntity, bool>> expression)
+        public async Task<PageReturnDto<PagingGameDto>> GetGamesByCategory(QueryParams model, Expression<Func<VideogameCategoryEntity, bool>> expression)
         {
             var count= await GetAllQuery().Where(expression).CountAsync();
             var item=await GetAllQuery().Where(expression)
@@ -38,12 +38,12 @@ namespace Infrastructure.RepositoryRelated.Repositories
                 .ToListAsync();
             var Dto = item.Select(x =>
             {
-                return _mapper.Map<ReturnGameDto>(x.Videogame);
+                return _mapper.Map<PagingGameDto>(x.Videogame);
             }); 
-            return new PageReturnDto<ReturnGameDto>(Dto, count, model.Page, model.ItemsPerPage);
+            return new PageReturnDto<PagingGameDto>(Dto, count, model.Page, model.ItemsPerPage);
         }
 
-        public async Task<PageReturnDto<ReturnGameDto>> SearchGamesByCategory(VideoGameParameters model, Expression<Func<VideogameCategoryEntity, bool>> expression)
+        public async Task<PageReturnDto<PagingGameDto>> SearchGamesByCategory(VideoGameParameters model, Expression<Func<VideogameCategoryEntity, bool>> expression)
         {
             var count = await GetAllQuery().Where(expression).CountAsync();
             var item = await GetAllQuery().Where(expression)
@@ -58,9 +58,9 @@ namespace Infrastructure.RepositoryRelated.Repositories
                 .ToListAsync();
             var Dto = item.Select(x =>
             {
-                return _mapper.Map<ReturnGameDto>(x.Videogame);
+                return _mapper.Map<PagingGameDto>(x.Videogame);
             });
-            return new PageReturnDto<ReturnGameDto>(Dto, count, model.Page, model.ItemsPerPage);
+            return new PageReturnDto<PagingGameDto>(Dto, count, model.Page, model.ItemsPerPage);
         }
     }
 }

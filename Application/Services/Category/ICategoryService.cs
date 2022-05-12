@@ -13,8 +13,8 @@ namespace Application.Services.Category
     {
         Task AddCategory(CreateCategoryDto model);
         Task<List<GetCategoriesDto>> GetCategories();
-        Task<PageReturnDto<ReturnGameDto>> GetGamesByCategory(QueryParams model, int categoryId);
-        Task<PageReturnDto<ReturnGameDto>> SearchGamesByCategory(VideoGameParameters model, int categoryId);
+        Task<PageReturnDto<PagingGameDto>> GetGamesByCategory(QueryParams model, int categoryId);
+        Task<PageReturnDto<PagingGameDto>> SearchGamesByCategory(VideoGameParameters model, int categoryId);
         Task<CategoriesByGame> GetCategoriesByGame(int gameId);
     }
 }

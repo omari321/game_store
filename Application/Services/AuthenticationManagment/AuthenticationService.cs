@@ -200,7 +200,6 @@ namespace Application.Services.AuthenticationManagment
             // map model to new account object
             var account = _mapper.Map<UserEntity>(model);
 
-            // first registered account is an admin
             var isFirstAccount = (await _userRepository.GetAllAsync()).Count() == 0;
             account.Role = Roles.NormalUser;
             account.DateCreated = DateTime.UtcNow;
@@ -224,7 +223,6 @@ namespace Application.Services.AuthenticationManagment
         {
             // token is a cryptographically strong random sequence of values
             var token = Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
-
             // ensure token is unique by checking against db
             var tokenIsUnique = (await _userRepository.FindByConditionAsync(x => x.VerificationToken == token) == null);
             if (!tokenIsUnique)
@@ -239,6 +237,7 @@ namespace Application.Services.AuthenticationManagment
             if (account == null)
                 throw new CustomException("Verification failed", 400);
             account.Verified = DateTime.UtcNow;
+            account.VerificationToken = null;
             await _unitOfWork.CompleteAsync();
             return true;
         }

@@ -10,6 +10,6 @@ namespace Infrastructure.Entities.Categories.Dtos
     public class GamesByCategoryDto
     {
         public int CategoryId { get; set; }
-        public IEnumerable<ReturnGameDto> Games { get; set; }
+        public IEnumerable<PagingGameDto> Games { get; set; }
     }
 }

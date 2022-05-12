@@ -24,15 +24,15 @@ namespace Infrastructure.RepositoryRelated.Repositories
             _mapper = mapper;
         }
 
-        public async Task<PageReturnDto<ReturnGameDto>> GetGamesByPublisherAsync(QueryParams model, Expression<Func<PublisherEntity, bool>> expression)
+        public async Task<PageReturnDto<PagingGameDto>> GetGamesByPublisherAsync(QueryParams model, Expression<Func<PublisherEntity, bool>> expression)
         {
             var count=await GetAllQuery().Where(expression).CountAsync();
             var item= await GetAllQuery().Where(expression)
                 .Skip((model.Page - 1) * model.ItemsPerPage)
                 .Take(model.ItemsPerPage)
                 .Include(x => x.videoGameEntities).FirstAsync();
-            var Dto = _mapper.Map<IEnumerable<ReturnGameDto>>(item.videoGameEntities);
-            return new PageReturnDto<ReturnGameDto>(Dto,count, model.Page,model.ItemsPerPage);
+            var Dto = _mapper.Map<IEnumerable<PagingGameDto>>(item.videoGameEntities);
+            return new PageReturnDto<PagingGameDto>(Dto,count, model.Page,model.ItemsPerPage);
         }
     }
 }

@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 namespace API.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     [Authorize(Roles.Admin, Roles.Manager)]
     public class PublisherController:ControllerBase
     {

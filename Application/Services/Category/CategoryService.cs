@@ -55,7 +55,7 @@ namespace Application.Services.Category
             return _mapper.Map<List<GetCategoriesDto>>(items);
         }
 
-        public async Task<PageReturnDto<ReturnGameDto>> GetGamesByCategory(QueryParams model, int categoryId)
+        public async Task<PageReturnDto<PagingGameDto>> GetGamesByCategory(QueryParams model, int categoryId)
         {
             var exists = await _categoryRepository.CheckIfAnyByConditionAsync(x => x.Id== categoryId);
             if (!exists)
@@ -95,7 +95,7 @@ namespace Application.Services.Category
             return ReturnData;
         }
 
-        public async Task<PageReturnDto<ReturnGameDto>> SearchGamesByCategory(VideoGameParameters model, int categoryId)
+        public async Task<PageReturnDto<PagingGameDto>> SearchGamesByCategory(VideoGameParameters model, int categoryId)
         {
             var exists = await _categoryRepository.CheckIfAnyByConditionAsync(x => x.Id == categoryId);
             if (!exists)
