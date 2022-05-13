@@ -12,7 +12,7 @@
         //-get all bought games
         //buy a game
         //-gamevisit
-
+        //add balance to users
         //comments
         //commentlikes
 

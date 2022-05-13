@@ -11947,3 +11947,1005 @@ WHERE [v].[Id] = @__model_imageId_0
 2022-05-13 04:46:17.558 +04:00 [INF] Executed action API.Controllers.VideogameController.DeleteGameImage (API) in 35.1383ms
 2022-05-13 04:46:17.559 +04:00 [INF] Executed endpoint 'API.Controllers.VideogameController.DeleteGameImage (API)'
 2022-05-13 04:46:17.563 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Videogame/DeleteGameImage application/json 18 - 200 - application/json;+charset=utf-8 73.6805ms
+2022-05-13 17:54:00.525 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 17:54:01.418 +04:00 [INF] Executed DbCommand (259ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+CREATE DATABASE [GamesStore];
+2022-05-13 17:54:01.514 +04:00 [INF] Executed DbCommand (91ms) [Parameters=[], CommandType='"Text"', CommandTimeout='60']
+IF SERVERPROPERTY('EngineEdition') <> 5
+BEGIN
+    ALTER DATABASE [GamesStore] SET READ_COMMITTED_SNAPSHOT ON;
+END;
+2022-05-13 17:54:01.537 +04:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2022-05-13 17:54:01.681 +04:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [__EFMigrationsHistory] (
+    [MigrationId] nvarchar(150) NOT NULL,
+    [ProductVersion] nvarchar(32) NOT NULL,
+    CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+);
+2022-05-13 17:54:01.684 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2022-05-13 17:54:01.717 +04:00 [INF] Executed DbCommand (28ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2022-05-13 17:54:01.727 +04:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2022-05-13 17:54:01.753 +04:00 [INF] Applying migration '20220505014704_first'.
+2022-05-13 17:54:01.861 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [dbo].[Category] (
+    [Id] int NOT NULL IDENTITY,
+    [CategoryName] nvarchar(max) NOT NULL,
+    [DateCreated] datetime2 NOT NULL,
+    [DateUpdated] datetime2 NULL,
+    CONSTRAINT [PK_Category] PRIMARY KEY ([Id])
+);
+2022-05-13 17:54:01.864 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [dbo].[Country] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(64) NOT NULL,
+    [DateCreated] datetime2 NOT NULL,
+    [DateUpdated] datetime2 NULL,
+    CONSTRAINT [PK_Country] PRIMARY KEY ([Id])
+);
+2022-05-13 17:54:01.867 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [dbo].[PaymentInfo] (
+    [Id] int NOT NULL IDENTITY,
+    [OwnerName] nvarchar(64) NOT NULL,
+    [CardNumber] nvarchar(32) NOT NULL,
+    [CSV] nvarchar(16) NOT NULL,
+    [Salt] nvarchar(64) NOT NULL,
+    [PaymentTypeId] int NOT NULL,
+    [ExpireDate] datetime2 NOT NULL,
+    [DateCreated] datetime2 NOT NULL,
+    [DateUpdated] datetime2 NULL,
+    CONSTRAINT [PK_PaymentInfo] PRIMARY KEY ([Id])
+);
+2022-05-13 17:54:01.872 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [dbo].[Publisher] (
+    [Id] int NOT NULL IDENTITY,
+    [PublisherName] nvarchar(64) NOT NULL,
+    [DateCreated] datetime2 NOT NULL,
+    [DateUpdated] datetime2 NULL,
+    CONSTRAINT [PK_Publisher] PRIMARY KEY ([Id])
+);
+2022-05-13 17:54:01.877 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [dbo].[City] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(65) NOT NULL,
+    [CountryId] int NOT NULL,
+    [DateCreated] datetime2 NOT NULL,
+    [DateUpdated] datetime2 NULL,
+    CONSTRAINT [PK_City] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_City_Country_CountryId] FOREIGN KEY ([CountryId]) REFERENCES [dbo].[Country] ([Id]) ON DELETE CASCADE
+);
+2022-05-13 17:54:01.880 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [dbo].[Videogame] (
+    [Id] int NOT NULL IDENTITY,
+    [VideogameName] nvarchar(128) NOT NULL,
+    [Price] float NOT NULL,
+    [OldPrice] float NULL,
+    [PublicsherId] int NOT NULL,
+    [Description] nvarchar(2000) NOT NULL,
+    [PlatformId] int NOT NULL,
+    [ImageUrl] nvarchar(100) NULL,
+    [DateCreated] datetime2 NOT NULL,
+    [DateUpdated] datetime2 NULL,
+    CONSTRAINT [PK_Videogame] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Videogame_Publisher_PublicsherId] FOREIGN KEY ([PublicsherId]) REFERENCES [dbo].[Publisher] ([Id]) ON DELETE CASCADE
+);
+2022-05-13 17:54:01.885 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [dbo].[User] (
+    [Id] int NOT NULL IDENTITY,
+    [UserName] varchar(128) NOT NULL,
+    [Password] nvarchar(64) NOT NULL,
+    [Salt] nvarchar(64) NOT NULL,
+    [FirstName] nvarchar(128) NOT NULL,
+    [LastName] nvarchar(128) NOT NULL,
+    [VerificationToken] nvarchar(max) NULL,
+    [Verified] datetime2 NULL,
+    [Adress] nvarchar(128) NOT NULL,
+    [TelephoneNumber] nvarchar(32) NOT NULL,
+    [Email] nvarchar(max) NOT NULL,
+    [Role] int NOT NULL,
+    [CityId] int NOT NULL,
+    [PaymentInfoId] int NULL,
+    [DateCreated] datetime2 NOT NULL,
+    [DateUpdated] datetime2 NULL,
+    CONSTRAINT [PK_User] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_User_City_CityId] FOREIGN KEY ([CityId]) REFERENCES [dbo].[City] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_User_PaymentInfo_PaymentInfoId] FOREIGN KEY ([PaymentInfoId]) REFERENCES [dbo].[PaymentInfo] ([Id])
+);
+2022-05-13 17:54:01.896 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [dbo].[VideogameCategory] (
+    [VideogameId] int NOT NULL,
+    [CategoryId] int NOT NULL,
+    [GameId] int NOT NULL,
+    [DateCreated] datetime2 NOT NULL,
+    [DateUpdated] datetime2 NULL,
+    CONSTRAINT [PK_VideogameCategory] PRIMARY KEY ([VideogameId], [CategoryId]),
+    CONSTRAINT [FK_VideogameCategory_Category_CategoryId] FOREIGN KEY ([CategoryId]) REFERENCES [dbo].[Category] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_VideogameCategory_Videogame_GameId] FOREIGN KEY ([GameId]) REFERENCES [dbo].[Videogame] ([Id]) ON DELETE CASCADE
+);
+2022-05-13 17:54:01.900 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [RefreshToken] (
+    [Id] int NOT NULL IDENTITY,
+    [Token] nvarchar(max) NOT NULL,
+    [role] int NOT NULL,
+    [Expires] datetime2 NOT NULL,
+    [Created] datetime2 NOT NULL,
+    [CreatedByIp] nvarchar(max) NOT NULL,
+    [Revoked] datetime2 NULL,
+    [RevokedByIp] nvarchar(max) NULL,
+    [ReplacedByToken] nvarchar(max) NULL,
+    [ReasonRevoked] nvarchar(max) NULL,
+    [UserEntityId] int NULL,
+    CONSTRAINT [PK_RefreshToken] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_RefreshToken_User_UserEntityId] FOREIGN KEY ([UserEntityId]) REFERENCES [dbo].[User] ([Id])
+);
+2022-05-13 17:54:01.936 +04:00 [INF] Executed DbCommand (35ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'DateCreated', N'DateUpdated', N'Name') AND [object_id] = OBJECT_ID(N'[dbo].[Country]'))
+    SET IDENTITY_INSERT [dbo].[Country] ON;
+INSERT INTO [dbo].[Country] ([Id], [DateCreated], [DateUpdated], [Name])
+VALUES (1, '2022-05-05T05:47:04.2624490+04:00', NULL, N'USA');
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'DateCreated', N'DateUpdated', N'Name') AND [object_id] = OBJECT_ID(N'[dbo].[Country]'))
+    SET IDENTITY_INSERT [dbo].[Country] OFF;
+2022-05-13 17:54:01.950 +04:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'DateCreated', N'DateUpdated', N'Name') AND [object_id] = OBJECT_ID(N'[dbo].[Country]'))
+    SET IDENTITY_INSERT [dbo].[Country] ON;
+INSERT INTO [dbo].[Country] ([Id], [DateCreated], [DateUpdated], [Name])
+VALUES (2, '2022-05-05T05:47:04.2624492+04:00', NULL, N'Japan(OwO)');
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'DateCreated', N'DateUpdated', N'Name') AND [object_id] = OBJECT_ID(N'[dbo].[Country]'))
+    SET IDENTITY_INSERT [dbo].[Country] OFF;
+2022-05-13 17:54:01.964 +04:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CountryId', N'DateCreated', N'DateUpdated', N'Name') AND [object_id] = OBJECT_ID(N'[dbo].[City]'))
+    SET IDENTITY_INSERT [dbo].[City] ON;
+INSERT INTO [dbo].[City] ([Id], [CountryId], [DateCreated], [DateUpdated], [Name])
+VALUES (1, 1, '2022-05-05T05:47:04.2624285+04:00', NULL, N'Seattle');
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CountryId', N'DateCreated', N'DateUpdated', N'Name') AND [object_id] = OBJECT_ID(N'[dbo].[City]'))
+    SET IDENTITY_INSERT [dbo].[City] OFF;
+2022-05-13 17:54:01.975 +04:00 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CountryId', N'DateCreated', N'DateUpdated', N'Name') AND [object_id] = OBJECT_ID(N'[dbo].[City]'))
+    SET IDENTITY_INSERT [dbo].[City] ON;
+INSERT INTO [dbo].[City] ([Id], [CountryId], [DateCreated], [DateUpdated], [Name])
+VALUES (2, 2, '2022-05-05T05:47:04.2624295+04:00', NULL, N'Tokyo');
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CountryId', N'DateCreated', N'DateUpdated', N'Name') AND [object_id] = OBJECT_ID(N'[dbo].[City]'))
+    SET IDENTITY_INSERT [dbo].[City] OFF;
+2022-05-13 17:54:05.242 +04:00 [INF] Executed DbCommand (20ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Adress', N'CityId', N'DateCreated', N'DateUpdated', N'Email', N'FirstName', N'LastName', N'Password', N'PaymentInfoId', N'Role', N'Salt', N'TelephoneNumber', N'UserName', N'VerificationToken', N'Verified') AND [object_id] = OBJECT_ID(N'[dbo].[User]'))
+    SET IDENTITY_INSERT [dbo].[User] ON;
+INSERT INTO [dbo].[User] ([Id], [Adress], [CityId], [DateCreated], [DateUpdated], [Email], [FirstName], [LastName], [Password], [PaymentInfoId], [Role], [Salt], [TelephoneNumber], [UserName], [VerificationToken], [Verified])
+VALUES (1, N'admin', 1, '0001-01-01T00:00:00.0000000', NULL, N'O_pirtskhalaishvili@cu.edu.ge', N'admin', N'admin', N'3PtISEJDqaOI1xgzGHYzpkGCbshwLgq7K0Y/0gPObsU=', NULL, 1, N'mT/0MRWlzYAGTlz4Me+mzw==', N'551001100', 'string', NULL, '2022-05-05T05:47:04.2771303+04:00');
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Adress', N'CityId', N'DateCreated', N'DateUpdated', N'Email', N'FirstName', N'LastName', N'Password', N'PaymentInfoId', N'Role', N'Salt', N'TelephoneNumber', N'UserName', N'VerificationToken', N'Verified') AND [object_id] = OBJECT_ID(N'[dbo].[User]'))
+    SET IDENTITY_INSERT [dbo].[User] OFF;
+2022-05-13 17:54:05.252 +04:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_City_CountryId] ON [dbo].[City] ([CountryId]);
+2022-05-13 17:54:05.253 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_RefreshToken_UserEntityId] ON [RefreshToken] ([UserEntityId]);
+2022-05-13 17:54:05.256 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_User_CityId] ON [dbo].[User] ([CityId]);
+2022-05-13 17:54:05.258 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_User_PaymentInfoId] ON [dbo].[User] ([PaymentInfoId]);
+2022-05-13 17:54:05.259 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Videogame_PublicsherId] ON [dbo].[Videogame] ([PublicsherId]);
+2022-05-13 17:54:05.260 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_VideogameCategory_CategoryId] ON [dbo].[VideogameCategory] ([CategoryId]);
+2022-05-13 17:54:05.261 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_VideogameCategory_GameId] ON [dbo].[VideogameCategory] ([GameId]);
+2022-05-13 17:54:05.263 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20220505014704_first', N'6.0.3');
+2022-05-13 17:54:05.270 +04:00 [INF] Applying migration '20220505185326_test2'.
+2022-05-13 17:54:05.302 +04:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [dbo].[VideogameCategory] DROP CONSTRAINT [FK_VideogameCategory_Videogame_GameId];
+2022-05-13 17:54:05.304 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DROP INDEX [IX_VideogameCategory_GameId] ON [dbo].[VideogameCategory];
+2022-05-13 17:54:05.353 +04:00 [INF] Executed DbCommand (49ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @var0 sysname;
+SELECT @var0 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dbo].[VideogameCategory]') AND [c].[name] = N'GameId');
+IF @var0 IS NOT NULL EXEC(N'ALTER TABLE [dbo].[VideogameCategory] DROP CONSTRAINT [' + @var0 + '];');
+ALTER TABLE [dbo].[VideogameCategory] DROP COLUMN [GameId];
+2022-05-13 17:54:07.251 +04:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[City] SET [DateCreated] = '2022-05-05T22:53:25.8892800+04:00'
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:07.252 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[City] SET [DateCreated] = '2022-05-05T22:53:25.8892812+04:00'
+WHERE [Id] = 2;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:07.255 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[Country] SET [DateCreated] = '2022-05-05T22:53:25.8892982+04:00'
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:07.256 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[Country] SET [DateCreated] = '2022-05-05T22:53:25.8892984+04:00'
+WHERE [Id] = 2;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:07.259 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[User] SET [Password] = N'VKyRBHt9qXbYVjS8mGcDiYkB/6ALNPiXiOB58jDJdl0=', [Salt] = N'XkeKegH7vYyxrY1ux+u2sQ==', [Verified] = '2022-05-05T22:53:25.9037764+04:00'
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:07.260 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [dbo].[VideogameCategory] ADD CONSTRAINT [FK_VideogameCategory_Videogame_VideogameId] FOREIGN KEY ([VideogameId]) REFERENCES [dbo].[Videogame] ([Id]) ON DELETE CASCADE;
+2022-05-13 17:54:07.261 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20220505185326_test2', N'6.0.3');
+2022-05-13 17:54:07.262 +04:00 [INF] Applying migration '20220512011044_longtimenoSee'.
+2022-05-13 17:54:07.314 +04:00 [INF] Executed DbCommand (17ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @var1 sysname;
+SELECT @var1 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[dbo].[Videogame]') AND [c].[name] = N'PlatformId');
+IF @var1 IS NOT NULL EXEC(N'ALTER TABLE [dbo].[Videogame] DROP CONSTRAINT [' + @var1 + '];');
+ALTER TABLE [dbo].[Videogame] DROP COLUMN [PlatformId];
+2022-05-13 17:54:07.508 +04:00 [INF] Executed DbCommand (193ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+EXEC sp_rename N'[dbo].[Videogame].[ImageUrl]', N'ThumbnailUrl', N'COLUMN';
+2022-05-13 17:54:07.511 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [dbo].[Videogame] ADD [DownloadFileUrl] nvarchar(max) NULL;
+2022-05-13 17:54:07.513 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [dbo].[OwnedGames] (
+    [Id] int NOT NULL IDENTITY,
+    [VideogameId] int NOT NULL,
+    [UserId] int NOT NULL,
+    [DateCreated] datetime2 NOT NULL,
+    [DateUpdated] datetime2 NULL,
+    CONSTRAINT [PK_OwnedGames] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_OwnedGames_User_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[User] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_OwnedGames_Videogame_VideogameId] FOREIGN KEY ([VideogameId]) REFERENCES [dbo].[Videogame] ([Id]) ON DELETE CASCADE
+);
+2022-05-13 17:54:07.516 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [dbo].[PaymentCreditentials] (
+    [Id] int NOT NULL IDENTITY,
+    [OwnerName] nvarchar(64) NOT NULL,
+    [UserId] int NOT NULL,
+    [CardNumber] nvarchar(32) NOT NULL,
+    [CSV] nvarchar(16) NOT NULL,
+    [PaymentTypeId] int NOT NULL,
+    [ExpireDate] datetime2 NOT NULL,
+    [UserEntityId] int NULL,
+    [DateCreated] datetime2 NOT NULL,
+    [DateUpdated] datetime2 NULL,
+    CONSTRAINT [PK_PaymentCreditentials] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_PaymentCreditentials_User_UserEntityId] FOREIGN KEY ([UserEntityId]) REFERENCES [dbo].[User] ([Id])
+);
+2022-05-13 17:54:07.521 +04:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [dbo].[Transactions] (
+    [Id] int NOT NULL IDENTITY,
+    [VideogameId] int NOT NULL,
+    [UserId] int NOT NULL,
+    [PayedAmount] float NOT NULL,
+    [DateCreated] datetime2 NOT NULL,
+    [DateUpdated] datetime2 NULL,
+    CONSTRAINT [PK_Transactions] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_Transactions_User_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[User] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Transactions_Videogame_VideogameId] FOREIGN KEY ([VideogameId]) REFERENCES [dbo].[Videogame] ([Id]) ON DELETE CASCADE
+);
+2022-05-13 17:54:08.668 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [dbo].[VideogameImages] (
+    [Id] int NOT NULL IDENTITY,
+    [VideogameId] int NOT NULL,
+    [ImageUrl] nvarchar(max) NOT NULL,
+    [DateCreated] datetime2 NOT NULL,
+    [DateUpdated] datetime2 NULL,
+    CONSTRAINT [PK_VideogameImages] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_VideogameImages_Videogame_VideogameId] FOREIGN KEY ([VideogameId]) REFERENCES [dbo].[Videogame] ([Id]) ON DELETE CASCADE
+);
+2022-05-13 17:54:08.669 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[City] SET [DateCreated] = '2022-05-12T05:10:43.6075292+04:00'
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:08.670 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[City] SET [DateCreated] = '2022-05-12T05:10:43.6075306+04:00'
+WHERE [Id] = 2;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:08.670 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[Country] SET [DateCreated] = '2022-05-12T05:10:43.6075513+04:00'
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:08.671 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[Country] SET [DateCreated] = '2022-05-12T05:10:43.6075514+04:00'
+WHERE [Id] = 2;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:08.673 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[User] SET [Password] = N'SasID+4Izl12BnH710fbEoQ/xJxU45JnMtg+Y9KaPBE=', [Salt] = N'LQWDkig25xGtqw2tKj7Cng==', [Verified] = '2022-05-12T05:10:43.6226305+04:00'
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:08.674 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_OwnedGames_UserId] ON [dbo].[OwnedGames] ([UserId]);
+2022-05-13 17:54:08.675 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_OwnedGames_VideogameId] ON [dbo].[OwnedGames] ([VideogameId]);
+2022-05-13 17:54:08.676 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_PaymentCreditentials_UserEntityId] ON [dbo].[PaymentCreditentials] ([UserEntityId]);
+2022-05-13 17:54:08.677 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Transactions_UserId] ON [dbo].[Transactions] ([UserId]);
+2022-05-13 17:54:08.678 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_Transactions_VideogameId] ON [dbo].[Transactions] ([VideogameId]);
+2022-05-13 17:54:08.678 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX [IX_VideogameImages_VideogameId] ON [dbo].[VideogameImages] ([VideogameId]);
+2022-05-13 17:54:08.679 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20220512011044_longtimenoSee', N'6.0.3');
+2022-05-13 17:54:08.680 +04:00 [INF] Applying migration '20220512173501_test3'.
+2022-05-13 17:54:08.697 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[City] SET [DateCreated] = '2022-05-12T21:35:01.2466319+04:00'
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:08.698 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[City] SET [DateCreated] = '2022-05-12T21:35:01.2466328+04:00'
+WHERE [Id] = 2;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:08.699 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[Country] SET [DateCreated] = '2022-05-12T21:35:01.2466543+04:00'
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:11.040 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[Country] SET [DateCreated] = '2022-05-12T21:35:01.2466545+04:00'
+WHERE [Id] = 2;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:11.040 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[User] SET [Password] = N'e2FcKkUxmCNDwZ+VdoRkbL0v1ae4q9S+LkH59o+80LE=', [Salt] = N'iLROhq0dPwQl569lm9szTQ==', [Verified] = '2022-05-12T21:35:01.2621668+04:00'
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:11.041 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20220512173501_test3', N'6.0.3');
+2022-05-13 17:54:11.041 +04:00 [INF] Applying migration '20220512190614_test4'.
+2022-05-13 17:54:11.059 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE [dbo].[User] ADD [MailSent] datetime2 NULL;
+2022-05-13 17:54:11.059 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[City] SET [DateCreated] = '2022-05-12T23:06:13.9137391+04:00'
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:11.060 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[City] SET [DateCreated] = '2022-05-12T23:06:13.9137403+04:00'
+WHERE [Id] = 2;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:11.060 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[Country] SET [DateCreated] = '2022-05-12T23:06:13.9137734+04:00'
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:11.060 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[Country] SET [DateCreated] = '2022-05-12T23:06:13.9137737+04:00'
+WHERE [Id] = 2;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:11.064 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[User] SET [Password] = N'T5/m3SNLrZYW2V4XXE7/1O45oVHKRSCduGOG7ThKlqQ=', [Salt] = N'pDzC/S+MlJ5bKZwI9+PqGg==', [Verified] = '2022-05-12T23:06:13.9299515+04:00'
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:11.065 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20220512190614_test4', N'6.0.3');
+2022-05-13 17:54:11.066 +04:00 [INF] Applying migration '20220513003905_test5'.
+2022-05-13 17:54:11.083 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[City] SET [DateCreated] = '2022-05-13T04:39:05.3649391+04:00'
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:11.084 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[City] SET [DateCreated] = '2022-05-13T04:39:05.3649401+04:00'
+WHERE [Id] = 2;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:11.085 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[Country] SET [DateCreated] = '2022-05-13T04:39:05.3649591+04:00'
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:11.085 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[Country] SET [DateCreated] = '2022-05-13T04:39:05.3649593+04:00'
+WHERE [Id] = 2;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:11.086 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+UPDATE [dbo].[User] SET [Password] = N'w64WeP4KxriUBxQJIbCl1V1U10PdKvobXXUNkj/8ZTs=', [Salt] = N'Gyg5UOAeWdsD3myAupeBvA==', [Verified] = '2022-05-13T04:39:05.3796529+04:00'
+WHERE [Id] = 1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:54:11.086 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20220513003905_test5', N'6.0.3');
+2022-05-13 17:56:08.780 +04:00 [INF] User profile is available. Using 'C:\Users\Nino Andguladze\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-05-13 17:56:08.983 +04:00 [INF] ThumbnailBackgroundWorker is now running in the background.
+2022-05-13 17:56:09.293 +04:00 [INF] Now listening on: http://localhost:5208
+2022-05-13 17:56:09.294 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-13 17:56:09.295 +04:00 [INF] Hosting environment: Development
+2022-05-13 17:56:09.296 +04:00 [INF] Content root path: C:\Users\Nino Andguladze\source\repos\Project\nexus-game-store\API\
+2022-05-13 17:56:11.647 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger - -
+2022-05-13 17:56:11.984 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger - - - 301 0 - 376.1476ms
+2022-05-13 17:56:12.011 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-05-13 17:56:12.403 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/swagger-ui.css - -
+2022-05-13 17:56:12.412 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 400.9867ms
+2022-05-13 17:56:12.436 +04:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2022-05-13 17:56:12.437 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/swagger-ui.css - - - 200 143632 text/css 33.9115ms
+2022-05-13 17:56:12.474 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/swagger-ui-bundle.js - -
+2022-05-13 17:56:12.491 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/swagger-ui-standalone-preset.js - -
+2022-05-13 17:56:12.492 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-05-13 17:56:12.500 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 8.1696ms
+2022-05-13 17:56:12.534 +04:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2022-05-13 17:56:12.541 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/swagger-ui-standalone-preset.js - - - 200 337162 application/javascript 53.3201ms
+2022-05-13 17:56:12.551 +04:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2022-05-13 17:56:12.557 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/swagger-ui-bundle.js - - - 200 1092889 application/javascript 82.1889ms
+2022-05-13 17:56:13.058 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-05-13 17:56:13.136 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/favicon-32x32.png - -
+2022-05-13 17:56:13.142 +04:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2022-05-13 17:56:13.145 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/favicon-32x32.png - - - 200 628 image/png 9.1210ms
+2022-05-13 17:56:13.297 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 238.8679ms
+2022-05-13 17:56:18.650 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/Authenticate application/json 50
+2022-05-13 17:56:19.427 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Authenticate (API)'
+2022-05-13 17:56:19.475 +04:00 [INF] Route matched with {action = "Authenticate", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Authenticate(Infrastructure.Entities.User.Dto.LoginDto) on controller API.Controllers.AuthController (API).
+2022-05-13 17:56:21.100 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 17:56:23.485 +04:00 [INF] Executed DbCommand (112ms) [Parameters=[@__model_UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[Adress], [t].[CityId], [t].[DateCreated], [t].[DateUpdated], [t].[Email], [t].[FirstName], [t].[LastName], [t].[MailSent], [t].[Password], [t].[PaymentInfoId], [t].[Role], [t].[Salt], [t].[TelephoneNumber], [t].[UserName], [t].[VerificationToken], [t].[Verified], [r].[Id], [r].[Created], [r].[CreatedByIp], [r].[Expires], [r].[ReasonRevoked], [r].[ReplacedByToken], [r].[Revoked], [r].[RevokedByIp], [r].[Token], [r].[UserEntityId], [r].[role]
+FROM (
+    SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+    FROM [dbo].[User] AS [u]
+    WHERE [u].[UserName] = @__model_UserName_0
+) AS [t]
+LEFT JOIN [RefreshToken] AS [r] ON [t].[Id] = [r].[UserEntityId]
+ORDER BY [t].[Id]
+2022-05-13 17:56:24.723 +04:00 [INF] Executed DbCommand (10ms) [Parameters=[@__token_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [dbo].[User] AS [u]
+        WHERE EXISTS (
+            SELECT 1
+            FROM [RefreshToken] AS [r]
+            WHERE ([u].[Id] = [r].[UserEntityId]) AND ([r].[Token] = @__token_0))) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2022-05-13 17:56:25.021 +04:00 [INF] Executed DbCommand (57ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (DbType = DateTime2), @p6='?' (Size = 4000), @p7='?' (Size = 4000), @p8='?' (DbType = Int32), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [RefreshToken] ([Created], [CreatedByIp], [Expires], [ReasonRevoked], [ReplacedByToken], [Revoked], [RevokedByIp], [Token], [UserEntityId], [role])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9);
+SELECT [Id]
+FROM [RefreshToken]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2022-05-13 17:56:25.109 +04:00 [INF] Executing OkObjectResult, writing value of type 'Infrastructure.Entities.User.Dto.AuthenticateResponse'.
+2022-05-13 17:56:25.130 +04:00 [INF] Executed action API.Controllers.AuthController.Authenticate (API) in 5644.9105ms
+2022-05-13 17:56:25.133 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Authenticate (API)'
+2022-05-13 17:56:25.140 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/Authenticate application/json 50 - 200 - application/json;+charset=utf-8 6490.5104ms
+2022-05-13 17:57:16.498 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Publisher/AddPublisher application/json 30
+2022-05-13 17:57:16.646 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 17:57:16.660 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-13 17:57:16.664 +04:00 [INF] Executing endpoint 'API.Controllers.PublisherController.AddPublisher (API)'
+2022-05-13 17:57:16.669 +04:00 [INF] Route matched with {action = "AddPublisher", controller = "Publisher"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddPublisher(Infrastructure.Entities.Publisher.Dto.AddPublisherDto) on controller API.Controllers.PublisherController (API).
+2022-05-13 17:57:16.689 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__model_PublisherName_0='?' (Size = 64)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [dbo].[Publisher] AS [p]
+        WHERE [p].[PublisherName] = @__model_PublisherName_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2022-05-13 17:57:16.762 +04:00 [INF] Executed DbCommand (34ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = DateTime2), @p2='?' (Size = 64)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [dbo].[Publisher] ([DateCreated], [DateUpdated], [PublisherName])
+VALUES (@p0, @p1, @p2);
+SELECT [Id]
+FROM [dbo].[Publisher]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2022-05-13 17:57:16.771 +04:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2022-05-13 17:57:16.775 +04:00 [INF] Executed action API.Controllers.PublisherController.AddPublisher (API) in 100.8624ms
+2022-05-13 17:57:16.777 +04:00 [INF] Executed endpoint 'API.Controllers.PublisherController.AddPublisher (API)'
+2022-05-13 17:57:16.779 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Publisher/AddPublisher application/json 30 - 200 - application/json;+charset=utf-8 281.4977ms
+2022-05-13 17:57:20.389 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Videogame/AddGame multipart/form-data;+boundary=----WebKitFormBoundaryK2KH2gBuORVKLZKy 985683
+2022-05-13 17:57:20.427 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 17:57:20.438 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-13 17:57:20.443 +04:00 [INF] Executing endpoint 'API.Controllers.VideogameController.AddGame (API)'
+2022-05-13 17:57:20.450 +04:00 [INF] Route matched with {action = "AddGame", controller = "Videogame"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddGame(Infrastructure.Entities.Videogame.Dtos.AddGameDto) on controller API.Controllers.VideogameController (API).
+2022-05-13 17:57:20.527 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__name_0='?' (Size = 128)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [dbo].[Videogame] AS [v]
+        WHERE [v].[VideogameName] = @__name_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2022-05-13 17:57:20.668 +04:00 [INF] Executed DbCommand (48ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = DateTime2), @p2='?' (Size = 2000), @p3='?' (Size = 4000), @p4='?' (DbType = Double), @p5='?' (DbType = Double), @p6='?' (DbType = Int32), @p7='?' (Size = 100), @p8='?' (Size = 128)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [dbo].[Videogame] ([DateCreated], [DateUpdated], [Description], [DownloadFileUrl], [OldPrice], [Price], [PublicsherId], [ThumbnailUrl], [VideogameName])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+SELECT [Id]
+FROM [dbo].[Videogame]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2022-05-13 17:57:20.680 +04:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2022-05-13 17:57:20.682 +04:00 [INF] Executed action API.Controllers.VideogameController.AddGame (API) in 229.4059ms
+2022-05-13 17:57:20.684 +04:00 [INF] Executed endpoint 'API.Controllers.VideogameController.AddGame (API)'
+2022-05-13 17:57:20.687 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Videogame/AddGame multipart/form-data;+boundary=----WebKitFormBoundaryK2KH2gBuORVKLZKy 985683 - 200 - application/json;+charset=utf-8 297.7543ms
+2022-05-13 17:57:20.782 +04:00 [INF] Book found! Starting to process ..
+2022-05-13 17:57:21.213 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 17:57:21.230 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[@__model_VideogameId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [v].[Id], [v].[DateCreated], [v].[DateUpdated], [v].[Description], [v].[DownloadFileUrl], [v].[OldPrice], [v].[Price], [v].[PublicsherId], [v].[ThumbnailUrl], [v].[VideogameName]
+FROM [dbo].[Videogame] AS [v]
+WHERE [v].[Id] = @__model_VideogameId_0
+2022-05-13 17:57:21.429 +04:00 [INF] Executed DbCommand (182ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [dbo].[Videogame] SET [ThumbnailUrl] = @p0
+WHERE [Id] = @p1;
+SELECT @@ROWCOUNT;
+2022-05-13 17:57:37.901 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Category/AddCategory application/json 30
+2022-05-13 17:57:37.904 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 17:57:37.912 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-13 17:57:37.916 +04:00 [INF] Executing endpoint 'API.Controllers.CategoryController.AddCategory (API)'
+2022-05-13 17:57:37.919 +04:00 [INF] Route matched with {action = "AddCategory", controller = "Category"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddCategory(Infrastructure.Entities.Categories.Dtos.CreateCategoryDto) on controller API.Controllers.CategoryController (API).
+2022-05-13 17:57:37.959 +04:00 [INF] Executed DbCommand (29ms) [Parameters=[@__name_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [dbo].[Category] AS [c]
+        WHERE [c].[CategoryName] = @__name_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2022-05-13 17:57:38.006 +04:00 [INF] Executed DbCommand (32ms) [Parameters=[@p0='?' (Size = 4000), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [dbo].[Category] ([CategoryName], [DateCreated], [DateUpdated])
+VALUES (@p0, @p1, @p2);
+SELECT [Id]
+FROM [dbo].[Category]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2022-05-13 17:57:38.012 +04:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2022-05-13 17:57:38.013 +04:00 [INF] Executed action API.Controllers.CategoryController.AddCategory (API) in 90.289ms
+2022-05-13 17:57:38.014 +04:00 [INF] Executed endpoint 'API.Controllers.CategoryController.AddCategory (API)'
+2022-05-13 17:57:38.015 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Category/AddCategory application/json 30 - 200 - application/json;+charset=utf-8 114.0019ms
+2022-05-13 17:57:51.333 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Category/AddGameCategory application/json 41
+2022-05-13 17:57:51.339 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 17:57:51.346 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-13 17:57:51.350 +04:00 [INF] Executing endpoint 'API.Controllers.CategoryController.AddGameCategory (API)'
+2022-05-13 17:57:51.356 +04:00 [INF] Route matched with {action = "AddGameCategory", controller = "Category"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddGameCategory(Infrastructure.Entities.VideogameCategories.Dto.CreateRemoveDto) on controller API.Controllers.CategoryController (API).
+2022-05-13 17:57:51.374 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[@__model_VideogameId_0='?' (DbType = Int32), @__model_CategoryId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [dbo].[VideogameCategory] AS [v]
+        WHERE ([v].[VideogameId] = @__model_VideogameId_0) AND ([v].[CategoryId] = @__model_CategoryId_1)) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2022-05-13 17:57:51.470 +04:00 [INF] Executed DbCommand (76ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [dbo].[VideogameCategory] ([CategoryId], [VideogameId], [DateCreated], [DateUpdated])
+VALUES (@p0, @p1, @p2, @p3);
+2022-05-13 17:57:51.476 +04:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2022-05-13 17:57:51.479 +04:00 [INF] Executed action API.Controllers.CategoryController.AddGameCategory (API) in 120.508ms
+2022-05-13 17:57:51.481 +04:00 [INF] Executed endpoint 'API.Controllers.CategoryController.AddGameCategory (API)'
+2022-05-13 17:57:51.484 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Category/AddGameCategory application/json 41 - 200 - application/json;+charset=utf-8 150.5945ms
+2022-05-13 17:57:57.438 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/api/Category/GetCategoriesByGame/1 - -
+2022-05-13 17:57:57.440 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 17:57:57.448 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-13 17:57:57.453 +04:00 [INF] Executing endpoint 'API.Controllers.CategoryController.GetCategoriesByGame (API)'
+2022-05-13 17:57:57.460 +04:00 [INF] Route matched with {action = "GetCategoriesByGame", controller = "Category"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCategoriesByGame(Int32) on controller API.Controllers.CategoryController (API).
+2022-05-13 17:57:57.511 +04:00 [INF] Executed DbCommand (9ms) [Parameters=[@__gameId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [v].[VideogameId], [v].[CategoryId], [v].[DateCreated], [v].[DateUpdated], [c].[Id], [c].[CategoryName], [c].[DateCreated], [c].[DateUpdated]
+FROM [dbo].[VideogameCategory] AS [v]
+INNER JOIN [dbo].[Category] AS [c] ON [v].[CategoryId] = [c].[Id]
+WHERE [v].[VideogameId] = @__gameId_0
+2022-05-13 17:57:57.523 +04:00 [INF] Executing OkObjectResult, writing value of type 'Infrastructure.Entities.Categories.Dtos.CategoriesByGame'.
+2022-05-13 17:57:57.529 +04:00 [INF] Executed action API.Controllers.CategoryController.GetCategoriesByGame (API) in 65.7515ms
+2022-05-13 17:57:57.530 +04:00 [INF] Executed endpoint 'API.Controllers.CategoryController.GetCategoriesByGame (API)'
+2022-05-13 17:57:57.532 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/api/Category/GetCategoriesByGame/1 - - - 200 - application/json;+charset=utf-8 93.8542ms
+2022-05-13 17:58:20.797 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/api/Category/GetGamesByCategory/1 - -
+2022-05-13 17:58:20.800 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 17:58:20.808 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-13 17:58:20.813 +04:00 [INF] Executing endpoint 'API.Controllers.CategoryController.GetGamesByCategory (API)'
+2022-05-13 17:58:20.820 +04:00 [INF] Route matched with {action = "GetGamesByCategory", controller = "Category"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetGamesByCategory(Infrastructure.Paging.QueryParams, Int32) on controller API.Controllers.CategoryController (API).
+2022-05-13 17:58:20.831 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[@__categoryId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [dbo].[Category] AS [c]
+        WHERE [c].[Id] = @__categoryId_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2022-05-13 17:58:20.854 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[@__categoryId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [dbo].[VideogameCategory] AS [v]
+WHERE [v].[CategoryId] = @__categoryId_0
+2022-05-13 17:58:20.865 +04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2022-05-13 17:58:20.867 +04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2022-05-13 17:58:20.896 +04:00 [INF] Executed DbCommand (18ms) [Parameters=[@__categoryId_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32), @__p_2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[VideogameId], [t].[CategoryId], [t].[DateCreated], [t].[DateUpdated], [v0].[Id], [v0].[DateCreated], [v0].[DateUpdated], [v0].[Description], [v0].[DownloadFileUrl], [v0].[OldPrice], [v0].[Price], [v0].[PublicsherId], [v0].[ThumbnailUrl], [v0].[VideogameName]
+FROM (
+    SELECT [v].[VideogameId], [v].[CategoryId], [v].[DateCreated], [v].[DateUpdated]
+    FROM [dbo].[VideogameCategory] AS [v]
+    WHERE [v].[CategoryId] = @__categoryId_0
+    ORDER BY (SELECT 1)
+    OFFSET @__p_1 ROWS FETCH NEXT @__p_2 ROWS ONLY
+) AS [t]
+INNER JOIN [dbo].[Videogame] AS [v0] ON [t].[VideogameId] = [v0].[Id]
+2022-05-13 17:58:20.904 +04:00 [INF] Executing OkObjectResult, writing value of type 'Infrastructure.Paging.PageReturnDto`1[[Infrastructure.Entities.Videogame.Dtos.PagingGameDto, Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-05-13 17:58:20.922 +04:00 [INF] Executed action API.Controllers.CategoryController.GetGamesByCategory (API) in 99.7611ms
+2022-05-13 17:58:20.924 +04:00 [INF] Executed endpoint 'API.Controllers.CategoryController.GetGamesByCategory (API)'
+2022-05-13 17:58:20.925 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/api/Category/GetGamesByCategory/1 - - - 200 - application/json;+charset=utf-8 128.3430ms
+2022-05-13 17:58:27.111 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/api/Category/GetCategories - -
+2022-05-13 17:58:27.113 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 17:58:27.119 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-13 17:58:27.123 +04:00 [INF] Executing endpoint 'API.Controllers.CategoryController.GetCategories (API)'
+2022-05-13 17:58:27.127 +04:00 [INF] Route matched with {action = "GetCategories", controller = "Category"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCategories() on controller API.Controllers.CategoryController (API).
+2022-05-13 17:58:27.140 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CategoryName], [c].[DateCreated], [c].[DateUpdated]
+FROM [dbo].[Category] AS [c]
+2022-05-13 17:58:27.158 +04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Infrastructure.Entities.Categories.Dtos.GetCategoriesDto, Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-05-13 17:58:27.160 +04:00 [INF] Executed action API.Controllers.CategoryController.GetCategories (API) in 30.5267ms
+2022-05-13 17:58:27.161 +04:00 [INF] Executed endpoint 'API.Controllers.CategoryController.GetCategories (API)'
+2022-05-13 17:58:27.162 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/api/Category/GetCategories - - - 200 - application/json;+charset=utf-8 51.4944ms
+2022-05-13 17:58:44.969 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/api/Admin/SearchUserInfo?UserName=stri - -
+2022-05-13 17:58:44.971 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 17:58:44.976 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-13 17:58:44.981 +04:00 [INF] Executing endpoint 'API.Controllers.AdminController.SearchUserInfo (API)'
+2022-05-13 17:58:44.990 +04:00 [INF] Route matched with {action = "SearchUserInfo", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SearchUserInfo(Infrastructure.Entities.User.Dto.SearchUserDto) on controller API.Controllers.AdminController (API).
+2022-05-13 17:58:45.016 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[@__model_UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [dbo].[User] AS [u]
+WHERE (@__model_UserName_0 LIKE '') OR (CHARINDEX(@__model_UserName_0, [u].[UserName]) > 0)
+2022-05-13 17:58:45.020 +04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2022-05-13 17:58:45.021 +04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2022-05-13 17:58:45.030 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__model_UserName_0='?' (Size = 128) (DbType = AnsiString), @__p_1='?' (DbType = Int32), @__p_2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE (@__model_UserName_0 LIKE '') OR (CHARINDEX(@__model_UserName_0, [u].[UserName]) > 0)
+ORDER BY (SELECT 1)
+OFFSET @__p_1 ROWS FETCH NEXT @__p_2 ROWS ONLY
+2022-05-13 17:58:45.039 +04:00 [INF] Executing OkObjectResult, writing value of type 'Infrastructure.Paging.PageReturnDto`1[[Infrastructure.Entities.User.Dto.UserDto, Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-05-13 17:58:45.043 +04:00 [INF] Executed action API.Controllers.AdminController.SearchUserInfo (API) in 50.7889ms
+2022-05-13 17:58:45.045 +04:00 [INF] Executed endpoint 'API.Controllers.AdminController.SearchUserInfo (API)'
+2022-05-13 17:58:45.047 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/api/Admin/SearchUserInfo?UserName=stri - - - 200 - application/json;+charset=utf-8 78.5927ms
+2022-05-13 18:30:11.249 +04:00 [INF] User profile is available. Using 'C:\Users\Nino Andguladze\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-05-13 18:30:11.417 +04:00 [INF] ThumbnailBackgroundWorker is now running in the background.
+2022-05-13 18:30:11.715 +04:00 [INF] Now listening on: http://localhost:5208
+2022-05-13 18:30:11.716 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-13 18:30:11.717 +04:00 [INF] Hosting environment: Development
+2022-05-13 18:30:11.718 +04:00 [INF] Content root path: C:\Users\Nino Andguladze\source\repos\Project\nexus-game-store\API\
+2022-05-13 18:30:14.142 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-05-13 18:30:14.893 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 757.9900ms
+2022-05-13 18:30:15.034 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-05-13 18:30:15.040 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 5.9908ms
+2022-05-13 18:30:15.643 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-05-13 18:30:15.859 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 216.1659ms
+2022-05-13 18:35:59.889 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/Registrer application/json 223
+2022-05-13 18:36:00.860 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-05-13 18:36:00.926 +04:00 [INF] Route matched with {action = "Registrer", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Registrer(Infrastructure.Entities.User.Dto.RegistrerDto) on controller API.Controllers.AuthController (API).
+2022-05-13 18:36:02.817 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 18:36:04.975 +04:00 [INF] Executed DbCommand (121ms) [Parameters=[@__model_Username_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[UserName] = @__model_Username_0
+2022-05-13 18:36:05.069 +04:00 [INF] Executed DbCommand (26ms) [Parameters=[@__model_Email_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Email] = @__model_Email_0
+2022-05-13 18:36:05.505 +04:00 [INF] Executed action API.Controllers.AuthController.Registrer (API) in 4565.542ms
+2022-05-13 18:36:05.512 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-05-13 18:36:06.625 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/Registrer application/json 223 - 400 - application/json 6735.4614ms
+2022-05-13 18:36:46.808 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/Registrer application/json 219
+2022-05-13 18:36:46.831 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-05-13 18:36:46.834 +04:00 [INF] Route matched with {action = "Registrer", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Registrer(Infrastructure.Entities.User.Dto.RegistrerDto) on controller API.Controllers.AuthController (API).
+2022-05-13 18:36:46.958 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 18:36:46.976 +04:00 [INF] Executed DbCommand (7ms) [Parameters=[@__model_Username_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[UserName] = @__model_Username_0
+2022-05-13 18:36:46.988 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[@__model_Email_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Email] = @__model_Email_0
+2022-05-13 18:36:47.059 +04:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+2022-05-13 18:36:47.101 +04:00 [INF] Executed DbCommand (9ms) [Parameters=[@__token_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[VerificationToken] = @__token_0
+2022-05-13 18:36:47.482 +04:00 [INF] Executed DbCommand (27ms) [Parameters=[@p0='?' (Size = 128), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = DateTime2), @p4='?' (Size = 4000), @p5='?' (Size = 128), @p6='?' (Size = 128), @p7='?' (DbType = DateTime2), @p8='?' (Size = 64), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?' (Size = 64), @p12='?' (Size = 32), @p13='?' (Size = 128) (DbType = AnsiString), @p14='?' (Size = 4000), @p15='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [dbo].[User] ([Adress], [CityId], [DateCreated], [DateUpdated], [Email], [FirstName], [LastName], [MailSent], [Password], [PaymentInfoId], [Role], [Salt], [TelephoneNumber], [UserName], [VerificationToken], [Verified])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15);
+SELECT [Id]
+FROM [dbo].[User]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2022-05-13 18:36:47.592 +04:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2022-05-13 18:36:47.603 +04:00 [INF] Executed action API.Controllers.AuthController.Registrer (API) in 756.7433ms
+2022-05-13 18:36:47.609 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Registrer (API)'
+2022-05-13 18:36:47.612 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/Registrer application/json 219 - 200 - application/json;+charset=utf-8 809.4909ms
+2022-05-13 18:38:02.001 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/api/Auth/verify-email/8DEB496B948F3A3B5D9E54CCCC1D2F806C0E5508D6C88B4B51227EEC95CDAA8C340B3085FAACEC830AF621D6B9A88D81C02088173F7EC3026D69BBCB972246EE - -
+2022-05-13 18:38:02.024 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.VerifyEmail (API)'
+2022-05-13 18:38:02.057 +04:00 [INF] Route matched with {action = "VerifyEmail", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] VerifyEmail(System.String) on controller API.Controllers.AuthController (API).
+2022-05-13 18:38:02.119 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 18:38:02.135 +04:00 [INF] Executed DbCommand (7ms) [Parameters=[@__token_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[VerificationToken] = @__token_0
+2022-05-13 18:38:02.167 +04:00 [INF] Executed DbCommand (8ms) [Parameters=[@p2='?' (DbType = Int32), @p0='?' (Size = 4000), @p1='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [dbo].[User] SET [VerificationToken] = @p0, [Verified] = @p1
+WHERE [Id] = @p2;
+SELECT @@ROWCOUNT;
+2022-05-13 18:38:02.184 +04:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2022-05-13 18:38:02.191 +04:00 [INF] Executed action API.Controllers.AuthController.VerifyEmail (API) in 116.085ms
+2022-05-13 18:38:02.198 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.VerifyEmail (API)'
+2022-05-13 18:38:02.201 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/api/Auth/verify-email/8DEB496B948F3A3B5D9E54CCCC1D2F806C0E5508D6C88B4B51227EEC95CDAA8C340B3085FAACEC830AF621D6B9A88D81C02088173F7EC3026D69BBCB972246EE - - - 200 - application/json;+charset=utf-8 201.0414ms
+2022-05-13 18:38:02.407 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/favicon.ico - -
+2022-05-13 18:38:02.507 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/favicon.ico - - - 404 0 - 99.4823ms
+2022-05-13 18:38:30.322 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/Authenticate application/json 50
+2022-05-13 18:38:30.325 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Authenticate (API)'
+2022-05-13 18:38:30.335 +04:00 [INF] Route matched with {action = "Authenticate", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Authenticate(Infrastructure.Entities.User.Dto.LoginDto) on controller API.Controllers.AuthController (API).
+2022-05-13 18:38:30.361 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 18:38:30.566 +04:00 [INF] Executed DbCommand (16ms) [Parameters=[@__model_UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[Adress], [t].[CityId], [t].[DateCreated], [t].[DateUpdated], [t].[Email], [t].[FirstName], [t].[LastName], [t].[MailSent], [t].[Password], [t].[PaymentInfoId], [t].[Role], [t].[Salt], [t].[TelephoneNumber], [t].[UserName], [t].[VerificationToken], [t].[Verified], [r].[Id], [r].[Created], [r].[CreatedByIp], [r].[Expires], [r].[ReasonRevoked], [r].[ReplacedByToken], [r].[Revoked], [r].[RevokedByIp], [r].[Token], [r].[UserEntityId], [r].[role]
+FROM (
+    SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+    FROM [dbo].[User] AS [u]
+    WHERE [u].[UserName] = @__model_UserName_0
+) AS [t]
+LEFT JOIN [RefreshToken] AS [r] ON [t].[Id] = [r].[UserEntityId]
+ORDER BY [t].[Id]
+2022-05-13 18:38:31.683 +04:00 [INF] Executed DbCommand (15ms) [Parameters=[@__token_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [dbo].[User] AS [u]
+        WHERE EXISTS (
+            SELECT 1
+            FROM [RefreshToken] AS [r]
+            WHERE ([u].[Id] = [r].[UserEntityId]) AND ([r].[Token] = @__token_0))) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2022-05-13 18:38:31.737 +04:00 [INF] Executed DbCommand (6ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (DbType = DateTime2), @p6='?' (Size = 4000), @p7='?' (Size = 4000), @p8='?' (DbType = Int32), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [RefreshToken] ([Created], [CreatedByIp], [Expires], [ReasonRevoked], [ReplacedByToken], [Revoked], [RevokedByIp], [Token], [UserEntityId], [role])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9);
+SELECT [Id]
+FROM [RefreshToken]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2022-05-13 18:38:31.761 +04:00 [INF] Executing OkObjectResult, writing value of type 'Infrastructure.Entities.User.Dto.AuthenticateResponse'.
+2022-05-13 18:38:31.772 +04:00 [INF] Executed action API.Controllers.AuthController.Authenticate (API) in 1426.2236ms
+2022-05-13 18:38:31.774 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Authenticate (API)'
+2022-05-13 18:38:31.780 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/Authenticate application/json 50 - 200 - application/json;+charset=utf-8 1458.0753ms
+2022-05-13 18:38:52.698 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/api/Admin/SearchUserInfo - -
+2022-05-13 18:38:52.844 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 18:38:52.859 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-13 18:38:52.869 +04:00 [INF] Executing endpoint 'API.Controllers.AdminController.SearchUserInfo (API)'
+2022-05-13 18:38:52.879 +04:00 [INF] Route matched with {action = "SearchUserInfo", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SearchUserInfo(Infrastructure.Entities.User.Dto.SearchUserDto) on controller API.Controllers.AdminController (API).
+2022-05-13 18:38:52.950 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__model_UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [dbo].[User] AS [u]
+WHERE (@__model_UserName_0 LIKE '') OR (CHARINDEX(@__model_UserName_0, [u].[UserName]) > 0)
+2022-05-13 18:38:52.970 +04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2022-05-13 18:38:52.974 +04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2022-05-13 18:38:52.988 +04:00 [INF] Executed DbCommand (5ms) [Parameters=[@__model_UserName_0='?' (Size = 128) (DbType = AnsiString), @__p_1='?' (DbType = Int32), @__p_2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE (@__model_UserName_0 LIKE '') OR (CHARINDEX(@__model_UserName_0, [u].[UserName]) > 0)
+ORDER BY (SELECT 1)
+OFFSET @__p_1 ROWS FETCH NEXT @__p_2 ROWS ONLY
+2022-05-13 18:38:53.036 +04:00 [INF] Executing OkObjectResult, writing value of type 'Infrastructure.Paging.PageReturnDto`1[[Infrastructure.Entities.User.Dto.UserDto, Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-05-13 18:38:53.046 +04:00 [INF] Executed action API.Controllers.AdminController.SearchUserInfo (API) in 159.4178ms
+2022-05-13 18:38:53.056 +04:00 [INF] Executed endpoint 'API.Controllers.AdminController.SearchUserInfo (API)'
+2022-05-13 18:38:53.059 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/api/Admin/SearchUserInfo - - - 200 - application/json;+charset=utf-8 360.4700ms
+2022-05-13 18:39:03.347 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/api/Admin/GetAdminManagerUsers - -
+2022-05-13 18:39:03.359 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 18:39:03.374 +04:00 [INF] Executed DbCommand (6ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-13 18:39:03.385 +04:00 [INF] Executing endpoint 'API.Controllers.AdminController.GetAdminManagerUsers (API)'
+2022-05-13 18:39:03.393 +04:00 [INF] Route matched with {action = "GetAdminManagerUsers", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAdminManagerUsers() on controller API.Controllers.AdminController (API).
+2022-05-13 18:39:03.453 +04:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Role] IN (1, 2)
+2022-05-13 18:39:03.463 +04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Infrastructure.Entities.User.Dto.UserDto, Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-05-13 18:39:03.468 +04:00 [INF] Executed action API.Controllers.AdminController.GetAdminManagerUsers (API) in 67.8679ms
+2022-05-13 18:39:03.470 +04:00 [INF] Executed endpoint 'API.Controllers.AdminController.GetAdminManagerUsers (API)'
+2022-05-13 18:39:03.478 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/api/Admin/GetAdminManagerUsers - - - 200 - application/json;+charset=utf-8 131.6677ms
+2022-05-13 18:39:23.001 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Admin/ChangeUserRole?UserName=omari321&newRole=Admin - 0
+2022-05-13 18:39:23.007 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 18:39:23.027 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-13 18:39:23.040 +04:00 [INF] Executing endpoint 'API.Controllers.AdminController.ChangeUserRole (API)'
+2022-05-13 18:39:23.052 +04:00 [INF] Route matched with {action = "ChangeUserRole", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ChangeUserRole(Infrastructure.Entities.User.Dto.RoleChangeDto) on controller API.Controllers.AdminController (API).
+2022-05-13 18:39:23.105 +04:00 [INF] Executed DbCommand (6ms) [Parameters=[@__model_UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[UserName] = @__model_UserName_0
+2022-05-13 18:39:23.126 +04:00 [INF] Executed DbCommand (9ms) [Parameters=[@p1='?' (DbType = Int32), @p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [dbo].[User] SET [Role] = @p0
+WHERE [Id] = @p1;
+SELECT @@ROWCOUNT;
+2022-05-13 18:39:23.137 +04:00 [INF] Executing OkObjectResult, writing value of type 'System.Boolean'.
+2022-05-13 18:39:23.140 +04:00 [INF] Executed action API.Controllers.AdminController.ChangeUserRole (API) in 79.1646ms
+2022-05-13 18:39:23.143 +04:00 [INF] Executed endpoint 'API.Controllers.AdminController.ChangeUserRole (API)'
+2022-05-13 18:39:23.145 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Admin/ChangeUserRole?UserName=omari321&newRole=Admin - 0 - 200 - application/json;+charset=utf-8 144.3111ms
+2022-05-13 18:39:39.287 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/api/Admin/SearchGameInformationForAdmin/dot - -
+2022-05-13 18:39:39.294 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 18:39:39.308 +04:00 [INF] Executed DbCommand (7ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-13 18:39:39.327 +04:00 [INF] Executing endpoint 'API.Controllers.AdminController.SearchGameInformationForAdmin (API)'
+2022-05-13 18:39:39.341 +04:00 [INF] Route matched with {action = "SearchGameInformationForAdmin", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SearchGameInformationForAdmin(Infrastructure.Paging.QueryParams, System.String) on controller API.Controllers.AdminController (API).
+2022-05-13 18:39:39.371 +04:00 [INF] Executed DbCommand (9ms) [Parameters=[@__NameSearchTerm_0='?' (Size = 128)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [dbo].[Videogame] AS [v]
+WHERE (@__NameSearchTerm_0 LIKE N'') OR (CHARINDEX(@__NameSearchTerm_0, [v].[VideogameName]) > 0)
+2022-05-13 18:39:39.409 +04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2022-05-13 18:39:39.412 +04:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2022-05-13 18:39:39.492 +04:00 [INF] Executed DbCommand (24ms) [Parameters=[@__NameSearchTerm_0='?' (Size = 128), @__p_1='?' (DbType = Int32), @__p_2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[DateCreated], [t].[DateUpdated], [t].[Description], [t].[DownloadFileUrl], [t].[OldPrice], [t].[Price], [t].[PublicsherId], [t].[ThumbnailUrl], [t].[VideogameName], [t0].[VideogameId], [t0].[CategoryId], [t0].[DateCreated], [t0].[DateUpdated], [t0].[Id], [t0].[CategoryName], [t0].[DateCreated0], [t0].[DateUpdated0]
+FROM (
+    SELECT [v].[Id], [v].[DateCreated], [v].[DateUpdated], [v].[Description], [v].[DownloadFileUrl], [v].[OldPrice], [v].[Price], [v].[PublicsherId], [v].[ThumbnailUrl], [v].[VideogameName]
+    FROM [dbo].[Videogame] AS [v]
+    WHERE (@__NameSearchTerm_0 LIKE N'') OR (CHARINDEX(@__NameSearchTerm_0, [v].[VideogameName]) > 0)
+    ORDER BY (SELECT 1)
+    OFFSET @__p_1 ROWS FETCH NEXT @__p_2 ROWS ONLY
+) AS [t]
+LEFT JOIN (
+    SELECT [v0].[VideogameId], [v0].[CategoryId], [v0].[DateCreated], [v0].[DateUpdated], [c].[Id], [c].[CategoryName], [c].[DateCreated] AS [DateCreated0], [c].[DateUpdated] AS [DateUpdated0]
+    FROM [dbo].[VideogameCategory] AS [v0]
+    INNER JOIN [dbo].[Category] AS [c] ON [v0].[CategoryId] = [c].[Id]
+) AS [t0] ON [t].[Id] = [t0].[VideogameId]
+ORDER BY [t].[Id], [t0].[VideogameId], [t0].[CategoryId]
+2022-05-13 18:39:39.615 +04:00 [INF] Executing OkObjectResult, writing value of type 'Infrastructure.Paging.PageReturnDto`1[[Infrastructure.Entities.Videogame.Dtos.GameInformationForAdminDto, Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2022-05-13 18:39:39.643 +04:00 [INF] Executed action API.Controllers.AdminController.SearchGameInformationForAdmin (API) in 297.8962ms
+2022-05-13 18:39:39.646 +04:00 [INF] Executed endpoint 'API.Controllers.AdminController.SearchGameInformationForAdmin (API)'
+2022-05-13 18:39:39.651 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/api/Admin/SearchGameInformationForAdmin/dot - - - 200 - application/json;+charset=utf-8 363.8983ms
+2022-05-13 18:40:08.653 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/api/Videogame/LoadGame/1 - -
+2022-05-13 18:40:08.698 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 18:40:08.723 +04:00 [INF] Executed DbCommand (7ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-13 18:40:08.739 +04:00 [INF] Executing endpoint 'API.Controllers.VideogameController.LoadGame (API)'
+2022-05-13 18:40:08.749 +04:00 [INF] Route matched with {action = "LoadGame", controller = "Videogame"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] LoadGame(Int32) on controller API.Controllers.VideogameController (API).
+2022-05-13 18:40:08.772 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [dbo].[Videogame] AS [v]
+        WHERE [v].[Id] = @__id_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2022-05-13 18:40:08.812 +04:00 [INF] Executed DbCommand (12ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [v].[Id], [v].[DateCreated], [v].[DateUpdated], [v].[Description], [v].[DownloadFileUrl], [v].[OldPrice], [v].[Price], [v].[PublicsherId], [v].[ThumbnailUrl], [v].[VideogameName], [p].[Id], [p].[DateCreated], [p].[DateUpdated], [p].[PublisherName]
+FROM [dbo].[Videogame] AS [v]
+INNER JOIN [dbo].[Publisher] AS [p] ON [v].[PublicsherId] = [p].[Id]
+WHERE [v].[Id] = @__id_0
+2022-05-13 18:40:08.855 +04:00 [INF] Executing OkObjectResult, writing value of type 'Infrastructure.Entities.Videogame.Dtos.LoadGameDto'.
+2022-05-13 18:40:08.868 +04:00 [INF] Executed action API.Controllers.VideogameController.LoadGame (API) in 112.1523ms
+2022-05-13 18:40:08.871 +04:00 [INF] Executed endpoint 'API.Controllers.VideogameController.LoadGame (API)'
+2022-05-13 18:40:08.873 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/api/Videogame/LoadGame/1 - - - 200 - application/json;+charset=utf-8 220.8014ms
+2022-05-13 18:45:10.023 +04:00 [INF] User profile is available. Using 'C:\Users\Nino Andguladze\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2022-05-13 18:45:10.232 +04:00 [INF] ThumbnailBackgroundWorker is now running in the background.
+2022-05-13 18:45:10.435 +04:00 [INF] Now listening on: http://localhost:5208
+2022-05-13 18:45:10.438 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-05-13 18:45:10.440 +04:00 [INF] Hosting environment: Development
+2022-05-13 18:45:10.441 +04:00 [INF] Content root path: C:\Users\Nino Andguladze\source\repos\Project\nexus-game-store\API\
+2022-05-13 18:45:13.026 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/index.html - -
+2022-05-13 18:45:13.555 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-05-13 18:45:13.605 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 47.4714ms
+2022-05-13 18:45:14.079 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/index.html - - - 200 - text/html;charset=utf-8 1065.6077ms
+2022-05-13 18:45:14.188 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - -
+2022-05-13 18:45:14.192 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/_framework/aspnetcore-browser-refresh.js - - - 200 11937 application/javascript;+charset=utf-8 4.1586ms
+2022-05-13 18:45:14.346 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-05-13 18:45:14.761 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 415.0622ms
+2022-05-13 18:45:14.929 +04:00 [INF] Request starting HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - -
+2022-05-13 18:45:14.972 +04:00 [INF] Request finished HTTP/1.1 GET http://localhost:5208/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 42.7029ms
+2022-05-13 18:45:22.335 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Auth/Authenticate application/json 50
+2022-05-13 18:45:23.188 +04:00 [INF] Executing endpoint 'API.Controllers.AuthController.Authenticate (API)'
+2022-05-13 18:45:23.286 +04:00 [INF] Route matched with {action = "Authenticate", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Authenticate(Infrastructure.Entities.User.Dto.LoginDto) on controller API.Controllers.AuthController (API).
+2022-05-13 18:45:26.718 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 18:45:28.644 +04:00 [INF] Executed DbCommand (128ms) [Parameters=[@__model_UserName_0='?' (Size = 128) (DbType = AnsiString)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[Adress], [t].[CityId], [t].[DateCreated], [t].[DateUpdated], [t].[Email], [t].[FirstName], [t].[LastName], [t].[MailSent], [t].[Password], [t].[PaymentInfoId], [t].[Role], [t].[Salt], [t].[TelephoneNumber], [t].[UserName], [t].[VerificationToken], [t].[Verified], [r].[Id], [r].[Created], [r].[CreatedByIp], [r].[Expires], [r].[ReasonRevoked], [r].[ReplacedByToken], [r].[Revoked], [r].[RevokedByIp], [r].[Token], [r].[UserEntityId], [r].[role]
+FROM (
+    SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+    FROM [dbo].[User] AS [u]
+    WHERE [u].[UserName] = @__model_UserName_0
+) AS [t]
+LEFT JOIN [RefreshToken] AS [r] ON [t].[Id] = [r].[UserEntityId]
+ORDER BY [t].[Id]
+2022-05-13 18:45:29.596 +04:00 [INF] Executed DbCommand (21ms) [Parameters=[@__token_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [dbo].[User] AS [u]
+        WHERE EXISTS (
+            SELECT 1
+            FROM [RefreshToken] AS [r]
+            WHERE ([u].[Id] = [r].[UserEntityId]) AND ([r].[Token] = @__token_0))) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2022-05-13 18:45:29.949 +04:00 [INF] Executed DbCommand (10ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (DbType = DateTime2), @p6='?' (Size = 4000), @p7='?' (Size = 4000), @p8='?' (DbType = Int32), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [RefreshToken] ([Created], [CreatedByIp], [Expires], [ReasonRevoked], [ReplacedByToken], [Revoked], [RevokedByIp], [Token], [UserEntityId], [role])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9);
+SELECT [Id]
+FROM [RefreshToken]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2022-05-13 18:45:30.096 +04:00 [INF] Executing OkObjectResult, writing value of type 'Infrastructure.Entities.User.Dto.AuthenticateResponse'.
+2022-05-13 18:45:30.126 +04:00 [INF] Executed action API.Controllers.AuthController.Authenticate (API) in 6823.0944ms
+2022-05-13 18:45:30.130 +04:00 [INF] Executed endpoint 'API.Controllers.AuthController.Authenticate (API)'
+2022-05-13 18:45:30.142 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Auth/Authenticate application/json 50 - 200 - application/json;+charset=utf-8 7806.4632ms
+2022-05-13 18:46:54.925 +04:00 [INF] Request starting HTTP/1.1 POST http://localhost:5208/api/Videogame/AddImagesToGame multipart/form-data;+boundary=----WebKitFormBoundaryXhQ6B9AKx2j0bPLK 2108926
+2022-05-13 18:46:55.158 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 18:46:55.183 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-13 18:46:55.200 +04:00 [INF] Executing endpoint 'API.Controllers.VideogameController.AddImagesToGame (API)'
+2022-05-13 18:46:55.215 +04:00 [INF] Route matched with {action = "AddImagesToGame", controller = "Videogame"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddImagesToGame(Infrastructure.Entities.VideogameImages.Dtos.AddImagesDto) on controller API.Controllers.VideogameController (API).
+2022-05-13 18:46:55.462 +04:00 [INF] Executed DbCommand (36ms) [Parameters=[@__gameId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[DateCreated], [t].[DateUpdated], [t].[Description], [t].[DownloadFileUrl], [t].[OldPrice], [t].[Price], [t].[PublicsherId], [t].[ThumbnailUrl], [t].[VideogameName], [v0].[Id], [v0].[DateCreated], [v0].[DateUpdated], [v0].[ImageUrl], [v0].[VideogameId]
+FROM (
+    SELECT TOP(1) [v].[Id], [v].[DateCreated], [v].[DateUpdated], [v].[Description], [v].[DownloadFileUrl], [v].[OldPrice], [v].[Price], [v].[PublicsherId], [v].[ThumbnailUrl], [v].[VideogameName]
+    FROM [dbo].[Videogame] AS [v]
+    WHERE [v].[Id] = @__gameId_0
+) AS [t]
+LEFT JOIN [dbo].[VideogameImages] AS [v0] ON [t].[Id] = [v0].[VideogameId]
+ORDER BY [t].[Id]
+2022-05-13 18:46:55.714 +04:00 [INF] Executed DbCommand (81ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [dbo].[VideogameImages] ([DateCreated], [DateUpdated], [ImageUrl], [VideogameId])
+VALUES (@p0, @p1, @p2, @p3);
+SELECT [Id]
+FROM [dbo].[VideogameImages]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2022-05-13 18:46:55.733 +04:00 [INF] Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [dbo].[VideogameImages] ([DateCreated], [DateUpdated], [ImageUrl], [VideogameId])
+VALUES (@p0, @p1, @p2, @p3);
+SELECT [Id]
+FROM [dbo].[VideogameImages]
+WHERE @@ROWCOUNT = 1 AND [Id] = scope_identity();
+2022-05-13 18:46:55.746 +04:00 [INF] Executing OkObjectResult, writing value of type 'System.Boolean'.
+2022-05-13 18:46:55.749 +04:00 [INF] Executed action API.Controllers.VideogameController.AddImagesToGame (API) in 526.5026ms
+2022-05-13 18:46:55.751 +04:00 [INF] Executed endpoint 'API.Controllers.VideogameController.AddImagesToGame (API)'
+2022-05-13 18:46:55.766 +04:00 [INF] Request finished HTTP/1.1 POST http://localhost:5208/api/Videogame/AddImagesToGame multipart/form-data;+boundary=----WebKitFormBoundaryXhQ6B9AKx2j0bPLK 2108926 - 200 - application/json;+charset=utf-8 851.4947ms
+2022-05-13 18:47:37.493 +04:00 [INF] Request starting HTTP/1.1 PUT http://localhost:5208/api/Videogame/UpdateGame multipart/form-data;+boundary=----WebKitFormBoundaryazB9i4LWczUuz763 1123887
+2022-05-13 18:47:37.549 +04:00 [INF] Entity Framework Core 6.0.3 initialized 'EntityDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.3' with options: None
+2022-05-13 18:47:37.566 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__userContext_userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Adress], [u].[CityId], [u].[DateCreated], [u].[DateUpdated], [u].[Email], [u].[FirstName], [u].[LastName], [u].[MailSent], [u].[Password], [u].[PaymentInfoId], [u].[Role], [u].[Salt], [u].[TelephoneNumber], [u].[UserName], [u].[VerificationToken], [u].[Verified]
+FROM [dbo].[User] AS [u]
+WHERE [u].[Id] = @__userContext_userId_0
+2022-05-13 18:47:37.595 +04:00 [INF] Executing endpoint 'API.Controllers.VideogameController.UpdateGame (API)'
+2022-05-13 18:47:37.605 +04:00 [INF] Route matched with {action = "UpdateGame", controller = "Videogame"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UpdateGame(Infrastructure.Entities.Videogame.Dtos.UpdateGameDto) on controller API.Controllers.VideogameController (API).
+2022-05-13 18:47:37.692 +04:00 [INF] Executed DbCommand (7ms) [Parameters=[@__name_0='?' (Size = 128)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [v].[Id], [v].[DateCreated], [v].[DateUpdated], [v].[Description], [v].[DownloadFileUrl], [v].[OldPrice], [v].[Price], [v].[PublicsherId], [v].[ThumbnailUrl], [v].[VideogameName]
+FROM [dbo].[Videogame] AS [v]
+WHERE [v].[VideogameName] = @__name_0
+2022-05-13 18:47:37.974 +04:00 [INF] Executed DbCommand (240ms) [Parameters=[@p4='?' (DbType = Int32), @p0='?' (Size = 2000), @p1='?' (DbType = Double), @p2='?' (DbType = Double), @p3='?' (Size = 100)], CommandType='"Text"', CommandTimeout='30']
+SET NOCOUNT ON;
+UPDATE [dbo].[Videogame] SET [Description] = @p0, [OldPrice] = @p1, [Price] = @p2, [ThumbnailUrl] = @p3
+WHERE [Id] = @p4;
+SELECT @@ROWCOUNT;
+2022-05-13 18:47:37.988 +04:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType1`1[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2022-05-13 18:47:37.997 +04:00 [INF] Executed action API.Controllers.VideogameController.UpdateGame (API) in 386.6255ms
+2022-05-13 18:47:38.001 +04:00 [INF] Executed endpoint 'API.Controllers.VideogameController.UpdateGame (API)'
+2022-05-13 18:47:38.005 +04:00 [INF] Request finished HTTP/1.1 PUT http://localhost:5208/api/Videogame/UpdateGame multipart/form-data;+boundary=----WebKitFormBoundaryazB9i4LWczUuz763 1123887 - 200 - application/json;+charset=utf-8 511.8360ms
