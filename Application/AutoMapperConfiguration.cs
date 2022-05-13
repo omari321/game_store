@@ -12,6 +12,8 @@ using Infrastructure.Entities.User.Dto;
 using Infrastructure.Entities.Videogame;
 using Infrastructure.Entities.Videogame.Dtos;
 using Infrastructure.Entities.VideogameCategories;
+using Infrastructure.Entities.VideogameImages;
+using Infrastructure.Entities.VideogameImages.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +40,9 @@ namespace Application
             CreateMap<VideogameEntity,GameNamesDto>();
             CreateMap<CategoryEntity,GetCategoriesDto>();
             CreateMap<UserEntity, UserDto>();
+            CreateMap<VideogameImagesEntity, GetImagesDto>()
+                 .ForMember(x => x.VideogameId,
+                opt => opt.MapFrom(c => c.VideogameId));
         }
             
     }

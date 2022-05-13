@@ -36,7 +36,7 @@ namespace Infrastructure.RepositoryRelated.Repositories
 
         public async Task<IEnumerable<UserEntity>> GetAdminsMagers()
         {
-            return await GetAllQuery().Where(x => x.Role == Roles.Admin && x.Role == Roles.Manager).ToListAsync();   
+            return await GetAllQuery().Where(x => x.Role == Roles.Admin || x.Role == Roles.Manager).ToListAsync();   
         }
 
         public async Task<PageReturnDto<UserDto>> SearchUser(SearchUserDto model)

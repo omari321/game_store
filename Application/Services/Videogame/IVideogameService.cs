@@ -20,9 +20,7 @@ namespace Application.Services.Videogame
         Task<List<GameNamesDto>> GetNames();
         Task<PageReturnDto<GameInformationForAdminDto>> InformationForAdminDto(QueryParams model);
         Task<PageReturnDto<GameInformationForAdminDto>> SearchInformationForAdmin(QueryParams model, string NameSearchTerm);
-        Task GetVideogameImages(int VideogameId); 
         Task<bool> UploadGame(IFormFile File);
         Task<bool> DownloadGame(IFormFile File);
-        Task<bool> AddVideogameImages(int gameId, IEnumerable<IFormFile> files);
     }
 }

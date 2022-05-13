@@ -16,5 +16,6 @@ namespace Infrastructure.RepositoryRelated.IRepositories
         Task<PageReturnDto<GameInformationForAdminDto>> InformationForAdminDto(QueryParams model);
         Task<PageReturnDto<GameInformationForAdminDto>> SearchInformationForAdmin(QueryParams model,string NameSearchTerm);
         Task<LoadGameDto> LoadGame(int id);
+        Task<VideogameEntity> GetEntityByIdForAddingImagesOnly(int gameId);
     }
 }

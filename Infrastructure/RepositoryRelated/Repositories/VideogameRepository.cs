@@ -32,7 +32,12 @@ namespace Infrastructure.RepositoryRelated.Repositories
             var returnChunk= _mapper.Map<List<PagingGameDto>>(chunk);
             return new PageReturnDto<PagingGameDto>(returnChunk, count, model.Page, model.ItemsPerPage);
         }
-        
+
+        public async Task<VideogameEntity> GetEntityByIdForAddingImagesOnly(int gameId)
+        {
+            return await GetAllQuery().Where(x=>x.Id==gameId).Include(x=>x.videogameImagesEntities).FirstOrDefaultAsync();
+        }
+
         public async Task<PageReturnDto<GameInformationForAdminDto>> InformationForAdminDto(QueryParams model)
         {
             var count = await GetAllQuery().CountAsync();
@@ -65,7 +70,9 @@ namespace Infrastructure.RepositoryRelated.Repositories
         public async Task<LoadGameDto> LoadGame(int id)
         {
             var item=await GetAllQuery().Where(x => x.Id == id).Include(x=>x.Publicsher).FirstOrDefaultAsync();
-            return _mapper.Map<LoadGameDto>(item);
+          
+            var returnDto=_mapper.Map<LoadGameDto>(item);
+            return returnDto;
         }
 
         public  async Task<PageReturnDto<GameInformationForAdminDto>> SearchInformationForAdmin(QueryParams model, string NameSearchTerm)

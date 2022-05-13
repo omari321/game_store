@@ -18,9 +18,9 @@ using System.Threading.Tasks;
 namespace Application.Services.Videogame
 {
     public class VideogameService : IVideogameService
-    {
-        private readonly BasePath _basePath;
+    {     
         private readonly IVideogameRepository _videogameRepository;
+        private readonly BasePath _basePath;
         private const string BaseImagePath = @"Images\Games";
         private const string BaseFilePath = @"Files";
         private  readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPEG", ".JPE", ".BMP", ".GIF", ".PNG" };
@@ -84,7 +84,7 @@ namespace Application.Services.Videogame
             {
                 throw new CustomException("Image too big", 400);
             }
-            else if (!ImageExtensions.Contains(Path.GetExtension(model.File.FileName)))
+            else if (!ImageExtensions.Contains(Path.GetExtension(model.File.FileName).ToUpper()))
             {
                 throw new CustomException("unsaported image type", 400);
             }
@@ -162,19 +162,11 @@ namespace Application.Services.Videogame
             return loadedGame;
         }
 
-        public Task GetVideogameImages(int VideogameId)
-        {
-            throw new NotImplementedException();
-        }
 
         public Task<bool> DownloadGame(IFormFile File)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> AddVideogameImages(int gameId, IEnumerable<IFormFile> files)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

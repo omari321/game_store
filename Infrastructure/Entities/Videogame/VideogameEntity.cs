@@ -2,6 +2,7 @@
 using Infrastructure.Entities.Publisher;
 using Infrastructure.Entities.Transactions;
 using Infrastructure.Entities.VideogameCategories;
+using Infrastructure.Entities.VideogameImages;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,8 @@ namespace Infrastructure.Entities.Videogame
         public string? DownloadFileUrl { get; set; }
         public List<VideogameCategoryEntity> videogameCategoryEntities{ get; set; }
         public List<TransactionsEntity> transactionsEntities { get; set; }
-        public List<OwnedGamesEntity> ownedGamesEntities { get; set; }  
+        public List<OwnedGamesEntity> ownedGamesEntities { get; set; }
+        public List<VideogameImagesEntity> videogameImagesEntities { get; set; }
         //public List<CommentsEntity> commentsEntity { get; set; }
         //public List<GameLikesEntity> gameLikesEntity { get; set; }
     }

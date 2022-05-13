@@ -12,7 +12,7 @@ namespace Infrastructure.Entities.Videogame.Dtos
         public double Price { get; set; }
         public double? OldPrice { get; set; }
         public int PublicsherId { get; set; }
-        public int PublisherName { get; set; }
+        public string PublisherName { get; set; }
         public string Description { get; set; }
         public string? ThumbnailUrl { get; set; }
     }

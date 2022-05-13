@@ -29,6 +29,7 @@ namespace Infrastructure.Extensions
             Services.AddScoped<IPaymentCredentialRepository , PaymentCredentialRepository>();
             Services.AddScoped<ITransactionsRepository,TransactionsRepository>();
             Services.AddScoped<IOwnedGamesRepository, OwnedGamesRepository>();
+            Services.AddScoped<IVideogameImagesRepository, VideogameImagesRepository>();
         }
     }
 }
