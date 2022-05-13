@@ -15,7 +15,7 @@
         //add balance to users
         //comments
         //commentlikes
-
+        //add seperate column for mail sending
         //gamecomments
         //gamelikes
     }
