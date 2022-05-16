@@ -100,7 +100,7 @@ namespace Application.Services.UserTransactionsBalance
             var UserBalance = await _userBalanceRepository.FindByConditionAsync(x => x.UserId == userId);
             if (creditentials==null)
             {
-
+                //todo
             }
             var NewTransactionWithPayment = new TransactionsEntity
             {

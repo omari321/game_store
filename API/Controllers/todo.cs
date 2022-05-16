@@ -21,5 +21,10 @@
 
 
         //favorited games if they go on sale send mail
+
+
+        //gavyo updateandaddcreditentials
+        //gavyo tamashis da fulis damatebis transaqcia
+        //bazashi chaamate transaqciis tipi
     }
 }

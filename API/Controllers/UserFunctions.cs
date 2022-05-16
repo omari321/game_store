@@ -73,7 +73,7 @@ namespace API.Controllers
         {
             return Ok(await _userTransactionsBalance.GetUserBalance((int)_userContext.userId));
         }
-        [HttpGet("[action]")]
+        [HttpPost("[action]")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> AddMoneyTransaction(AddMoneyTransactionDto model)
         {

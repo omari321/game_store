@@ -27,7 +27,7 @@ namespace Application.Services.PaymentCreditentials
         {
             return await _paymentCreditentialsRepository.CheckIfAnyByConditionAsync(x => x.UserId == userId);
         }
-
+        //gayavi
         public async Task<PaymentCredentialsInfoDto> UpdateAddPayment(int userId, UpdateAddPaymentDto model)
         {
             var cardInfo = new PaymentCredentialsInfoDto
@@ -54,11 +54,13 @@ namespace Application.Services.PaymentCreditentials
             {
                  OwnerName = model.OwnerName,
                  CardNumber = model.CardNumber,
+                 UserId=userId,
                  CSV = model.CSV,
                  PaymentTypeId = model.PaymentType,
                  ExpireDate = model.ExpireDate,
                  DateCreated = DateTime.Now
             };
+            await _paymentCreditentialsRepository.CreateAsync(paymentEntity);
             await _unitOfWork.CompleteAsync();
             return cardInfo;
         }
