@@ -18,5 +18,8 @@
         //add seperate column for mail sending
         //gamecomments
         //gamelikes
+
+
+        //favorited games if they go on sale send mail
     }
 }

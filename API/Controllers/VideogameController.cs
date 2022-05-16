@@ -1,6 +1,8 @@
 ﻿using API.Attributes;
+using API.Context;
 using API.Middlewares;
 using Application.Services.Category;
+using Application.Services.UserTransactionsBalance;
 using Application.Services.Videogame;
 using Application.Services.VideogameImages;
 using Infrastructure.Entities.UserRepo;
@@ -14,17 +16,25 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles.Admin,Roles.Manager)]
+    [Authorize(Roles.Admin,Roles.Manager,Roles.NormalUser)]
     public class VideogameController: ControllerBase
     {
         private readonly IVideogameService _videogameService;
+        private UserContext _userContext;
         private readonly ICategoryService _categoryService;
         private readonly IVideogameImagesService _videogameImagesService;
-        public VideogameController(IVideogameService videogameService,ICategoryService categoryService,IVideogameImagesService videogameImagesService)
+        private readonly IUserTransactionsAndBalanceService _userTransactionsBalance;
+
+        public VideogameController(IVideogameService videogameService,
+            UserContext userContext, ICategoryService categoryService,
+            IVideogameImagesService videogameImagesService,
+            IUserTransactionsAndBalanceService userTransactionsBalance)
         {
             _videogameService = videogameService;
+            _userContext = userContext;
             _categoryService = categoryService;
             _videogameImagesService = videogameImagesService;
+            _userTransactionsBalance = userTransactionsBalance;
         }
 
         [AllowAnonymous]
@@ -65,8 +75,13 @@ namespace API.Controllers
             await _videogameService.UpdateGame(model);
             return Ok(new { status = "Game updated Succesfully" });
         }
+        [HttpPost("[action]/{gameId}")]
+        public async Task<IActionResult> BuyGame(int gameId)
+        {
+            await _userTransactionsBalance.BuyGame(gameId,(int)_userContext.userId);
+            return Ok(new { status = "Game Bought Succesfully" });
+        }
 
-        
         //NOT WORKING
         [HttpPost("[action]")]
         [DisableRequestSizeLimit,RequestFormLimits(MultipartBodyLengthLimit = int.MaxValue,

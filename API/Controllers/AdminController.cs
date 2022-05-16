@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Services.EnumCollections;
 using Application.Services.User;
 using Application.Services.OwnedGames;
+using Application.Services.UserTransactionsBalance;
 
 namespace API.Controllers
 {
@@ -34,8 +35,15 @@ namespace API.Controllers
         private readonly IEnumCollections _enumCollection;
         private readonly IUserService _userService;
         private readonly IOwnedGamesService _ownedGamesService;
+        private readonly IUserTransactionsAndBalanceService _userTransactionsAndBalance;
 
-        public AdminController(IAdminService adminService, IVideogameService videogameService, ICityCountryService cityCountryService, IEnumCollections enumCollection, IUserService userService,IOwnedGamesService ownedGamesService)
+        public AdminController(IAdminService adminService, 
+            IVideogameService videogameService,
+            ICityCountryService cityCountryService,
+            IEnumCollections enumCollection, 
+            IUserService userService, 
+            IOwnedGamesService ownedGamesService, 
+            IUserTransactionsAndBalanceService userTransactionsAndBalance)
         {
             _AdminService = adminService;
             _videogameService = videogameService;
@@ -43,6 +51,7 @@ namespace API.Controllers
             _enumCollection = enumCollection;
             _userService = userService;
             _ownedGamesService = ownedGamesService;
+            _userTransactionsAndBalance = userTransactionsAndBalance;
         }
 
         [HttpPost("[action]")]
@@ -100,6 +109,16 @@ namespace API.Controllers
         public async Task<IActionResult> SearchUserInfo([FromQuery]SearchUserDto model)
         {
             return Ok(await _userService.SearchUser(model));
+        }
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetUserBalance(int userId)
+        {
+            return Ok(await _userTransactionsAndBalance.GetUserBalance(userId));
+        }
+        [HttpGet("[action]/{userId}")]
+        public async Task<IActionResult> GetUserTransactionsInfo([FromQuery] QueryParams model,int userId)
+        {
+            return Ok(await _userTransactionsAndBalance.GetUserTransactionsInfo(model, userId));
         }
         [HttpPost("[action]")]
         public async Task<IActionResult> AddGameForUser(int userId,int gameId)

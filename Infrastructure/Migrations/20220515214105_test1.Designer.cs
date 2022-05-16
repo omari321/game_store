@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(EntityDbContext))]
-    [Migration("20220512011044_longtimenoSee")]
-    partial class longtimenoSee
+    [Migration("20220515214105_test1")]
+    partial class test1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -81,14 +81,14 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             CountryId = 1,
-                            DateCreated = new DateTime(2022, 5, 12, 5, 10, 43, 607, DateTimeKind.Local).AddTicks(5292),
+                            DateCreated = new DateTime(2022, 5, 16, 1, 41, 5, 694, DateTimeKind.Local).AddTicks(4598),
                             Name = "Seattle"
                         },
                         new
                         {
                             Id = 2,
                             CountryId = 2,
-                            DateCreated = new DateTime(2022, 5, 12, 5, 10, 43, 607, DateTimeKind.Local).AddTicks(5306),
+                            DateCreated = new DateTime(2022, 5, 16, 1, 41, 5, 694, DateTimeKind.Local).AddTicks(4608),
                             Name = "Tokyo"
                         });
                 });
@@ -121,13 +121,13 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 5, 12, 5, 10, 43, 607, DateTimeKind.Local).AddTicks(5513),
+                            DateCreated = new DateTime(2022, 5, 16, 1, 41, 5, 694, DateTimeKind.Local).AddTicks(4787),
                             Name = "USA"
                         },
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2022, 5, 12, 5, 10, 43, 607, DateTimeKind.Local).AddTicks(5514),
+                            DateCreated = new DateTime(2022, 5, 16, 1, 41, 5, 694, DateTimeKind.Local).AddTicks(4788),
                             Name = "Japan(OwO)"
                         });
                 });
@@ -197,63 +197,14 @@ namespace Infrastructure.Migrations
                     b.Property<int>("PaymentTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserEntityId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserEntityId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("PaymentCreditentials", "dbo");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.PaymentInfo.PaymentInfoEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("CSV")
-                        .IsRequired()
-                        .HasMaxLength(16)
-                        .HasColumnType("nvarchar(16)");
-
-                    b.Property<string>("CardNumber")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ExpireDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("OwnerName")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.Property<int>("PaymentTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Salt")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PaymentInfo", "dbo");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.Publisher.PublisherEntity", b =>
@@ -342,13 +293,13 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime?>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("PayedAmount")
+                    b.Property<double>("TransactionAmount")
                         .HasColumnType("float");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("VideogameId")
+                    b.Property<int?>("VideogameId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -399,13 +350,13 @@ namespace Infrastructure.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(128)");
 
+                    b.Property<DateTime?>("MailSent")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
-
-                    b.Property<int?>("PaymentInfoId")
-                        .HasColumnType("int");
 
                     b.Property<int>("Role")
                         .HasColumnType("int");
@@ -436,8 +387,6 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.HasIndex("PaymentInfoId");
-
                     b.ToTable("User", "dbo");
 
                     b.HasData(
@@ -450,12 +399,12 @@ namespace Infrastructure.Migrations
                             Email = "O_pirtskhalaishvili@cu.edu.ge",
                             FirstName = "admin",
                             LastName = "admin",
-                            Password = "SasID+4Izl12BnH710fbEoQ/xJxU45JnMtg+Y9KaPBE=",
+                            Password = "ZOq8IjqEpX5NKEaBqN8dTr/Up8IT9a8kg9Dqjs5VLSk=",
                             Role = 1,
-                            Salt = "LQWDkig25xGtqw2tKj7Cng==",
+                            Salt = "Y+aEHkUVwCN9pO6AoeLk4Q==",
                             TelephoneNumber = "551001100",
                             UserName = "string",
-                            Verified = new DateTime(2022, 5, 12, 5, 10, 43, 622, DateTimeKind.Local).AddTicks(6305)
+                            Verified = new DateTime(2022, 5, 16, 1, 41, 5, 708, DateTimeKind.Local).AddTicks(8762)
                         });
                 });
 
@@ -589,9 +538,13 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Entities.PaymentCreditentials.PaymentCredentialsEntity", b =>
                 {
-                    b.HasOne("Infrastructure.Entities.User.UserEntity", null)
-                        .WithMany("paymentCreditentialsEntities")
-                        .HasForeignKey("UserEntityId");
+                    b.HasOne("Infrastructure.Entities.User.UserEntity", "User")
+                        .WithMany("paymentCreditentials")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.Token.RefreshToken", b =>
@@ -611,9 +564,7 @@ namespace Infrastructure.Migrations
 
                     b.HasOne("Infrastructure.Entities.Videogame.VideogameEntity", "Videogame")
                         .WithMany("transactionsEntities")
-                        .HasForeignKey("VideogameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VideogameId");
 
                     b.Navigation("User");
 
@@ -628,13 +579,7 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Infrastructure.Entities.PaymentInfo.PaymentInfoEntity", "PaymentInfo")
-                        .WithMany("userEntities")
-                        .HasForeignKey("PaymentInfoId");
-
                     b.Navigation("City");
-
-                    b.Navigation("PaymentInfo");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.Videogame.VideogameEntity", b =>
@@ -670,7 +615,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Infrastructure.Entities.VideogameImages.VideogameImagesEntity", b =>
                 {
                     b.HasOne("Infrastructure.Entities.Videogame.VideogameEntity", "Videogame")
-                        .WithMany()
+                        .WithMany("videogameImagesEntities")
                         .HasForeignKey("VideogameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -693,11 +638,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("cityEntity");
                 });
 
-            modelBuilder.Entity("Infrastructure.Entities.PaymentInfo.PaymentInfoEntity", b =>
-                {
-                    b.Navigation("userEntities");
-                });
-
             modelBuilder.Entity("Infrastructure.Entities.Publisher.PublisherEntity", b =>
                 {
                     b.Navigation("videoGameEntities");
@@ -709,7 +649,7 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("ownedGamesEntities");
 
-                    b.Navigation("paymentCreditentialsEntities");
+                    b.Navigation("paymentCreditentials");
 
                     b.Navigation("transactionsEntities");
                 });
@@ -721,6 +661,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("transactionsEntities");
 
                     b.Navigation("videogameCategoryEntities");
+
+                    b.Navigation("videogameImagesEntities");
                 });
 #pragma warning restore 612, 618
         }

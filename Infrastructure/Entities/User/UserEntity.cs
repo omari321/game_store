@@ -1,9 +1,9 @@
 ﻿using Infrastructure.Entities.City;
 using Infrastructure.Entities.OwnedGames;
 using Infrastructure.Entities.PaymentCreditentials;
-using Infrastructure.Entities.PaymentInfo;
 using Infrastructure.Entities.Token;
 using Infrastructure.Entities.Transactions;
+using Infrastructure.Entities.UserBalance;
 using Infrastructure.Entities.UserRepo;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -48,9 +48,7 @@ namespace Infrastructure.Entities.User
         public Roles Role { get; set; }
         public int CityId { get; set; }
         public CityEntity City { get; set; }
-
-        public PaymentInfoEntity? PaymentInfo { get; set; }
-        public List<PaymentCredentialsEntity > paymentCreditentialsEntities { get; set; }
+        public List<PaymentCredentialsEntity> paymentCreditentials { get; set; }
         public List<RefreshToken>? RefreshTokens { get; set; }
         public List<TransactionsEntity> transactionsEntities { get; set; }
         public List<OwnedGamesEntity> ownedGamesEntities { get; set; }

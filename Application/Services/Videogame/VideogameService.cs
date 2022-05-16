@@ -46,6 +46,10 @@ namespace Application.Services.Videogame
         }
         public async Task AddGame(AddGameDto model)
         {
+            if (model.Price<0)
+            {
+                throw new CustomException("Game price must be no less than zero", 400);
+            }
             var exists = await CheckIfExists(model.VideogameName);
             if (exists)
             {
@@ -75,6 +79,10 @@ namespace Application.Services.Videogame
         }
         public async Task UpdateGame(UpdateGameDto model)
         {
+            if (model.Price < 0)
+            {
+                throw new CustomException("New Game price must be no less than zero", 400);
+            }
             var game = await GetGameByName(model.VideoGameName);
             if (game==null)
             {

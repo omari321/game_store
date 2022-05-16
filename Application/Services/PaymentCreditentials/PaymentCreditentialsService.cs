@@ -1,4 +1,7 @@
-﻿using Infrastructure.Entities.PaymentCreditentials.Dtos;
+﻿using Application.Exceptions;
+using Infrastructure.Entities.Enums;
+using Infrastructure.Entities.PaymentCreditentials;
+using Infrastructure.Entities.PaymentCreditentials.Dtos;
 using Infrastructure.Entities.Videogame.Dtos;
 using Infrastructure.RepositoryRelated.IRepositories;
 using Infrastructure.UnitOfWorkRepo;
@@ -20,37 +23,60 @@ namespace Application.Services.PaymentCreditentials
             _unitOfWork = unitOfWork;
         }
 
-        public Task<ICollection<PagingGameDto>> GetBoughtGames(int id)
+        public async Task<bool> CheckIfUserHasPaymentCreditentials(int userId)
         {
-            throw new NotImplementedException();
+            return await _paymentCreditentialsRepository.CheckIfAnyByConditionAsync(x => x.UserId == userId);
         }
 
         public async Task<PaymentCredentialsInfoDto> UpdateAddPayment(int userId, UpdateAddPaymentDto model)
         {
-            var item = await _paymentCreditentialsRepository.FindByConditionAsync(x=>x.UserId==userId);
-            item.OwnerName = model.OwnerName;
-            item.CardNumber = model.CardNumber;
-            item.CSV = model.CSV;
-            item.PaymentTypeId = model.PaymentType;
-            item.ExpireDate = model.ExpireDate;
-
             var cardInfo = new PaymentCredentialsInfoDto
-            {
-                OwnerName = model.OwnerName,
-                PaymentTypes = model.PaymentType,
-                CardNumber = model.CardNumber,
-                ExpireDate = model.ExpireDate,
-            };
+                        {
+                            OwnerName = model.OwnerName,
+                            PaymentTypes = model.PaymentType,
+                            CardNumber = model.CardNumber,
+                            ExpireDate = model.ExpireDate,
+                        };
+            var item = await _paymentCreditentialsRepository.FindByConditionAsync(x=>x.UserId==userId);
 
-            if (item != null)
+            if (item!=null)
             {
+                item.OwnerName = model.OwnerName;
+                item.CardNumber = model.CardNumber;
+                item.CSV = model.CSV;
+                item.PaymentTypeId = model.PaymentType;
+                item.ExpireDate = model.ExpireDate;
                 item.DateUpdated = DateTime.Now;
                 await _unitOfWork.CompleteAsync();
                 return cardInfo;
             }
-            item.DateCreated = DateTime.Now;
+            var paymentEntity = new PaymentCredentialsEntity
+            {
+                 OwnerName = model.OwnerName,
+                 CardNumber = model.CardNumber,
+                 CSV = model.CSV,
+                 PaymentTypeId = model.PaymentType,
+                 ExpireDate = model.ExpireDate,
+                 DateCreated = DateTime.Now
+            };
             await _unitOfWork.CompleteAsync();
             return cardInfo;
+        }
+
+        public async Task<PaymentCredentialsInfoDto> GetUserPaymentCreditentials(int userId)
+        {
+            var info= await _paymentCreditentialsRepository.FindByConditionAsync(x => x.UserId == userId);
+            if (info==null)
+            {
+                throw new CustomException("User does not have payment creditentials filled in ", 404);
+            }
+            return new PaymentCredentialsInfoDto
+            {
+                OwnerName = info.OwnerName,
+                PaymentTypes =info.PaymentTypeId,
+                CardNumber = info.CardNumber,
+                ExpireDate = info.ExpireDate,
+            };
         }
     }
 }

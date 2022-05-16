@@ -1,4 +1,5 @@
-﻿using Infrastructure.Entities.User;
+﻿using Infrastructure.Entities.Enums;
+using Infrastructure.Entities.User;
 using Infrastructure.Entities.Videogame;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,12 @@ namespace Infrastructure.Entities.Transactions
     public class TransactionsEntity:BaseEntity
     {
         public int Id { get; set; }
-        public int VideogameId  { get; set; }
+        public int? VideogameId  { get; set; }
         public VideogameEntity Videogame { get; set; }
         public int UserId { get; set; }
         public UserEntity User { get; set; }
-        public double PayedAmount { get; set; }
+        public double TransactionAmount { get; set; }
+        public PaymentTypes? paymentType { get; set; }
+        public string? CardNumber { get; set; }
     }
 }

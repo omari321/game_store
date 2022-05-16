@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Entities.Enums;
+using Infrastructure.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Infrastructure.Entities.PaymentCreditentials
         [MaxLength(64)]
         public string OwnerName { get; set; }
         public int UserId { get; set; }
+        public UserEntity User { get; set; }
         [MaxLength(32)]
         public string CardNumber { get; set; }
         [MaxLength(16)]

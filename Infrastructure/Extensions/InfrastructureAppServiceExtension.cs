@@ -30,6 +30,8 @@ namespace Infrastructure.Extensions
             Services.AddScoped<ITransactionsRepository,TransactionsRepository>();
             Services.AddScoped<IOwnedGamesRepository, OwnedGamesRepository>();
             Services.AddScoped<IVideogameImagesRepository, VideogameImagesRepository>();
+            Services.AddScoped<IUserBalanceRepository, UserBalanceRepository>();
+            Services.AddScoped<IConfirmationMailToSendRepository, ConfirmationMailToSendRepository>();
         }
     }
 }

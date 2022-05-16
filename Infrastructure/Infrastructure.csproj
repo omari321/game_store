@@ -38,8 +38,6 @@
     <Folder Include="Entities\City\Dto\" />
     <Folder Include="Entities\Country\Dto\" />
     <Folder Include="Entities\OwnedGames\Dtos\" />
-    <Folder Include="Entities\PaymentInfo\Dto\" />
-    <Folder Include="Entities\Transactions\Dtos\" />
   </ItemGroup>
 
 </Project>

@@ -34,6 +34,11 @@ namespace Application.Services.OwnedGames
             {
                 throw new CustomException("game with this id does not exist", 404);
             }
+            var checkIfOwned = await _ownedGamesRepository.FindByConditionAsync(x => x.VideogameId == gameId && x.UserId == userId);
+            if (checkIfOwned is not null)
+            {
+                throw new CustomException("user already owns this game", 400);
+            }
             var ownedGame = new OwnedGamesEntity
             {
                 VideogameId=gameId,
@@ -45,7 +50,7 @@ namespace Application.Services.OwnedGames
             {
                 VideogameId = gameId,
                 UserId = userId,
-                PayedAmount = 0,
+                TransactionAmount = 0,
                 DateCreated = DateTime.Now
             };
             await _transactionsRepository.CreateAsync(transaction);

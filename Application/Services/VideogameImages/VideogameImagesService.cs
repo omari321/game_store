@@ -33,8 +33,8 @@ namespace Application.Services.VideogameImages
 
         public async Task<bool> AddImagesToGame(AddImagesDto model)
         {
-            var game = await _videogameRepository.GetEntityByIdForAddingImagesOnly(model.GameId);
-            if (game is  null)
+            var exists = await _videogameRepository.CheckIfAnyByConditionAsync(x => x.Id == model.GameId);
+            if (exists is  false)
             {
                 throw  new CustomException("this game id does not exist",404);
             }
@@ -61,7 +61,7 @@ namespace Application.Services.VideogameImages
 
                     DateCreated = DateTime.Now,
                 };
-                game.videogameImagesEntities.Add(newImage);
+                await _videogameImagesRepository.CreateAsync(newImage);
             }
             await _unitOfWork.CompleteAsync();       
             return true;

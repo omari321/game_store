@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using Infrastructure.Entities.UserRepo;
 using AutoMapper;
 using Application.Services.Mail;
+using Infrastructure.Entities.UserBalance;
 
 namespace Application.Services.AuthenticationManagment
 {
@@ -21,11 +22,13 @@ namespace Application.Services.AuthenticationManagment
         private readonly IJwtUtilsService _jwtUtils;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMailService _mailService;
+        private readonly IUserBalanceRepository _userBalanceRepository;
         private readonly IMapper _mapper;
         public AuthenticationService(IOptions<JwtSettings> options, IUserRepository userRepository,
             IJwtUtilsService jwtUtils,
             IUnitOfWork unitOfWork,
             IMailService mailService,
+            IUserBalanceRepository userBalanceRepository,
             IMapper mapper)
         {
             _userRepository = userRepository;
@@ -33,6 +36,7 @@ namespace Application.Services.AuthenticationManagment
             _jwtUtils = jwtUtils;
             _unitOfWork = unitOfWork;
             _mapper = mapper;     
+            _userBalanceRepository = userBalanceRepository;
             _mailService = mailService;
          }
         public async Task<AuthenticateResponse> Authenticate(LoginDto model, string ipAddress)
@@ -238,6 +242,15 @@ namespace Application.Services.AuthenticationManagment
                 throw new CustomException("Verification failed", 400);
             account.Verified = DateTime.UtcNow;
             account.VerificationToken = null;
+            
+
+            var userBalance = new UserBalanceEntity
+            {
+                UserId=account.Id,
+                balance=0,
+                DateCreated=DateTime.Now,
+            };
+            await _userBalanceRepository.CreateAsync(userBalance);
             await _unitOfWork.CompleteAsync();
             return true;
         }

@@ -11,7 +11,7 @@ namespace Application.Services.PaymentCreditentials
     public interface IPaymentCreditentialsService
     {
         Task<PaymentCredentialsInfoDto> UpdateAddPayment(int id, UpdateAddPaymentDto model);
-        //Task<AboutMeDto> AboutMeAsync(int id);
-        Task<ICollection<PagingGameDto>> GetBoughtGames(int id);
+        Task<PaymentCredentialsInfoDto> GetUserPaymentCreditentials(int userId);
+        Task<bool> CheckIfUserHasPaymentCreditentials(int userId);
     }
 }
