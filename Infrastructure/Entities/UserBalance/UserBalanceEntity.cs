@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Entities.UserBalance
 {
+    //remove entity before running new migration 
     [Table("UserBalanceEntity", Schema = "dbo")]
     public class UserBalanceEntity: BaseEntity
     {

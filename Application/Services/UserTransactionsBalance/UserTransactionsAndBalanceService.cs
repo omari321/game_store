@@ -115,7 +115,7 @@ namespace Application.Services.UserTransactionsBalance
                 VideogameId = gameId,
                 DateCreated = DateTime.Now,
             };
-            UserBalance.balance += game.Price;
+            UserBalance.balance -= game.Price;
             await _transactionsRepository.CreateAsync(NewTransactionWithPayment);
             await _ownedGamesRepository.CreateAsync(ownedGameWithPayment);
             await _unitOfWork.CompleteAsync();
