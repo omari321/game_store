@@ -4,6 +4,7 @@ using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(EntityDbContext))]
-    partial class EntityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220517234631_test3")]
+    partial class test3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,14 +45,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Category", "dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryName = "moba",
-                            DateCreated = new DateTime(2022, 5, 18, 4, 0, 55, 168, DateTimeKind.Local).AddTicks(3767)
-                        });
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.City.CityEntity", b =>
@@ -87,14 +81,14 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             CountryId = 1,
-                            DateCreated = new DateTime(2022, 5, 18, 4, 0, 55, 152, DateTimeKind.Local).AddTicks(3054),
+                            DateCreated = new DateTime(2022, 5, 18, 3, 46, 30, 850, DateTimeKind.Local).AddTicks(8623),
                             Name = "Seattle"
                         },
                         new
                         {
                             Id = 2,
                             CountryId = 2,
-                            DateCreated = new DateTime(2022, 5, 18, 4, 0, 55, 152, DateTimeKind.Local).AddTicks(3064),
+                            DateCreated = new DateTime(2022, 5, 18, 3, 46, 30, 850, DateTimeKind.Local).AddTicks(8636),
                             Name = "Tokyo"
                         });
                 });
@@ -127,13 +121,13 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 5, 18, 4, 0, 55, 152, DateTimeKind.Local).AddTicks(3302),
+                            DateCreated = new DateTime(2022, 5, 18, 3, 46, 30, 850, DateTimeKind.Local).AddTicks(8834),
                             Name = "USA"
                         },
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2022, 5, 18, 4, 0, 55, 152, DateTimeKind.Local).AddTicks(3304),
+                            DateCreated = new DateTime(2022, 5, 18, 3, 46, 30, 850, DateTimeKind.Local).AddTicks(8835),
                             Name = "Japan(OwO)"
                         });
                 });
@@ -241,7 +235,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 5, 18, 4, 0, 55, 168, DateTimeKind.Local).AddTicks(3595),
+                            DateCreated = new DateTime(2022, 5, 18, 3, 46, 30, 868, DateTimeKind.Local).AddTicks(628),
                             PublisherName = "valve"
                         });
                 });
@@ -323,7 +317,7 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("VideogameEntityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("paymentType")
+                    b.Property<int?>("paymentType")
                         .HasColumnType("int");
 
                     b.Property<int>("transactionType")
@@ -426,12 +420,12 @@ namespace Infrastructure.Migrations
                             Email = "O_pirtskhalaishvili@cu.edu.ge",
                             FirstName = "admin",
                             LastName = "admin",
-                            Password = "ZbrVjd0NWSImapaAq5igKMHK7BsHJqSU2z/TVZJs5RI=",
+                            Password = "zrSB6ON+EWPgi7NQKPwjybvyMKmz6gF/OfnoMxWX+xs=",
                             Role = 1,
-                            Salt = "8EziRLHQek1WJ2tBB1XT1g==",
+                            Salt = "LHCs0g7btpF1VXZJ+HMh9g==",
                             TelephoneNumber = "551001100",
                             UserName = "string",
-                            Verified = new DateTime(2022, 5, 18, 4, 0, 55, 166, DateTimeKind.Local).AddTicks(4711)
+                            Verified = new DateTime(2022, 5, 18, 3, 46, 30, 865, DateTimeKind.Local).AddTicks(8814)
                         });
                 });
 
@@ -465,7 +459,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 5, 18, 4, 0, 55, 168, DateTimeKind.Local).AddTicks(3480),
+                            DateCreated = new DateTime(2022, 5, 18, 3, 46, 30, 868, DateTimeKind.Local).AddTicks(470),
                             UserId = 1,
                             balance = 0.0
                         });
@@ -518,17 +512,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("PublicsherId");
 
                     b.ToTable("Videogame", "dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DateCreated = new DateTime(2022, 5, 18, 4, 0, 55, 168, DateTimeKind.Local).AddTicks(3696),
-                            Description = "Mobile battle arena where 10 players play vs each other in teams of 5",
-                            Price = 0.0,
-                            PublicsherId = 1,
-                            VideogameName = "dota2"
-                        });
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.VideogameCategories.VideogameCategoryEntity", b =>
@@ -550,14 +533,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("VideogameCategory", "dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            VideogameId = 1,
-                            CategoryId = 1,
-                            DateCreated = new DateTime(2022, 5, 18, 4, 0, 55, 168, DateTimeKind.Local).AddTicks(3848)
-                        });
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.VideogameImages.VideogameImagesEntity", b =>

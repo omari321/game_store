@@ -26,11 +26,10 @@ namespace API.Controllers
             return Ok(await _publisherService.GetPublishers());
         }
         [AllowAnonymous]
-        [HttpGet("[action]/{publisherName}")]
-        public async Task<IActionResult> GetGameByPublisher([FromQuery] QueryParams model, string publisherName)
+        [HttpGet("[action]/{publisherId}")]
+        public async Task<IActionResult> GetGameByPublisher([FromQuery] QueryParams model, int publisherId)
         {
-            Response.Headers.Add("Category", JsonConvert.SerializeObject(publisherName));
-            return Ok(await _publisherService.GetGamesByPublisher(model, publisherName));
+            return Ok(await _publisherService.GetGamesByPublisher(model, publisherId));
         }
         [HttpPost("[action]")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]

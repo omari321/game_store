@@ -13,7 +13,7 @@ namespace Application.Services.UserTransactionsBalance
     {
         Task<GetUserBalanceDto> GetUserBalance(int userId);
         Task<PageReturnDto<UserTransactionsInfoDto>> GetUserTransactionsInfo(QueryParams model, int userId);
-        Task<bool> AddMoneyTransaction(AddMoneyTransactionDto model);
+        Task<bool> AddMoneyOnBalance(int userId, AddMoneyTransactionDto model);
         Task<bool> BuyGame(int gameId,int userId);
     }
 }

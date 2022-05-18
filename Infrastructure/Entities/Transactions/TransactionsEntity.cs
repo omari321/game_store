@@ -1,12 +1,8 @@
 ﻿using Infrastructure.Entities.Enums;
 using Infrastructure.Entities.User;
-using Infrastructure.Entities.Videogame;
-using System;
-using System.Collections.Generic;
+using Infrastructure.Entities.VideogameTransaction;
+using Infrastructure.EntityEnums;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Entities.Transactions
 {
@@ -14,12 +10,13 @@ namespace Infrastructure.Entities.Transactions
     public class TransactionsEntity:BaseEntity
     {
         public int Id { get; set; }
-        public int? VideogameId  { get; set; }
-        public VideogameEntity Videogame { get; set; }
+        public TransactionType transactionType { get; set; }
         public int UserId { get; set; }
         public UserEntity User { get; set; }
+        public string TransactionDescription { get; set; }
         public double TransactionAmount { get; set; }
-        public PaymentTypes? paymentType { get; set; }
+        public PaymentTypes paymentType { get; set; }
         public string? CardNumber { get; set; }
+        public List<GameTransactionHistoryEntity> videogameTransactionEntity { get; set; }
     }
 }

@@ -12,6 +12,5 @@ namespace Application.Services.PaymentCreditentials
     {
         Task<PaymentCredentialsInfoDto> UpdateAddPayment(int id, UpdateAddPaymentDto model);
         Task<PaymentCredentialsInfoDto> GetUserPaymentCreditentials(int userId);
-        Task<bool> CheckIfUserHasPaymentCreditentials(int userId);
     }
 }

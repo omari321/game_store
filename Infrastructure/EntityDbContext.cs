@@ -38,9 +38,16 @@ namespace Infrastructure.Entities
         {
             modelBuilder.ApplyConfiguration(new CityEntityConfiguration());
             modelBuilder.ApplyConfiguration(new CountryEntityConfiguration());
+
+
             modelBuilder.ApplyConfiguration(new UserInitialData());
             modelBuilder.ApplyConfiguration(new VideogameCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new UserBalanceInitialData());
+            modelBuilder.ApplyConfiguration(new PublisherInitialData());
+            modelBuilder.ApplyConfiguration(new VideogameInitialData());
+            modelBuilder.ApplyConfiguration(new CategoryInitialData());
+            modelBuilder.ApplyConfiguration(new VideogameCategoryInitialData());
+            
             base.OnModelCreating(modelBuilder);
         }
     }

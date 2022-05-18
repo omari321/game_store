@@ -38,25 +38,15 @@ namespace API.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> CheckIfUserHasPaymentCreditentials()
-        {
-            return Ok(await _paymentCreditentialsService.CheckIfUserHasPaymentCreditentials((int)_userContext.userId));
-        }
-        [HttpGet("[action]")]
         public async Task<IActionResult> GetUserPaymentCreditentials()
         {
             return Ok(await _paymentCreditentialsService.GetUserPaymentCreditentials((int)_userContext.userId));
         }
 
         [HttpGet("[action]/{id}")]
-        public async Task<IActionResult> CheckIfOwnsGame(int id)
+        public async Task<IActionResult> CheckIfOwnsGame(int gameId)
         {
-            return Ok(await _ownedGamesService.CheckIfOwnsGame(id,(int)_userContext.userId));
-        }
-        [HttpGet("[action]/{id}")]
-        public async Task<IActionResult> GetOwnedGames([FromQuery]QueryParams model)
-        {
-            return Ok(await _ownedGamesService.GetUserOwnedGames(model,(int)_userContext.userId));
+            return Ok(await _ownedGamesService.CheckIfOwnsGame(gameId,(int)_userContext.userId));
         }
         [HttpGet("[action]")]
         public async Task<IActionResult> GetUserOwnedGames([FromQuery] QueryParams model)
@@ -75,9 +65,9 @@ namespace API.Controllers
         }
         [HttpPost("[action]")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> AddMoneyTransaction(AddMoneyTransactionDto model)
+        public async Task<IActionResult> AddMoneyOnBalance(AddMoneyTransactionDto model)
         {
-            return Ok(await _userTransactionsBalance.AddMoneyTransaction(model));
+            return Ok(await _userTransactionsBalance.AddMoneyOnBalance((int)_userContext.userId,model));
         }
 
         [HttpPost("[action]")]
@@ -93,8 +83,5 @@ namespace API.Controllers
             var res = await _authenticationService.ChangePassword(model, (int)_userContext.userId);
             return Ok(res);
         }
-        //get my comments
-        //get my favorited games
-        //get my transaction history
     }
 }

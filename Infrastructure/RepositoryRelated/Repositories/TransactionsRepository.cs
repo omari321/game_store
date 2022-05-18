@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Entities;
+using Infrastructure.Entities.Enums;
 using Infrastructure.Entities.Transactions;
 using Infrastructure.Entities.Transactions.Dtos;
 using Infrastructure.Paging;
@@ -29,32 +30,17 @@ namespace Infrastructure.RepositoryRelated.Repositories
                 .Skip((model.Page - 1) * model.ItemsPerPage)
                 .Take(model.ItemsPerPage)
                 .Include(x=>x.User)
-                .Include(x=>x.Videogame)
                 .ToListAsync();
             var returnChunk=chunk.Select(x =>
             {
-                if (x.VideogameId == null)
+                return new UserTransactionsInfoDto
                 {
-                    return new UserTransactionsInfoDto
-                    {
-                        UserName = x.User.UserName,
-                        Action = $"{x.User.UserName} added money ",
-                        TransactionAmount = x.TransactionAmount,
-                        paymentType = (Entities.Enums.PaymentTypes)x.paymentType,
-                        CardNumber = x.CardNumber
-                    };
-                }
-                else
-                {
-
-                    return new UserTransactionsInfoDto
-                    {
-                        UserName = x.User.UserName,
-                        Action = $"{x.User.UserName} bought game named {x.Videogame.VideogameName}",
-                        TransactionAmount = x.TransactionAmount,
-                    };
-                    
-                }
+                     Action =x.TransactionDescription,
+                     TransactionAmount =x.TransactionAmount,
+                     transactionType=x.transactionType,
+                     paymentType= x.paymentType,
+                     CardNumber =x.CardNumber
+                };
             });
             return new PageReturnDto<UserTransactionsInfoDto>(returnChunk, count, model.Page, model.ItemsPerPage);
         }

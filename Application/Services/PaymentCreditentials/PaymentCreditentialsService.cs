@@ -23,10 +23,7 @@ namespace Application.Services.PaymentCreditentials
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> CheckIfUserHasPaymentCreditentials(int userId)
-        {
-            return await _paymentCreditentialsRepository.CheckIfAnyByConditionAsync(x => x.UserId == userId);
-        }
+
         //gayavi
         public async Task<PaymentCredentialsInfoDto> UpdateAddPayment(int userId, UpdateAddPaymentDto model)
         {

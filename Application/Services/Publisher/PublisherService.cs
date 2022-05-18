@@ -42,9 +42,9 @@ namespace Application.Services.Publisher
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<PageReturnDto<PagingGameDto>> GetGamesByPublisher(QueryParams model,string publisherName)
+        public async Task<PageReturnDto<PagingGameDto>> GetGamesByPublisher(QueryParams model,int publisherId)
         {
-            var publisher = await _publisherRepository.FindByConditionAsync(x => x.PublisherName == publisherName);
+            var publisher = await _publisherRepository.FindByConditionAsync(x => x.Id == publisherId);
             if (publisher==null)
             {
                 throw new CustomException("this publiser does not  exist", 400);

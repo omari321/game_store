@@ -108,13 +108,9 @@ namespace Infrastructure.RepositoryRelated.Repositories
         {
             var query = GetAllQuery().Where(x => x.VideogameName.Contains(videoGameParameters.SearchTerm)
                             &&
-                            x.Price > videoGameParameters.MinPrice
+                            x.Price >= videoGameParameters.MinPrice
                             &&
-                            x.Price < videoGameParameters.MaxPrice);
-            //if (videoGameParameters.CategoryId!=null)
-            //{
-            //   // query=query.Include(x => x.videogameCategoryEntities.Where(c => c.CategoryId == videoGameParameters.CategoryId));
-            //}
+                            x.Price <= videoGameParameters.MaxPrice);
             var count=await query.CountAsync();
             var chunk=await query
                 .Skip((videoGameParameters.Page - 1) * videoGameParameters.ItemsPerPage)

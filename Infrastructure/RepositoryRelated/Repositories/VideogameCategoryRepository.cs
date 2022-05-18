@@ -50,9 +50,9 @@ namespace Infrastructure.RepositoryRelated.Repositories
                 .Include(x => x.Videogame)
                 .Where(x => x.Videogame.VideogameName.Contains(model.SearchTerm)
                             &&
-                            x.Videogame.Price > model.MinPrice
+                            x.Videogame.Price >= model.MinPrice
                             &&
-                            x.Videogame.Price < model.MaxPrice)
+                            x.Videogame.Price <= model.MaxPrice)
                 .Skip((model.Page - 1) * model.ItemsPerPage)
                 .Take(model.ItemsPerPage)
                 .ToListAsync();

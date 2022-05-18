@@ -3,6 +3,8 @@ using Infrastructure.Entities.OwnedGames;
 using Infrastructure.Entities.Transactions;
 using Infrastructure.Entities.Transactions.Dtos;
 using Infrastructure.Entities.UserBalance.Dtos;
+using Infrastructure.Entities.VideogameTransaction;
+using Infrastructure.EntityEnums;
 using Infrastructure.Paging;
 using Infrastructure.RepositoryRelated.IRepositories;
 using Infrastructure.UnitOfWorkRepo;
@@ -22,6 +24,7 @@ namespace Application.Services.UserTransactionsBalance
         private readonly IUserBalanceRepository _userBalanceRepository;
         private readonly IPaymentCredentialRepository _paymentCredentialRepository;
         private readonly IOwnedGamesRepository _ownedGamesRepository;
+        private readonly IGameTransactionHistoryRepository  _gameTransactionHistoryRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public UserTransactionsAndBalanceService(ITransactionsRepository transactionsRepository, 
@@ -29,6 +32,7 @@ namespace Application.Services.UserTransactionsBalance
             IUserBalanceRepository userBalanceRepository, 
             IPaymentCredentialRepository paymentCredentialRepository,
             IOwnedGamesRepository ownedGamesRepository,
+            IGameTransactionHistoryRepository gameTransactionHistoryRepository,
             IUnitOfWork unitOfWork)
         {
             _transactionsRepository = transactionsRepository;
@@ -37,26 +41,25 @@ namespace Application.Services.UserTransactionsBalance
             _paymentCredentialRepository = paymentCredentialRepository;
             _unitOfWork = unitOfWork;
             _ownedGamesRepository = ownedGamesRepository;
+            _gameTransactionHistoryRepository = gameTransactionHistoryRepository;
         }
 
-        public async Task<bool> AddMoneyTransaction(AddMoneyTransactionDto model)
+        public async Task<bool> AddMoneyOnBalance(int userId,AddMoneyTransactionDto model)
         {
-            var creditentials = await _paymentCredentialRepository.FindByConditionAsync(x => x.UserId == model.UserId);
-            if (creditentials == null)
-            {
-                throw new CustomException("this user does not have payment creditentials filled in ", 404);
-            }
-            //tu dadasturdeboda teoriulad mashin es iqneboda
+
+            //aq rame procesingi da baratis validurobis shemocmeba iqneboda albat
             var NewTransaction = new TransactionsEntity
             {
-                            UserId=model.UserId,
-                            TransactionAmount=model.TransactionAmount,
-                            paymentType =creditentials.PaymentTypeId,
-                            CardNumber =creditentials.CardNumber,
+                            UserId=userId,
+                            transactionType= TransactionType.AddingMoney,
+                            TransactionDescription=$"user added {model.TransactionAmount} $ amount on account",
+                            TransactionAmount =model.TransactionAmount,
+                            paymentType =model.PaymentType,
+                            CardNumber =model.CardNumber,
                             DateCreated=DateTime.Now,
             };
             await _transactionsRepository.CreateAsync(NewTransaction);
-            var UserBalance = await _userBalanceRepository.FindByConditionAsync(x => x.UserId == model.UserId);
+            var UserBalance = await _userBalanceRepository.FindByConditionAsync(x => x.UserId == userId);
             UserBalance.balance += model.TransactionAmount;
             UserBalance.DateUpdated=DateTime.Now;
             await _unitOfWork.CompleteAsync();
@@ -71,42 +74,18 @@ namespace Application.Services.UserTransactionsBalance
                 throw new CustomException("game with this id does not exist", 404);
             }
             var userBalance = await _userBalanceRepository.FindByConditionAsync(x => x.UserId == userId);
-            if (game.Price==0)
-            {
-                var NewTransaction= new TransactionsEntity
-                {
-                    UserId = userId,
-                    VideogameId=gameId,
-                    TransactionAmount = 0,
-                    DateCreated=DateTime.Now,
-                };
-                var ownedGame = new OwnedGamesEntity
-                {
-                    UserId = userId,
-                    VideogameId = gameId,
-                    DateCreated = DateTime.Now,
-                };
-                await _transactionsRepository.CreateAsync(NewTransaction);
-                await _ownedGamesRepository.CreateAsync(ownedGame);
-                await _unitOfWork.CompleteAsync();
-                return true;
-            }
-
             if (userBalance.balance<game.Price)
             {
                 throw new CustomException("user does not have enough funds", 400);
             }
             var creditentials = await _paymentCredentialRepository.FindByConditionAsync(x => x.UserId == userId);
             var UserBalance = await _userBalanceRepository.FindByConditionAsync(x => x.UserId == userId);
-            if (creditentials==null)
-            {
-                //todo
-            }
-            var NewTransactionWithPayment = new TransactionsEntity
+            var newTransaction = new TransactionsEntity
             {
                 UserId = userId,
-                VideogameId = gameId,
-                TransactionAmount = 0,
+                transactionType = TransactionType.AddingMoney,
+                TransactionDescription = $"user bought {game.VideogameName} for  {game.Price} $ ",
+                TransactionAmount = -1*(game.Price),
                 DateCreated = DateTime.Now,
             };
             var ownedGameWithPayment = new OwnedGamesEntity
@@ -116,8 +95,16 @@ namespace Application.Services.UserTransactionsBalance
                 DateCreated = DateTime.Now,
             };
             UserBalance.balance -= game.Price;
-            await _transactionsRepository.CreateAsync(NewTransactionWithPayment);
+            await _transactionsRepository.CreateAsync(newTransaction);
             await _ownedGamesRepository.CreateAsync(ownedGameWithPayment);
+            await _unitOfWork.CompleteAsync();
+            var newGameTransaction =new GameTransactionHistoryEntity
+             {
+                transactionId=newTransaction.Id,
+                VideogameId=gameId,
+                DateCreated=DateTime.Now,
+            };
+            await _gameTransactionHistoryRepository.CreateAsync(newGameTransaction);
             await _unitOfWork.CompleteAsync();
             return true;
 

@@ -8,11 +8,19 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Entities.Publisher
 {
-    public class PublisherEntityConfiguration:IEntityTypeConfiguration<PublisherEntity>
+    public class PublisherInitialData:IEntityTypeConfiguration<PublisherEntity>
     {
         public void Configure(EntityTypeBuilder<PublisherEntity> builder)
         {
-            //builder.HasData();
+            builder.HasData(
+                
+                new PublisherEntity
+                {
+                    Id = 1,
+                    PublisherName="valve",
+                    DateCreated = DateTime.Now,
+                }
+                );
 
             
         }
