@@ -36,7 +36,6 @@ namespace Infrastructure.Entities.User
         [MaxLength(128)]
         public string LastName { get; set; }
         public string? VerificationToken { get; set; }
-        public DateTime? MailSent { get; set; } 
         public DateTime? Verified { get; set; }
         public bool IsVerified => Verified.HasValue;
         [Unicode(true)]

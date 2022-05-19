@@ -14,7 +14,7 @@ namespace Infrastructure.RepositoryRelated.IRepositories
         Task<bool> CheckTokenForUnique(string token);
         Task<UserEntity?> GetUserAndToken(LoginDto model);
         Task<UserEntity> GetUserByToken(string token);
-        Task<List<UserEntity>> GetMailsForConfirmationAsync();
+        //Task<List<UserEntity>> GetMailsForConfirmationAsync();
         Task<IEnumerable<UserEntity>> GetAdminsMagers();
         Task<PageReturnDto<UserDto>> SearchUser(SearchUserDto model);
     }

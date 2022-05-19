@@ -91,7 +91,7 @@ namespace API.Controllers
             return Ok(user);
         }
         [AllowAnonymous]
-        [HttpGet("verify-email/{token}")]
+        [HttpGet("[action]/{token}")]
         public async Task<IActionResult> VerifyEmail([FromRoute]string token)
         {
             await _authenticationService.VerifyEmail(token);

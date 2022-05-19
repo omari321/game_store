@@ -29,10 +29,10 @@ namespace Infrastructure.RepositoryRelated.Repositories
         {
             return await GetAllQuery().Include(u => u.RefreshTokens).FirstOrDefaultAsync(u => u.RefreshTokens.Any(t => t.Token == token));
         }
-        public async Task<List<UserEntity>> GetMailsForConfirmationAsync()
-        {
-            return await GetAllQuery().Where(x=>x.MailSent==null).ToListAsync();
-        }
+        //public async Task<List<UserEntity>> GetMailsForConfirmationAsync()
+        //{
+        //    return await GetAllQuery().Where(x=>x.MailSent==null).ToListAsync();
+        //}
 
         public async Task<IEnumerable<UserEntity>> GetAdminsMagers()
         {

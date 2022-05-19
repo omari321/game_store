@@ -12,6 +12,7 @@ using Infrastructure.Entities.UserRepo;
 using AutoMapper;
 using Application.Services.Mail;
 using Infrastructure.Entities.UserBalance;
+using Infrastructure.Entities.ConfirmationMailToSend;
 
 namespace Application.Services.AuthenticationManagment
 {
@@ -19,18 +20,24 @@ namespace Application.Services.AuthenticationManagment
     {
         private readonly IUserRepository _userRepository;
         private readonly JwtSettings _jwtSettings;
+        private readonly BaseUrl _baseUrl;
         private readonly IJwtUtilsService _jwtUtils;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMailService _mailService;
         private readonly IUserBalanceRepository _userBalanceRepository;
+        private readonly IConfirmationMailToSendRepository _confirmationMailToSendRepository;
         private readonly IMapper _mapper;
-        public AuthenticationService(IOptions<JwtSettings> options, IUserRepository userRepository,
+        public AuthenticationService(BaseUrl baseUrl,
+            IOptions<JwtSettings> options, 
+            IUserRepository userRepository,
             IJwtUtilsService jwtUtils,
             IUnitOfWork unitOfWork,
             IMailService mailService,
             IUserBalanceRepository userBalanceRepository,
+            IConfirmationMailToSendRepository confirmationMailToSendRepository,
             IMapper mapper)
         {
+            _baseUrl = baseUrl;
             _userRepository = userRepository;
             _jwtSettings = options.Value;
             _jwtUtils = jwtUtils;
@@ -38,6 +45,7 @@ namespace Application.Services.AuthenticationManagment
             _mapper = mapper;     
             _userBalanceRepository = userBalanceRepository;
             _mailService = mailService;
+            _confirmationMailToSendRepository = confirmationMailToSendRepository;
          }
         public async Task<AuthenticateResponse> Authenticate(LoginDto model, string ipAddress)
         {
@@ -84,7 +92,6 @@ namespace Application.Services.AuthenticationManagment
             {
                 // revoke all descendant tokens in case this token has been compromised
                 await RevokeDescendantRefreshTokens(refreshToken, user, ipAddress, $"Attempted reuse of revoked ancestor token: {token}");
-                //await _userRepository.Update(user);
                 await _unitOfWork.CompleteAsync();
             }
 
@@ -99,7 +106,6 @@ namespace Application.Services.AuthenticationManagment
             RemoveOldRefreshTokens(user);
 
             // save changes to db
-            //_userRepository.Update(user);
             await _unitOfWork.CompleteAsync();
 
             // generate new jwt
@@ -121,7 +127,6 @@ namespace Application.Services.AuthenticationManagment
 
             // revoke token and save
             RevokeRefreshToken(refreshToken, ipAddress, "Revoked without replacement");
-            //_userRepository.Update(user);
             await _unitOfWork.CompleteAsync();
             return true;
         }
@@ -208,18 +213,26 @@ namespace Application.Services.AuthenticationManagment
             account.Role = Roles.NormalUser;
             account.DateCreated = DateTime.UtcNow;
             account.VerificationToken = await generateVerificationToken();
-
+  
             // hash password
             byte[] salt = new byte[128 / 8];
             RandomNumberGenerator.Fill(salt);
             account.Password = await PasswordEncryptor.EncryptPassword(model.Password, salt);
             account.Salt = Convert.ToBase64String(salt);
 
-            //await _mailService.SendMailConfirmationCode(account);
 
-
-            // save account
             await _userRepository.CreateAsync(account);
+            await _unitOfWork.CompleteAsync();
+            var ConfirmationLink = _baseUrl.applicationUrl + @"/api/Auth/VerifyEmail/" + account.VerificationToken;
+            var mailToSend = new ConfirmationMailToSendEntity
+            {
+                UserId=account.Id,
+                Email=account.Email,
+                ConfirmationLink=ConfirmationLink,
+                DateCreated=DateTime.Now,
+                UserName=account.UserName,
+            };
+            await _confirmationMailToSendRepository.CreateAsync(mailToSend);
             await _unitOfWork.CompleteAsync();
             return true;
         }

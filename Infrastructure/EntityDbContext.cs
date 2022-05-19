@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Entities.Categories;
 using Infrastructure.Entities.City;
+using Infrastructure.Entities.ConfirmationMailToSend;
 using Infrastructure.Entities.Country;
 using Infrastructure.Entities.OwnedGames;
 using Infrastructure.Entities.PaymentCreditentials;
@@ -34,6 +35,7 @@ namespace Infrastructure.Entities
         public DbSet<CategoryEntity> categoryEntities { get; set; }
         public DbSet<PaymentCredentialsEntity > paymentCreditentialsEntities { get; set; }
         public DbSet<VideogameImagesEntity> videogameImagesEntities { get;set; }
+        public DbSet<ConfirmationMailToSendEntity> confirmationMailToSendEntities { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CityEntityConfiguration());

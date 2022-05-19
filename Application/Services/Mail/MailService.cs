@@ -18,27 +18,29 @@ namespace Application.Services.Mail
     {
         private MailSettings _mailSettings { get; set; }
         private readonly IUserRepository _userRepository;
+        private readonly IConfirmationMailToSendRepository _confirmationMailToSendRepository;
         private readonly IUnitOfWork _unitOfWork;
         public MailService(IOptions<MailSettings> appSettings,
             IUserRepository userRepository,
+            IConfirmationMailToSendRepository confirmationMailToSendRepository,
              IUnitOfWork unitOfWork)
         {
             _mailSettings = appSettings.Value;
             _userRepository=userRepository;
-            _unitOfWork=unitOfWork;
+            _confirmationMailToSendRepository = confirmationMailToSendRepository;
+            _unitOfWork =unitOfWork;
         }
         public async Task SendMailConfirmationCodes()
         {
-           var people=await _userRepository.GetMailsForConfirmationAsync();
+           var people=await _confirmationMailToSendRepository.GetAllAsync();
 
             if (people.Any())
             {
 
-                foreach (var x in people)
+                foreach (var x in people.ToList())
                 {
                     string subject = $"veryfying your email address";
-                    //archans magram lurjad entity aris gamoyenebuli 
-                    string message = $"hello {x.FirstName} please click <a href=\"http://localhost:5208/api/Auth/verify-email/{x.VerificationToken}\">Visit W3Schools.com!</a> ";
+                    string message = $"hello {x.UserName} please click <a href={x.ConfirmationLink}>Here</a> to verify your mail ";
 
                     try
                     {
@@ -48,7 +50,10 @@ namespace Application.Services.Mail
                     {
 
                     }
-                    x.MailSent = DateTime.Now;
+                    finally
+                    {
+                        _confirmationMailToSendRepository.Delete(x);
+                    }
                 }
             }
             await _unitOfWork.CompleteAsync();
@@ -58,7 +63,6 @@ namespace Application.Services.Mail
         public Task<bool> SendNewPassword(UserEntity entity)
         {
             string subject = $"new password which you can use to reset";
-            //archans magram lurjad entity aris gamoyenebuli 
             string message = $"hello {entity.FirstName}  , your new password is : {entity.Password}";
             SendAsync(entity.Email, subject, message);
             return Task.FromResult(true);
@@ -79,7 +83,8 @@ namespace Application.Services.Mail
             using (var message = new MailMessage(fromAddress, toAddress)
             {
                 Subject = subject,
-                Body = body
+                Body = body,
+                IsBodyHtml = true
             })
             {
                  await smtp.SendMailAsync(message);
