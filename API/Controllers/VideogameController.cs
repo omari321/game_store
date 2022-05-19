@@ -10,6 +10,7 @@ using Infrastructure.Entities.Videogame.Dtos;
 using Infrastructure.Entities.VideogameImages.Dtos;
 using Infrastructure.Paging;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -24,11 +25,11 @@ namespace API.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IVideogameImagesService _videogameImagesService;
         private readonly IUserTransactionsAndBalanceService _userTransactionsBalance;
-
         public VideogameController(IVideogameService videogameService,
             UserContext userContext, ICategoryService categoryService,
             IVideogameImagesService videogameImagesService,
-            IUserTransactionsAndBalanceService userTransactionsBalance)
+            IUserTransactionsAndBalanceService userTransactionsBalance,
+            IConfiguration configuration)
         {
             _videogameService = videogameService;
             _userContext = userContext;
@@ -53,6 +54,7 @@ namespace API.Controllers
         [HttpGet("[action]/{categoryId}")]
         public async Task<IActionResult> GetGamesByCategory([FromQuery] QueryParams model, int categoryId)
         {
+            //HttpContext.Request.GetEncodedUrl().ToString().Substring(0, HttpContext.Request.GetEncodedUrl().ToString().LastIndexOf("/"));
             return Ok(await _categoryService.GetGamesByCategory(model, categoryId));
         }
         [AllowAnonymous]
@@ -65,15 +67,13 @@ namespace API.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> AddGame([FromForm]AddGameDto model)
         {
-            await _videogameService.AddGame(model);
-            return Ok(new { status = "Game Added Succesfully" });
+            return Ok( await _videogameService.AddGame(model));
         }
         [HttpPut("[action]")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateGame([FromForm]UpdateGameDto model)
         {
-            await _videogameService.UpdateGame(model);
-            return Ok(new { status = "Game updated Succesfully" });
+            return Ok(await _videogameService.UpdateGame(model));
         }
         [HttpPost("[action]/{gameId}")]
         public async Task<IActionResult> BuyGame(int gameId)
@@ -88,8 +88,7 @@ namespace API.Controllers
         ValueLengthLimit = int.MaxValue)]
         public async Task<IActionResult> UploadGame(IFormFile file)
         {
-            await  _videogameService.UploadGame(file);
-            return Ok(new {status="file uploaded successfully"});
+            return Ok(await  _videogameService.UploadGame(file));
         }
         [HttpPost("[action]")]
         public async Task<IActionResult> AddImagesToGame([FromForm]AddImagesDto model)
@@ -101,10 +100,10 @@ namespace API.Controllers
         {
             return Ok(await _videogameImagesService.RemoveImage(model));
         }
-        [HttpGet("[action]/{id}")]
-        public async Task<IActionResult> LoadGame([FromRoute] int id)
+        [HttpGet("[action]/{gameId}")]
+        public async Task<IActionResult> LoadGame([FromRoute] int gameId)
         {
-            return Ok(await _videogameService.LoadGame(id));
+            return Ok(await _videogameService.LoadGame(gameId));
         }
         [HttpGet("[action]/{gameId}")]
         public async Task<IActionResult> LoadImages([FromRoute] int gameId)

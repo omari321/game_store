@@ -25,7 +25,7 @@ namespace Application.Services.PaymentCreditentials
 
 
         //gayavi
-        public async Task<PaymentCredentialsInfoDto> UpdateAddPayment(int userId, UpdateAddPaymentDto model)
+        public async Task<PaymentCredentialsInfoDto> AddPaymentCreditentials(int userId, AddPaymentDto model)
         {
             var cardInfo = new PaymentCredentialsInfoDto
                         {
@@ -34,19 +34,6 @@ namespace Application.Services.PaymentCreditentials
                             CardNumber = model.CardNumber,
                             ExpireDate = model.ExpireDate,
                         };
-            var item = await _paymentCreditentialsRepository.FindByConditionAsync(x=>x.UserId==userId);
-
-            if (item!=null)
-            {
-                item.OwnerName = model.OwnerName;
-                item.CardNumber = model.CardNumber;
-                item.CSV = model.CSV;
-                item.PaymentTypeId = model.PaymentType;
-                item.ExpireDate = model.ExpireDate;
-                item.DateUpdated = DateTime.Now;
-                await _unitOfWork.CompleteAsync();
-                return cardInfo;
-            }
             var paymentEntity = new PaymentCredentialsEntity
             {
                  OwnerName = model.OwnerName,
@@ -57,25 +44,29 @@ namespace Application.Services.PaymentCreditentials
                  ExpireDate = model.ExpireDate,
                  DateCreated = DateTime.Now
             };
+            var condition = await _paymentCreditentialsRepository.CheckIfAnyByConditionAsync(x => x.UserId == userId && x.CardNumber == model.CardNumber);
+            if(condition)
+            {
+                return cardInfo;
+            }
             await _paymentCreditentialsRepository.CreateAsync(paymentEntity);
             await _unitOfWork.CompleteAsync();
             return cardInfo;
         }
 
-        public async Task<PaymentCredentialsInfoDto> GetUserPaymentCreditentials(int userId)
+        public async Task<IEnumerable<PaymentCredentialsInfoDto>> GetUserPaymentCreditentials(int userId)
         {
-            var info= await _paymentCreditentialsRepository.FindByConditionAsync(x => x.UserId == userId);
-            if (info==null)
+            var Creditentials= await _paymentCreditentialsRepository.GetUserPaymentCreditentials(userId);
+            return Creditentials.Select(x =>
             {
-                throw new CustomException("User does not have payment creditentials filled in ", 404);
-            }
             return new PaymentCredentialsInfoDto
             {
-                OwnerName = info.OwnerName,
-                PaymentTypes =info.PaymentTypeId,
-                CardNumber = info.CardNumber,
-                ExpireDate = info.ExpireDate,
+                OwnerName = x.OwnerName,
+                PaymentTypes =x.PaymentTypeId,
+                CardNumber = x.CardNumber,
+                ExpireDate = x.ExpireDate,
             };
+            });
         }
     }
 }

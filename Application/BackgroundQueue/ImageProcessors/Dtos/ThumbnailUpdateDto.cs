@@ -9,6 +9,7 @@ namespace Application.BackgroundQueue.ImageProcessors.Dtos
     public class ThumbnailUpdateDto
     {
         public string ThumbnailFilePath { get; set; }
+        public string NewThumbnailUrl { get; set; }
         public int VideogameId { get; set;}
         public string NewPath { get; set; }
     }

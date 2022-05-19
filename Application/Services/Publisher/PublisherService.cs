@@ -26,7 +26,7 @@ namespace Application.Services.Publisher
             _mapper = mapper;
         }
 
-        public async Task AddPublisher(AddPublisherDto model)
+        public async Task<GetPublisherDto> AddPublisher(AddPublisherDto model)
         {
             var exists = await _publisherRepository.CheckIfAnyByConditionAsync(x => x.PublisherName == model.PublisherName);
             if (exists)
@@ -40,6 +40,11 @@ namespace Application.Services.Publisher
             };
             await _publisherRepository.CreateAsync(newPublisher);
             await _unitOfWork.CompleteAsync();
+            return new GetPublisherDto
+            {
+                PublisherId=newPublisher.Id,
+                PublisherName=newPublisher.PublisherName
+            };
         }
 
         public async Task<PageReturnDto<PagingGameDto>> GetGamesByPublisher(QueryParams model,int publisherId)
@@ -50,12 +55,6 @@ namespace Application.Services.Publisher
                 throw new CustomException("this publiser does not  exist", 400);
             }
             var item = await _publisherRepository.GetGamesByPublisherAsync(model,x => x.Id== publisher.Id);
-            //var Dto = new GetGamesByPublisherDto
-            //{
-            //    PublisherName = publisherName,
-            //    GameList = _mapper.Map<List<ReturnGameDto>>(item.videoGameEntities),
-            //};
-            //return Dto;
             return item;
         }
 

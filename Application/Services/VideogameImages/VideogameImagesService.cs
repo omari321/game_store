@@ -19,37 +19,44 @@ namespace Application.Services.VideogameImages
         private readonly IVideogameRepository _videogameRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly BasePath _basePath;
-        private const string BaseImagePath = @"Images\Games";
+        private readonly BaseUrl _baseUrl;
+        private const string BaseImagePath = @"wwwroot/Images/Games";
+        private const string BaseImageUrl = @"/Images/Games/";
         private readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPEG", ".JPE", ".BMP", ".GIF", ".PNG" };
         private readonly IMapper _mapper;
-        public VideogameImagesService(BasePath basePath,IVideogameImagesRepository videogameImagesRepository, IVideogameRepository videogameRepository, IUnitOfWork unitOfWork,IMapper mapper)
+        public VideogameImagesService(BasePath basePath,BaseUrl baseUrl,IVideogameImagesRepository videogameImagesRepository, IVideogameRepository videogameRepository, IUnitOfWork unitOfWork,IMapper mapper)
         {
             _videogameImagesRepository = videogameImagesRepository;
             _videogameRepository = videogameRepository;
             _unitOfWork = unitOfWork;
             _basePath = basePath;
+            _baseUrl = baseUrl;
             _mapper = mapper;
         }
 
-        public async Task<bool> AddImagesToGame(AddImagesDto model)
+        public async Task<List<GetImagesDto>> AddImagesToGame(AddImagesDto model)
         {
             var exists = await _videogameRepository.CheckIfAnyByConditionAsync(x => x.Id == model.GameId);
             if (exists is  false)
             {
                 throw  new CustomException("this game id does not exist",404);
             }
-            foreach(var item in model.FormFiles)
+            var ReturnDto = new List<GetImagesDto>();
+            var index = 0;
+            foreach (var item in model.FormFiles)
             {
+                index += 1;
                 if (!ImageExtensions.Contains(Path.GetExtension(item.FileName).ToUpper()))
                 {
-                    throw new CustomException("unsaported image type", 400);
+                    throw new CustomException($"unsaported image type for image number {index} with name {item.FileName} quitting upload", 400);
                 }
                 if (item.Length> 8_200_000)
                 {
-                    throw new CustomException("One of the images size is too big(larger than 8 mb)", 400);
+                    throw new CustomException($"Images with index {index} ,name {item.FileName}, size is too big(larger than 8 mb) quitting upload", 400);
                 }
                 var FileName = Path.GetRandomFileName().Split(".").ToArray()[0];
                 var FullPath = Path.Combine(_basePath.ContentRootPath, BaseImagePath, FileName + Path.GetExtension(item.FileName));
+                var ImageUrl= _baseUrl.applicationUrl + BaseImageUrl + FileName + Path.GetExtension(item.FileName);
                 await using (var fileStreams = new FileStream(FullPath, FileMode.Create))
                 {
                     await item.CopyToAsync(fileStreams);
@@ -57,14 +64,23 @@ namespace Application.Services.VideogameImages
                 var newImage = new VideogameImagesEntity
                 {
                     VideogameId = model.GameId,
-                    ImageUrl = FullPath,
-
+                    ImagePath = FullPath,
+                    ImageUrl = ImageUrl,
                     DateCreated = DateTime.Now,
                 };
+                
                 await _videogameImagesRepository.CreateAsync(newImage);
+                var imageDto = new GetImagesDto
+                {
+                    Id=newImage.Id,
+                    VideogameId=newImage.VideogameId,
+                    ImageUrl=newImage.ImageUrl,
+                };
+                await _unitOfWork.CompleteAsync();  
+                ReturnDto.Add(imageDto);
             }
-            await _unitOfWork.CompleteAsync();       
-            return true;
+                 
+            return ReturnDto;
         }
 
         public async Task<bool> RemoveImage(RemoveImageDto model)
@@ -75,7 +91,7 @@ namespace Application.Services.VideogameImages
                 throw new CustomException("image with this id does not exist ", 400);
             }
             await _videogameImagesRepository.Delete(image);
-            File.Delete(image.ImageUrl);
+            File.Delete(image.ImagePath);
             return true;
         }
 

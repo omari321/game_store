@@ -67,9 +67,8 @@ namespace API.Controllers
         [HttpPost("[action]")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> AddCategory(CreateCategoryDto model)
-        {
-            await _categoryService.AddCategory(model);
-            return Ok(new { status = "Category succesfully created" });
+        {    
+            return Ok(await _categoryService.AddCategory(model));
         }
     }
 }

@@ -35,8 +35,7 @@ namespace API.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> AddPublisher(AddPublisherDto model)
         {
-            await _publisherService.AddPublisher(model);
-            return Ok(new { status = "Publisher Added Succesfully" });
+            return Ok(await _publisherService.AddPublisher(model));
         }
     }
 }

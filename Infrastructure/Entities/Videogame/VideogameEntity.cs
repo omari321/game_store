@@ -29,7 +29,8 @@ namespace Infrastructure.Entities.Videogame
         [MaxLength(2000)]
         public string Description { get; set; }
         [MaxLength(100)]
-        public string? ThumbnailUrl { get; set; }
+        public string? ThumbnailPath { get; set; }
+        public string? ThumbnailUrl { get; set;}
         public string? DownloadFileUrl { get; set; }
         public List<VideogameCategoryEntity> videogameCategoryEntities{ get; set; }
         public List<TransactionsEntity> transactionsEntities { get; set; }

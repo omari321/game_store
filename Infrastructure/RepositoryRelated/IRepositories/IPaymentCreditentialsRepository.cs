@@ -9,6 +9,6 @@ namespace Infrastructure.RepositoryRelated.IRepositories
 {
     public interface IPaymentCredentialRepository :IRepositoryBase<PaymentCredentialsEntity >
     {
-
+        Task<List<PaymentCredentialsEntity>> GetUserPaymentCreditentials(int userId);
     }
 }

@@ -64,15 +64,13 @@ namespace API.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> AddCountry(AddCountryDto model)
         {
-            await _cityCountryService.AddCountry(model);
-            return Ok(new {status="Country Added Succesfully"});
+            return Ok( await _cityCountryService.AddCountry(model));
         }
         [HttpPost("[action]")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> AddCity(AddCityDto model)
         {
-            await _cityCountryService.AddCity(model);
-            return Ok(new { status = "City Added Succesfully" });
+            return Ok( await _cityCountryService.AddCity(model));
         }
 
         [HttpGet("[action]")]

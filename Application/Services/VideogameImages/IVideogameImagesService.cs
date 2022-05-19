@@ -9,7 +9,7 @@ namespace Application.Services.VideogameImages
 {
     public interface IVideogameImagesService
     {
-        Task<bool> AddImagesToGame(AddImagesDto model);
+        Task<List<GetImagesDto>> AddImagesToGame(AddImagesDto model);
         Task<bool> RemoveImage(RemoveImageDto model);
         Task<IEnumerable<GetImagesDto>> GetVideogameImages(int VideogameId);
     }

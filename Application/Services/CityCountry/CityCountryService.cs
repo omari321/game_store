@@ -30,7 +30,7 @@ namespace Application.Services.CityCountry
             _countryRepository = countryRepository;
             _mapper = mapper;
         }
-        public async Task AddCountry(AddCountryDto model)
+        public async Task<GetCountryDto> AddCountry(AddCountryDto model)
         {
             var exists = await _countryRepository.CheckIfAnyByConditionAsync(x => x.Name == model.CountryName);
             if (exists)
@@ -44,8 +44,13 @@ namespace Application.Services.CityCountry
             };
             await _countryRepository.CreateAsync(newCountry);
             await _unitOfWork.CompleteAsync();
+            return new GetCountryDto
+            {
+                Id=newCountry.Id,
+                CountryName = newCountry.Name
+            };
         }
-        public async Task AddCity(AddCityDto model)
+        public async Task<GetCityDto> AddCity(AddCityDto model)
         {
             var exists = await _cityRepository.CheckIfAnyByConditionAsync(x => x.Name == model.CityName);
             if (exists)
@@ -65,6 +70,12 @@ namespace Application.Services.CityCountry
             };
             await _cityRepository.CreateAsync(newCity);
             await _unitOfWork.CompleteAsync();
+            return new GetCityDto
+            {
+                Id=newCity.Id,
+                Name = newCity.Name,
+                CountryId=newCity.CountryId
+            };
         }
 
         public async Task<IEnumerable<GetCityDto>> GetAllCities()

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Entities.PaymentCreditentials.Dtos
 {
-    public class UpdateAddPaymentDto
+    public class AddPaymentDto
     {
         [Required]
         public string OwnerName { get; set; }

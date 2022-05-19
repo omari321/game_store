@@ -10,7 +10,7 @@ namespace Application.Services.PaymentCreditentials
 {
     public interface IPaymentCreditentialsService
     {
-        Task<PaymentCredentialsInfoDto> UpdateAddPayment(int id, UpdateAddPaymentDto model);
-        Task<PaymentCredentialsInfoDto> GetUserPaymentCreditentials(int userId);
+        Task<PaymentCredentialsInfoDto> AddPaymentCreditentials(int id, AddPaymentDto model);
+        Task<IEnumerable<PaymentCredentialsInfoDto>> GetUserPaymentCreditentials(int userId);
     }
 }

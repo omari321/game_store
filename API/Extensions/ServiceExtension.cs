@@ -75,6 +75,12 @@ namespace API
                 var webHostEnvironment= sp.CreateScope().ServiceProvider.GetService<IWebHostEnvironment>();
                 return new BasePath(webHostEnvironment.ContentRootPath);
             });
+            Services.AddSingleton(sp =>
+            {
+                var configuration=sp.CreateScope().ServiceProvider.GetService<IConfiguration>();
+                var url=configuration.GetValue<string>("ASPNETCORE_URLS");
+                return new BaseUrl { applicationUrl = url };
+            });
         }
         public static void AddOptionsForObjects(this IServiceCollection Services, IConfiguration conf)
         {

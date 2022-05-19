@@ -11,7 +11,7 @@ namespace Application.Services.Category
 {
     public interface ICategoryService
     {
-        Task AddCategory(CreateCategoryDto model);
+        Task<GetCategoriesDto> AddCategory(CreateCategoryDto model);
         Task<List<GetCategoriesDto>> GetCategories();
         Task<PageReturnDto<PagingGameDto>> GetGamesByCategory(QueryParams model, int categoryId);
         Task<PageReturnDto<PagingGameDto>> SearchGamesByCategory(VideoGameParameters model, int categoryId);

@@ -32,6 +32,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseMiddleware<ExceptionMiddleWare>();
 app.UseMiddleware<JwtMiddleware>();
+app.UseStaticFiles();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

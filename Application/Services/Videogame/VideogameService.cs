@@ -21,16 +21,19 @@ namespace Application.Services.Videogame
     {     
         private readonly IVideogameRepository _videogameRepository;
         private readonly BasePath _basePath;
-        private const string BaseImagePath = @"Images\Games";
+        private readonly BaseUrl _baseUrl;
+        private const string BaseImagePath = @"wwwroot/Images/Games";
+        private const string BaseImageUrl = @"/Images/Games/";
         private const string BaseFilePath = @"Files";
         private  readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPEG", ".JPE", ".BMP", ".GIF", ".PNG" };
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBackgroundQueue<ThumbnailUpdateDto> _queue;
         private readonly IMapper _mapper;
-        public VideogameService(BasePath basePath, IUnitOfWork unitOfWork,IVideogameRepository videogameRepository,IMapper mapper
+        public VideogameService(BasePath basePath,BaseUrl baseUrl, IUnitOfWork unitOfWork,IVideogameRepository videogameRepository,IMapper mapper
             ,IBackgroundQueue<ThumbnailUpdateDto> queue)
         {
                 _basePath= basePath;
+                _baseUrl= baseUrl;
                 _unitOfWork=unitOfWork;
                 _videogameRepository=videogameRepository;
                 _mapper=mapper;
@@ -44,7 +47,7 @@ namespace Application.Services.Videogame
         {
             return await _videogameRepository.CheckIfAnyByConditionAsync(x => x.VideogameName == name); 
         }
-        public async Task AddGame(AddGameDto model)
+        public async Task<PagingGameDto> AddGame(AddGameDto model)
         {
             if (model.Price<0)
             {
@@ -65,19 +68,43 @@ namespace Application.Services.Videogame
             }
             var temporaryFileName= Path.GetRandomFileName().Split(".").ToArray()[0];
             var temporaryFullPath = Path.Combine(_basePath.ContentRootPath, BaseImagePath, temporaryFileName+Path.GetExtension(model.File.FileName));
+            var temporaryFileUrl= _baseUrl.applicationUrl+ BaseImageUrl + temporaryFileName+Path.GetExtension(model.File.FileName);
             await using (var fileStreams = new FileStream(temporaryFullPath,FileMode.Create))
             {
                 await model.File.CopyToAsync(fileStreams);
             }
+
+
             var newGame = _mapper.Map<VideogameEntity>(model);
-            newGame.ThumbnailUrl = temporaryFullPath;
+
+
+            newGame.ThumbnailPath = temporaryFullPath;
+            newGame.ThumbnailUrl = temporaryFileUrl;
+
+
             await _videogameRepository.CreateAsync(newGame);
             await _unitOfWork.CompleteAsync();
+
+
             var newFilename= Path.GetRandomFileName().Split(".").ToArray()[0];
             var newFullPath = Path.Combine(_basePath.ContentRootPath, BaseImagePath, newFilename + Path.GetExtension(model.File.FileName));
-            _queue.Enqueue(new ThumbnailUpdateDto {VideogameId=newGame.Id,ThumbnailFilePath=temporaryFullPath,NewPath= newFullPath });
+            var newFileUrl = _baseUrl.applicationUrl + BaseImageUrl + newFilename + Path.GetExtension(model.File.FileName);
+
+
+            _queue.Enqueue(new ThumbnailUpdateDto {VideogameId=newGame.Id,ThumbnailFilePath=temporaryFullPath,NewThumbnailUrl=newFileUrl,NewPath= newFullPath });
+            return new PagingGameDto
+            {
+                Id=newGame.Id,
+                VideogameName=newGame.VideogameName,
+                Price=newGame.Price,
+                OldPrice=newGame.OldPrice,
+                PublicsherId=newGame.PublicsherId,
+                Description =newGame.Description,
+                ThumbnailUrl =newGame.ThumbnailUrl
+            };
+
         }
-        public async Task UpdateGame(UpdateGameDto model)
+        public async Task<PagingGameDto> UpdateGame(UpdateGameDto model)
         {
             if (model.Price < 0)
             {
@@ -101,15 +128,17 @@ namespace Application.Services.Videogame
             {
                 var FileName = Path.GetRandomFileName().Split(".").ToArray()[0];
                 var fullPath = Path.Combine(_basePath.ContentRootPath, BaseImagePath, FileName + Path.GetExtension(model.File.FileName));
+                var newFileUrl = _baseUrl.applicationUrl + BaseImageUrl + FileName + Path.GetExtension(model.File.FileName);
                 await using (var fileStreams = new FileStream(fullPath, FileMode.Create))
                 {
                     await model.File.CopyToAsync(fileStreams);
                 }
-                if (game.ThumbnailUrl!=null)
+                if (game.ThumbnailPath!=null)
                 {
-                    File.Delete(game.ThumbnailUrl);
+                    File.Delete(game.ThumbnailPath);
                 } 
-                game.ThumbnailUrl = fullPath;
+                game.ThumbnailPath = fullPath;
+                game.ThumbnailUrl= newFileUrl;
             }
           
             
@@ -120,6 +149,15 @@ namespace Application.Services.Videogame
             game.VideogameName = model.VideoGameName ?? game.VideogameName;
            
             await _unitOfWork.CompleteAsync();
+            return   new PagingGameDto
+            {
+                Id = game.Id,
+                VideogameName = game.VideogameName,
+                Price = game.Price,
+                OldPrice = game.OldPrice,
+                PublicsherId = game.PublicsherId,
+                Description = game.Description,
+            };
         } 
         public async Task<List<GameNamesDto>> GetNames()
         {

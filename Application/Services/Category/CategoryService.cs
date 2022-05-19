@@ -33,7 +33,7 @@ namespace Application.Services.Category
         {
             return await _categoryRepository.CheckIfAnyByConditionAsync(x => x.CategoryName == name);
         }
-        public async Task AddCategory(CreateCategoryDto model)
+        public async Task<GetCategoriesDto> AddCategory(CreateCategoryDto model)
         {
             var exists=await CheckIfExists(model.CategoryName);
             if (exists)
@@ -47,6 +47,10 @@ namespace Application.Services.Category
             };
             await _categoryRepository.CreateAsync(Category);
             await _unitOfWork.CompleteAsync();
+            return  new GetCategoriesDto{ 
+                    Id=Category.Id,
+                    CategoryName=model.CategoryName,
+                     };
         }
 
         public async Task<List<GetCategoriesDto>> GetCategories()
@@ -64,16 +68,7 @@ namespace Application.Services.Category
             }
             var CategoryGames = await _videogameCategoryRepository.GetGamesByCategory(model,x => x.CategoryId == categoryId);
            
-            //var ReturnData = new GamesByCategoryDto
-            //{
-            //    CategoryId = categoryId,
-            //    Games = CategoryGames.Select(x =>
-            //    {
-            //        return _mapper.Map<ReturnGameDto>(x.Videogame);
-            //    }),
 
-            //};
-            //return ReturnData;
             return CategoryGames;
         }
 

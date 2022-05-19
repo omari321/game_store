@@ -35,8 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\City\Dto\" />
-    <Folder Include="Entities\Country\Dto\" />
     <Folder Include="Entities\OwnedGames\Dtos\" />
   </ItemGroup>
 

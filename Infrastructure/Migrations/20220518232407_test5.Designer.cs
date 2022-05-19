@@ -4,6 +4,7 @@ using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(EntityDbContext))]
-    partial class EntityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220518232407_test5")]
+    partial class test5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             CategoryName = "moba",
-                            DateCreated = new DateTime(2022, 5, 19, 3, 52, 33, 969, DateTimeKind.Local).AddTicks(1358)
+                            DateCreated = new DateTime(2022, 5, 19, 3, 24, 6, 766, DateTimeKind.Local).AddTicks(6416)
                         });
                 });
 
@@ -87,14 +89,14 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             CountryId = 1,
-                            DateCreated = new DateTime(2022, 5, 19, 3, 52, 33, 953, DateTimeKind.Local).AddTicks(2799),
+                            DateCreated = new DateTime(2022, 5, 19, 3, 24, 6, 750, DateTimeKind.Local).AddTicks(3481),
                             Name = "Seattle"
                         },
                         new
                         {
                             Id = 2,
                             CountryId = 2,
-                            DateCreated = new DateTime(2022, 5, 19, 3, 52, 33, 953, DateTimeKind.Local).AddTicks(2808),
+                            DateCreated = new DateTime(2022, 5, 19, 3, 24, 6, 750, DateTimeKind.Local).AddTicks(3495),
                             Name = "Tokyo"
                         });
                 });
@@ -127,13 +129,13 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 5, 19, 3, 52, 33, 953, DateTimeKind.Local).AddTicks(3023),
+                            DateCreated = new DateTime(2022, 5, 19, 3, 24, 6, 750, DateTimeKind.Local).AddTicks(3723),
                             Name = "USA"
                         },
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2022, 5, 19, 3, 52, 33, 953, DateTimeKind.Local).AddTicks(3025),
+                            DateCreated = new DateTime(2022, 5, 19, 3, 24, 6, 750, DateTimeKind.Local).AddTicks(3725),
                             Name = "Japan(OwO)"
                         });
                 });
@@ -241,7 +243,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 5, 19, 3, 52, 33, 969, DateTimeKind.Local).AddTicks(1179),
+                            DateCreated = new DateTime(2022, 5, 19, 3, 24, 6, 766, DateTimeKind.Local).AddTicks(6147),
                             PublisherName = "valve"
                         });
                 });
@@ -426,12 +428,12 @@ namespace Infrastructure.Migrations
                             Email = "O_pirtskhalaishvili@cu.edu.ge",
                             FirstName = "admin",
                             LastName = "admin",
-                            Password = "8K/07eBeRyFK4nldE3O2HCrHEC1yDIUEz7MPCKtaQoI=",
+                            Password = "YTUTx9yEMxyjx+/QnFx6SWo/loqmqmpbJI+IU17uGOQ=",
                             Role = 1,
-                            Salt = "/Ec8xN+gEaDy5OLCSJWmaw==",
+                            Salt = "Y+thTlETJKl0bB2RmNpUjA==",
                             TelephoneNumber = "551001100",
                             UserName = "string",
-                            Verified = new DateTime(2022, 5, 19, 3, 52, 33, 967, DateTimeKind.Local).AddTicks(4203)
+                            Verified = new DateTime(2022, 5, 19, 3, 24, 6, 764, DateTimeKind.Local).AddTicks(2713)
                         });
                 });
 
@@ -465,7 +467,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 5, 19, 3, 52, 33, 969, DateTimeKind.Local).AddTicks(1011),
+                            DateCreated = new DateTime(2022, 5, 19, 3, 24, 6, 766, DateTimeKind.Local).AddTicks(5898),
                             UserId = 1,
                             balance = 0.0
                         });
@@ -526,7 +528,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 5, 19, 3, 52, 33, 969, DateTimeKind.Local).AddTicks(1286),
+                            DateCreated = new DateTime(2022, 5, 19, 3, 24, 6, 766, DateTimeKind.Local).AddTicks(6300),
                             Description = "Mobile battle arena where 10 players play vs each other in teams of 5",
                             Price = 0.0,
                             PublicsherId = 1,
@@ -559,7 +561,7 @@ namespace Infrastructure.Migrations
                         {
                             VideogameId = 1,
                             CategoryId = 1,
-                            DateCreated = new DateTime(2022, 5, 19, 3, 52, 33, 969, DateTimeKind.Local).AddTicks(1428)
+                            DateCreated = new DateTime(2022, 5, 19, 3, 24, 6, 766, DateTimeKind.Local).AddTicks(6572)
                         });
                 });
 
@@ -576,10 +578,6 @@ namespace Infrastructure.Migrations
 
                     b.Property<DateTime?>("DateUpdated")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()

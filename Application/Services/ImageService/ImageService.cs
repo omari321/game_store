@@ -28,7 +28,8 @@ namespace Application.Services.ImageService
             Resize(model.ThumbnailFilePath, width, height,model.NewPath);
 
             var Videogame = await _videogameRepository.FindByConditionAsync(x => x.Id == model.VideogameId);
-            Videogame.ThumbnailUrl = model.NewPath;
+            Videogame.ThumbnailPath = model.NewPath;
+            Videogame.ThumbnailUrl = model.NewThumbnailUrl;
             await _unitOfWork.CompleteAsync();
             File.Delete(model.ThumbnailFilePath);
            

@@ -16,6 +16,7 @@ namespace Infrastructure.Entities.VideogameImages
         public int Id { get; set; }
         public int VideogameId { get; set; }
         public VideogameEntity Videogame { get; set; }
+        public string ImagePath { get; set; }
         public string ImageUrl { get; set; }
     }
 }

@@ -44,7 +44,7 @@ namespace Application.Services.UserTransactionsBalance
             _gameTransactionHistoryRepository = gameTransactionHistoryRepository;
         }
 
-        public async Task<bool> AddMoneyOnBalance(int userId,AddMoneyTransactionDto model)
+        public async Task<GetUserBalanceDto> AddMoneyOnBalance(int userId,AddMoneyTransactionDto model)
         {
 
             //aq rame procesingi da baratis validurobis shemocmeba iqneboda albat
@@ -63,7 +63,7 @@ namespace Application.Services.UserTransactionsBalance
             UserBalance.balance += model.TransactionAmount;
             UserBalance.DateUpdated=DateTime.Now;
             await _unitOfWork.CompleteAsync();
-            return true;
+            return new GetUserBalanceDto {Balance=UserBalance.balance};
         }
 
         public async Task<bool> BuyGame(int gameId, int userId)

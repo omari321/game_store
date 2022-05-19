@@ -72,9 +72,9 @@ namespace API.Controllers
 
         [HttpPost("[action]")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> AddUpdatePaymentCreditentials(UpdateAddPaymentDto model)
+        public async Task<IActionResult> AddPaymentCreditentials(AddPaymentDto model)
         {
-            return Ok(await _paymentCreditentialsService.UpdateAddPayment((int)_userContext.userId,model));
+            return Ok(await _paymentCreditentialsService.AddPaymentCreditentials((int)_userContext.userId,model));
         }
         [HttpPost("[action]")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]

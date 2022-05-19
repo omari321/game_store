@@ -11,7 +11,7 @@ namespace Application.Services.Publisher
 {
     public interface IPublisherService
     {
-        Task AddPublisher(AddPublisherDto model);
+        Task<GetPublisherDto> AddPublisher(AddPublisherDto model);
         Task<PageReturnDto<PagingGameDto>> GetGamesByPublisher(QueryParams model, int publisherId);
         Task<IEnumerable<GetPublisherDto>> GetPublishers();
     }

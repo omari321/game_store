@@ -10,6 +10,7 @@ namespace Infrastructure.Entities.Videogame.Dtos
 {
     public class PagingGameDto
     {
+        public int Id { get; set; }
         public string VideogameName { get; set; }
         public double Price { get; set; }
         public double? OldPrice { get; set; }
