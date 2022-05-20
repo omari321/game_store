@@ -83,7 +83,6 @@ namespace API.Controllers
             return Ok(new { status = "Game Bought Succesfully" });
         }
 
-        //NOT WORKING
         [HttpPost("[action]")]
         [DisableRequestSizeLimit,RequestFormLimits(MultipartBodyLengthLimit = int.MaxValue,
         ValueLengthLimit = int.MaxValue)]

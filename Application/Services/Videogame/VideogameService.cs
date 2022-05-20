@@ -251,16 +251,7 @@ namespace Application.Services.Videogame
         }     
         public async Task<byte[]> DownloadGame(int userId,int videogameId)
         {
-            var owns = await _ownedGamesRepository.CheckIfMeetsAnyConditionAsync(x => x.UserId == userId && x.VideogameId == videogameId);
-            if (!owns)
-            {
-                throw new CustomException("this user does not own this game", 400);
-            }
             var gameFile = await _videogameFileRepository.GetLatestVersion(videogameId);
-            if (gameFile==null)
-            {
-                throw new CustomException("this game does not have download file yet sorry :(", 400);
-            }
             using (var stream = new FileStream(gameFile.VideogameFilePath,FileMode.Open,FileAccess.Read))
             {
                 byte[] buffer = new byte[16 * 1024];

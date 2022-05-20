@@ -13,6 +13,7 @@ using AutoMapper;
 using Application.Services.Mail;
 using Infrastructure.Entities.UserBalance;
 using Infrastructure.Entities.ConfirmationMailToSend;
+using System.Security.Policy;
 
 namespace Application.Services.AuthenticationManagment
 {
@@ -224,6 +225,7 @@ namespace Application.Services.AuthenticationManagment
             await _userRepository.CreateAsync(account);
             await _unitOfWork.CompleteAsync();
             var ConfirmationLink = _baseUrl.applicationUrl + @"/api/Auth/VerifyEmail/" + account.VerificationToken;
+            //new Uri(@"/api/Auth/VerifyEmail/"+account.VerificationToken,UriKind.RelativeOrAbsolute);
             var mailToSend = new ConfirmationMailToSendEntity
             {
                 UserId=account.Id,

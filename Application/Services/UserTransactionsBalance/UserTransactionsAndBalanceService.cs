@@ -8,6 +8,7 @@ using Infrastructure.EntityEnums;
 using Infrastructure.Paging;
 using Infrastructure.RepositoryRelated.IRepositories;
 using Infrastructure.UnitOfWorkRepo;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,6 +78,10 @@ namespace Application.Services.UserTransactionsBalance
             if (userBalance.balance<game.Price)
             {
                 throw new CustomException("user does not have enough funds", 400);
+            }
+            if(await _ownedGamesRepository.GetAllQuery().AnyAsync(x=>x.UserId==userId && x.VideogameId==gameId))
+            {
+                throw new CustomException("user already owns this game", 400);
             }
             var creditentials = await _paymentCredentialRepository.FindByConditionAsync(x => x.UserId == userId);
             var UserBalance = await _userBalanceRepository.FindByConditionAsync(x => x.UserId == userId);

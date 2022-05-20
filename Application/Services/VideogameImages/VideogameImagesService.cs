@@ -68,15 +68,15 @@ namespace Application.Services.VideogameImages
                     ImageUrl = ImageUrl,
                     DateCreated = DateTime.Now,
                 };
-                
-                await _videogameImagesRepository.CreateAsync(newImage);
+
+                await _videogameImagesRepository.CreateAsync(newImage);         
+                await _unitOfWork.CompleteAsync();  
                 var imageDto = new GetImagesDto
                 {
                     Id=newImage.Id,
                     VideogameId=newImage.VideogameId,
                     ImageUrl=newImage.ImageUrl,
                 };
-                await _unitOfWork.CompleteAsync();  
                 ReturnDto.Add(imageDto);
             }
                  
