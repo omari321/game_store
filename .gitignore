@@ -30,9 +30,13 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
-Files/*
+
 LogFile.txt
+wwwroot/
+wwwroot/Images/Games/
 wwwroot/Images/Games/*
+Images/Games/*
+Images/Games/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

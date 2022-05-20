@@ -44,7 +44,7 @@ namespace Application.Services.PaymentCreditentials
                  ExpireDate = model.ExpireDate,
                  DateCreated = DateTime.Now
             };
-            var condition = await _paymentCreditentialsRepository.CheckIfAnyByConditionAsync(x => x.UserId == userId && x.CardNumber == model.CardNumber);
+            var condition = await _paymentCreditentialsRepository.CheckIfMeetsAnyConditionAsync(x => x.UserId == userId && x.CardNumber == model.CardNumber);
             if(condition)
             {
                 return cardInfo;

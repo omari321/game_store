@@ -37,7 +37,7 @@ namespace Application.Services.OwnedGames
 
         public async Task<bool> AdminAddGameForUser(int userId, int gameId)
         {
-            var exists = await _videogameRepository.CheckIfAnyByConditionAsync(x => x.Id == gameId);
+            var exists = await _videogameRepository.CheckIfMeetsAnyConditionAsync(x => x.Id == gameId);
             if (!exists)
             {
                 throw new CustomException("game with this id does not exist", 404);
@@ -77,7 +77,7 @@ namespace Application.Services.OwnedGames
 
         public async Task<bool> CheckIfOwnsGame(int userId, int gameId)
         {
-            return await _ownedGamesRepository.CheckIfAnyByConditionAsync(x => x.UserId == userId && x.VideogameId == gameId);
+            return await _ownedGamesRepository.CheckIfMeetsAnyConditionAsync(x => x.UserId == userId && x.VideogameId == gameId);
         }
 
         public async Task<PageReturnDto<GameNamesDto>> GetUserOwnedGames(QueryParams model, int userId)

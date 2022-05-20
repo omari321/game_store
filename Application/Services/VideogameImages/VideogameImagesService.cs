@@ -36,7 +36,7 @@ namespace Application.Services.VideogameImages
 
         public async Task<List<GetImagesDto>> AddImagesToGame(AddImagesDto model)
         {
-            var exists = await _videogameRepository.CheckIfAnyByConditionAsync(x => x.Id == model.GameId);
+            var exists = await _videogameRepository.CheckIfMeetsAnyConditionAsync(x => x.Id == model.GameId);
             if (exists is  false)
             {
                 throw  new CustomException("this game id does not exist",404);
@@ -92,12 +92,13 @@ namespace Application.Services.VideogameImages
             }
             await _videogameImagesRepository.Delete(image);
             File.Delete(image.ImagePath);
+            await _unitOfWork.CompleteAsync();
             return true;
         }
 
         public async Task<IEnumerable<GetImagesDto>> GetVideogameImages(int videogameId)
         {
-            var exists = await _videogameRepository.CheckIfAnyByConditionAsync(x => x.Id == videogameId);
+            var exists = await _videogameRepository.CheckIfMeetsAnyConditionAsync(x => x.Id == videogameId);
             if (!exists)
             {
                 throw new CustomException("this game id does not exist", 404);

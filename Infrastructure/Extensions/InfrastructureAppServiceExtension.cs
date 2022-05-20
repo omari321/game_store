@@ -33,6 +33,7 @@ namespace Infrastructure.Extensions
             Services.AddScoped<IUserBalanceRepository, UserBalanceRepository>();
             Services.AddScoped<IConfirmationMailToSendRepository, ConfirmationMailToSendRepository>();
             Services.AddScoped<IGameTransactionHistoryRepository , GameTransactionHistoryRepository>();
+            Services.AddScoped<IVideogameFileRepository, VideogameFileRepository>();
         }
     }
 }

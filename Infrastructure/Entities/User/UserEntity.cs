@@ -5,6 +5,7 @@ using Infrastructure.Entities.Token;
 using Infrastructure.Entities.Transactions;
 using Infrastructure.Entities.UserBalance;
 using Infrastructure.Entities.UserRepo;
+using Infrastructure.Entities.VideogameFile;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,7 @@ namespace Infrastructure.Entities.User
         public Roles Role { get; set; }
         public int CityId { get; set; }
         public CityEntity City { get; set; }
+        public List<VideogameFilesEntity> videogameFileEntities { get; set; }
         public List<PaymentCredentialsEntity> paymentCreditentials { get; set; }
         public List<RefreshToken>? RefreshTokens { get; set; }
         public List<TransactionsEntity> transactionsEntities { get; set; }

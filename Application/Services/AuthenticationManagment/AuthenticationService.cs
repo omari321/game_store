@@ -271,12 +271,16 @@ namespace Application.Services.AuthenticationManagment
         public async Task<bool> SendNewPassword(string mail)
         {
             var user = await _userRepository.FindByConditionAsync(x => x.Email == mail);
-            var newPass = Guid.NewGuid();
+            Random random = new();
+            var length = random.Next(12, 20);
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var newPass=new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
             byte[] salt = new byte[128 / 8];
             RandomNumberGenerator.Fill(salt);
             user.Password = await PasswordEncryptor.EncryptPassword(newPass.ToString(), salt);
             user.Salt = Convert.ToBase64String(salt);
-            await _mailService.SendNewPassword(user);
+            await _mailService.SendNewPassword(new UserSendNewPasswordDto {UserName=user.UserName,Password=newPass,Email=user.Email });
             await _unitOfWork.CompleteAsync();
             return true;
         }

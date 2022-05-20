@@ -32,7 +32,7 @@ namespace Application.Services.CityCountry
         }
         public async Task<GetCountryDto> AddCountry(AddCountryDto model)
         {
-            var exists = await _countryRepository.CheckIfAnyByConditionAsync(x => x.Name == model.CountryName);
+            var exists = await _countryRepository.CheckIfMeetsAnyConditionAsync(x => x.Name == model.CountryName);
             if (exists)
             {
                 throw new CustomException("this country already exists", 400);
@@ -52,7 +52,7 @@ namespace Application.Services.CityCountry
         }
         public async Task<GetCityDto> AddCity(AddCityDto model)
         {
-            var exists = await _cityRepository.CheckIfAnyByConditionAsync(x => x.Name == model.CityName);
+            var exists = await _cityRepository.CheckIfMeetsAnyConditionAsync(x => x.Name == model.CityName);
             if (exists)
             {
                 throw new CustomException("this city already exists", 400);

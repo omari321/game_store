@@ -2,6 +2,7 @@
 using Infrastructure.Entities.Publisher;
 using Infrastructure.Entities.Transactions;
 using Infrastructure.Entities.VideogameCategories;
+using Infrastructure.Entities.VideogameFile;
 using Infrastructure.Entities.VideogameImages;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -32,6 +33,7 @@ namespace Infrastructure.Entities.Videogame
         public string? ThumbnailPath { get; set; }
         public string? ThumbnailUrl { get; set;}
         public string? DownloadFileUrl { get; set; }
+        public List<VideogameFilesEntity> videogameFilesEntities { get; set; }
         public List<VideogameCategoryEntity> videogameCategoryEntities{ get; set; }
         public List<TransactionsEntity> transactionsEntities { get; set; }
         public List<OwnedGamesEntity> ownedGamesEntities { get; set; }

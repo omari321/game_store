@@ -7,6 +7,7 @@ using Application.Services.Videogame;
 using Application.Services.VideogameImages;
 using Infrastructure.Entities.UserRepo;
 using Infrastructure.Entities.Videogame.Dtos;
+using Infrastructure.Entities.VideogameFile.Dtos;
 using Infrastructure.Entities.VideogameImages.Dtos;
 using Infrastructure.Paging;
 using Microsoft.AspNetCore.Http;
@@ -86,9 +87,15 @@ namespace API.Controllers
         [HttpPost("[action]")]
         [DisableRequestSizeLimit,RequestFormLimits(MultipartBodyLengthLimit = int.MaxValue,
         ValueLengthLimit = int.MaxValue)]
-        public async Task<IActionResult> UploadGame(IFormFile file)
+        public async Task<IActionResult> UploadGame([FromForm]UploadVideogameFileDto model)
         {
-            return Ok(await  _videogameService.UploadGame(file));
+            return Ok(await  _videogameService.UploadGame(model));
+        }
+        [HttpPost("[action]/VideogameId")]
+        public async Task<IActionResult> DownloadGame(int VideogameId)
+        {
+            var fileName = await _videogameService.ValidateFileDownload((int)_userContext.userId, VideogameId);
+            return File(await _videogameService.DownloadGame((int)_userContext.userId,VideogameId), "application/octet-stream", fileName);
         }
         [HttpPost("[action]")]
         public async Task<IActionResult> AddImagesToGame([FromForm]AddImagesDto model)

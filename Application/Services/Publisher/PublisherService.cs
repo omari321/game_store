@@ -28,7 +28,7 @@ namespace Application.Services.Publisher
 
         public async Task<GetPublisherDto> AddPublisher(AddPublisherDto model)
         {
-            var exists = await _publisherRepository.CheckIfAnyByConditionAsync(x => x.PublisherName == model.PublisherName);
+            var exists = await _publisherRepository.CheckIfMeetsAnyConditionAsync(x => x.PublisherName == model.PublisherName);
             if (exists)
             {
                 throw new CustomException("this publiser already exists", 400);

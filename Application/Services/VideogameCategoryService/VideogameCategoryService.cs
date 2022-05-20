@@ -39,7 +39,7 @@ namespace Application.Services.VideogameCategoryService
         }
         private async Task<bool> CheckIfExist(CreateRemoveDto model)
         {
-            return await _videogameCategoryRepository.CheckIfAnyByConditionAsync(x=>x.VideogameId==model.VideogameId && x.CategoryId==model.CategoryId);
+            return await _videogameCategoryRepository.CheckIfMeetsAnyConditionAsync(x=>x.VideogameId==model.VideogameId && x.CategoryId==model.CategoryId);
         }
         private async Task<VideogameCategoryEntity> GetByIds(CreateRemoveDto model)
         {

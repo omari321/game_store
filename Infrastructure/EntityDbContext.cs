@@ -10,6 +10,7 @@ using Infrastructure.Entities.User;
 using Infrastructure.Entities.UserBalance;
 using Infrastructure.Entities.Videogame;
 using Infrastructure.Entities.VideogameCategories;
+using Infrastructure.Entities.VideogameFile;
 using Infrastructure.Entities.VideogameImages;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +37,7 @@ namespace Infrastructure.Entities
         public DbSet<PaymentCredentialsEntity > paymentCreditentialsEntities { get; set; }
         public DbSet<VideogameImagesEntity> videogameImagesEntities { get;set; }
         public DbSet<ConfirmationMailToSendEntity> confirmationMailToSendEntities { get; set; }
+        public DbSet<VideogameFilesEntity> videogameFileEntities { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CityEntityConfiguration());

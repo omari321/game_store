@@ -58,6 +58,7 @@ namespace API.Controllers
         }
 
         [HttpPost("revoke-token")]
+        //drois gasvlaze armaq shemocmeba martivi dasamatebelia ubralod gatestvisas xels shemishlis
         public async Task<IActionResult> RevokeToken()
         {
             var token =  Request.Cookies["refreshToken"];

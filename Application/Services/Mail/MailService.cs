@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Entities.User;
+using Infrastructure.Entities.User.Dto;
 using Infrastructure.RepositoryRelated.IRepositories;
 using Infrastructure.UnitOfWorkRepo;
 using Microsoft.Extensions.Options;
@@ -60,11 +61,11 @@ namespace Application.Services.Mail
             return;
         }
 
-        public Task<bool> SendNewPassword(UserEntity entity)
+        public Task<bool> SendNewPassword(UserSendNewPasswordDto model)
         {
             string subject = $"new password which you can use to reset";
-            string message = $"hello {entity.FirstName}  , your new password is : {entity.Password}";
-            SendAsync(entity.Email, subject, message);
+            string message = $"hello {model.UserName}  , your new password is : {model.Password}";
+            SendAsync(model.Email, subject, message);
             return Task.FromResult(true);
         }
         private async Task SendAsync(string mail, string subject, string body)

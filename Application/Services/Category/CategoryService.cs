@@ -31,7 +31,7 @@ namespace Application.Services.Category
 
         private async Task<bool> CheckIfExists(string name)
         {
-            return await _categoryRepository.CheckIfAnyByConditionAsync(x => x.CategoryName == name);
+            return await _categoryRepository.CheckIfMeetsAnyConditionAsync(x => x.CategoryName == name);
         }
         public async Task<GetCategoriesDto> AddCategory(CreateCategoryDto model)
         {
@@ -61,7 +61,7 @@ namespace Application.Services.Category
 
         public async Task<PageReturnDto<PagingGameDto>> GetGamesByCategory(QueryParams model, int categoryId)
         {
-            var exists = await _categoryRepository.CheckIfAnyByConditionAsync(x => x.Id== categoryId);
+            var exists = await _categoryRepository.CheckIfMeetsAnyConditionAsync(x => x.Id== categoryId);
             if (!exists)
             {
                 throw new CustomException("this category id does not exist", 400);
@@ -92,7 +92,7 @@ namespace Application.Services.Category
 
         public async Task<PageReturnDto<PagingGameDto>> SearchGamesByCategory(VideoGameParameters model, int categoryId)
         {
-            var exists = await _categoryRepository.CheckIfAnyByConditionAsync(x => x.Id == categoryId);
+            var exists = await _categoryRepository.CheckIfMeetsAnyConditionAsync(x => x.Id == categoryId);
             if (!exists)
             {
                 throw new CustomException("this category id does not exist", 400);

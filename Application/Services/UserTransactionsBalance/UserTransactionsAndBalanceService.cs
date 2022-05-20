@@ -113,6 +113,10 @@ namespace Application.Services.UserTransactionsBalance
         public async Task<GetUserBalanceDto> GetUserBalance(int userId)
         {
             var userBalance = await _userBalanceRepository.FindByConditionAsync(x => x.UserId == userId);
+            if (userBalance==null)
+            {
+                throw new CustomException("this user does nto exist or has not confirmed mail", 400);
+            }
             return new GetUserBalanceDto { Balance=userBalance.balance};
         }
 

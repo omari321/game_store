@@ -17,7 +17,7 @@ namespace Infrastructure.Repositories
             _entityDbContext = entityDbContext;
         }
 
-        public async Task<bool> CheckIfAnyByConditionAsync(Expression<Func<T, bool>> expression)
+        public async Task<bool> CheckIfMeetsAnyConditionAsync(Expression<Func<T, bool>> expression)
         {
             return await _entityDbContext.Set<T>().AnyAsync(expression);
         }
