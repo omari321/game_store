@@ -19,6 +19,7 @@ using Application.Services.User;
 using Application.Services.PaymentCreditentials;
 using Application.Services.VideogameImages;
 using Application.Services.UserTransactionsBalance;
+using Application.Services.VideogameLikes;
 
 namespace Application.Extensions
 {
@@ -41,6 +42,7 @@ namespace Application.Extensions
             Services.AddScoped<IPaymentCreditentialsService, PaymentCreditentialsService>();
             Services.AddScoped<IVideogameImagesService, VideogameImagesService>();
             Services.AddScoped<IUserTransactionsAndBalanceService, UserTransactionsAndBalanceService>();
+            Services.AddScoped<IVideogameLikesService, VideogameLikesService>();
         } 
         public static void AddMailBackgroundProcessingServices(this IServiceCollection Services)
         {

@@ -43,6 +43,7 @@ namespace Application
             CreateMap<VideogameImagesEntity, GetImagesDto>()
                  .ForMember(x => x.VideogameId,
                 opt => opt.MapFrom(c => c.VideogameId));
+            CreateMap<VideogameEntity, CreatedGameReturnDto>();
         }
             
     }

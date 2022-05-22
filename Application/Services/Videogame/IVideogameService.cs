@@ -13,7 +13,7 @@ namespace Application.Services.Videogame
 {
     public interface IVideogameService
     {
-        Task<PagingGameDto> AddGame(AddGameDto model);
+        Task<CreatedGameReturnDto> AddGame(AddGameDto model);
         Task<PagingGameDto> UpdateGame(UpdateGameDto model);
         Task<LoadGameDto> LoadGame(int id);
         Task<PageReturnDto<PagingGameDto>> GetAllAsync(QueryParams model);

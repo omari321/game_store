@@ -16,5 +16,7 @@ namespace Infrastructure.Entities.Videogame.Dtos
         public string PublisherName { get; set; }
         public string Description { get; set; }
         public string? ThumbnailUrl { get; set; }
+        public int TotalLikes { get; set; }
+        public int TotalDislikes { get; set; }
     }
 }

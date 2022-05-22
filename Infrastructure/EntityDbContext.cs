@@ -12,6 +12,8 @@ using Infrastructure.Entities.Videogame;
 using Infrastructure.Entities.VideogameCategories;
 using Infrastructure.Entities.VideogameFile;
 using Infrastructure.Entities.VideogameImages;
+using Infrastructure.Entities.VideogameLikes;
+using Infrastructure.Entities.VideogameLikesList;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Entities
@@ -38,20 +40,22 @@ namespace Infrastructure.Entities
         public DbSet<VideogameImagesEntity> videogameImagesEntities { get;set; }
         public DbSet<ConfirmationMailToSendEntity> confirmationMailToSendEntities { get; set; }
         public DbSet<VideogameFilesEntity> videogameFileEntities { get; set; }
+        public DbSet<VideogameLikesEntity> videogameLikesEntities { get; set; }
+        public DbSet<VideogameLikesListEntity> VideogameLikesListEntities { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CityEntityConfiguration());
             modelBuilder.ApplyConfiguration(new CountryEntityConfiguration());
-
+            modelBuilder.ApplyConfiguration(new VideogameCategoryConfiguration());
 
             modelBuilder.ApplyConfiguration(new UserInitialData());
-            modelBuilder.ApplyConfiguration(new VideogameCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new UserBalanceInitialData());
             modelBuilder.ApplyConfiguration(new PublisherInitialData());
             modelBuilder.ApplyConfiguration(new VideogameInitialData());
             modelBuilder.ApplyConfiguration(new CategoryInitialData());
             modelBuilder.ApplyConfiguration(new VideogameCategoryInitialData());
-            
+            modelBuilder.ApplyConfiguration(new VideogameLikesInitialData());
+
             base.OnModelCreating(modelBuilder);
         }
     }

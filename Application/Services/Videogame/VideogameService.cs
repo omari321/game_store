@@ -6,6 +6,7 @@ using Infrastructure.Entities.Videogame;
 using Infrastructure.Entities.Videogame.Dtos;
 using Infrastructure.Entities.VideogameFile;
 using Infrastructure.Entities.VideogameFile.Dtos;
+using Infrastructure.Entities.VideogameLikes;
 using Infrastructure.Paging;
 using Infrastructure.RepositoryRelated.IRepositories;
 using Infrastructure.UnitOfWorkRepo;
@@ -32,6 +33,7 @@ namespace Application.Services.Videogame
         private readonly IBackgroundQueue<ThumbnailUpdateDto> _queue;
         private readonly IVideogameFileRepository _videogameFileRepository;
         private readonly IOwnedGamesRepository _ownedGamesRepository;
+        private readonly IVideogameLikesRepository _likesRepository;
         private readonly IMapper _mapper;
         public VideogameService(BasePath basePath,
                                 BaseUrl baseUrl,
@@ -40,7 +42,8 @@ namespace Application.Services.Videogame
                                 IMapper mapper,
                                 IBackgroundQueue<ThumbnailUpdateDto> queue,
                                 IOwnedGamesRepository ownedGamesRepository,
-                                IVideogameFileRepository videogameFileRepository)
+                                IVideogameFileRepository videogameFileRepository,
+                                IVideogameLikesRepository likesRepository)
         {
                             _basePath= basePath;
                             _baseUrl= baseUrl;
@@ -50,6 +53,7 @@ namespace Application.Services.Videogame
                             _queue=queue;
                             _videogameFileRepository=videogameFileRepository;
                             _ownedGamesRepository = ownedGamesRepository;
+                            _likesRepository=likesRepository;   
         }
         private async Task<VideogameEntity> GetGameByName(string name)
         {
@@ -59,7 +63,7 @@ namespace Application.Services.Videogame
         {
             return await _videogameRepository.CheckIfMeetsAnyConditionAsync(x => x.VideogameName == name); 
         }
-        public async Task<PagingGameDto> AddGame(AddGameDto model)
+        public async Task<CreatedGameReturnDto> AddGame(AddGameDto model)
         {
             if (model.Price<0)
             {
@@ -96,23 +100,29 @@ namespace Application.Services.Videogame
 
             await _videogameRepository.CreateAsync(newGame);
             await _unitOfWork.CompleteAsync();
-
+            await _likesRepository.CreateAsync(new VideogameLikesEntity
+            {
+                VideogameId=newGame.Id,
+                LikesCount=0,
+                DislikesCount=0
+            });
+            await _unitOfWork.CompleteAsync();
 
             var newFilename= Path.GetRandomFileName().Split(".").ToArray()[0];
             var newFullPath = Path.Combine(_basePath.ContentRootPath, BaseImagePath, newFilename + Path.GetExtension(model.File.FileName));
             var newFileUrl = _baseUrl.applicationUrl + BaseImageUrl + newFilename + Path.GetExtension(model.File.FileName);
 
+            
 
             _queue.Enqueue(new ThumbnailUpdateDto {VideogameId=newGame.Id,ThumbnailFilePath=temporaryFullPath,NewThumbnailUrl=newFileUrl,NewPath= newFullPath });
-            return new PagingGameDto
+            return new CreatedGameReturnDto
             {
                 Id=newGame.Id,
                 VideogameName=newGame.VideogameName,
                 Price=newGame.Price,
                 OldPrice=newGame.OldPrice,
                 PublicsherId=newGame.PublicsherId,
-                Description =newGame.Description,
-                ThumbnailUrl =newGame.ThumbnailUrl
+                Description =newGame.Description
             };
 
         }
@@ -127,15 +137,18 @@ namespace Application.Services.Videogame
             {
                 throw new CustomException("this game does not exist", 404);
             }
-            else if (model.File.Length > 8_200_000)
+            if (await _videogameRepository.CheckIfMeetsAnyConditionAsync(x => x.VideogameName == model.VideoGameName))
+            {
+                throw new CustomException("game with this name already exists", 400);
+            }
+            if (model.File.Length > 8_200_000)
             {
                 throw new CustomException("Image too big", 400);
             }
-            else if (!ImageExtensions.Contains(Path.GetExtension(model.File.FileName).ToUpper()))
+            if (!ImageExtensions.Contains(Path.GetExtension(model.File.FileName).ToUpper()))
             {
                 throw new CustomException("unsaported image type", 400);
             }
-
             if (model.File!=null)
             {
                 var FileName = Path.GetRandomFileName().Split(".").ToArray()[0];

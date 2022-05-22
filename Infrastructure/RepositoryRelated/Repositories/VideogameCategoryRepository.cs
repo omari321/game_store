@@ -33,6 +33,7 @@ namespace Infrastructure.RepositoryRelated.Repositories
             var count= await GetAllQuery().Where(expression).CountAsync();
             var item=await GetAllQuery().Where(expression)
                 .Include(x => x.Videogame)
+                .ThenInclude(x=>x.VideogameLikesEntities)
                 .Skip((model.Page - 1) * model.ItemsPerPage)
                 .Take(model.ItemsPerPage)
                 .ToListAsync();
@@ -48,6 +49,7 @@ namespace Infrastructure.RepositoryRelated.Repositories
             var count = await GetAllQuery().Where(expression).CountAsync();
             var item = await GetAllQuery().Where(expression)
                 .Include(x => x.Videogame)
+                .ThenInclude(x => x.VideogameLikesEntities)
                 .Where(x => x.Videogame.VideogameName.Contains(model.SearchTerm)
                             &&
                             x.Videogame.Price >= model.MinPrice

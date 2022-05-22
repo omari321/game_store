@@ -124,7 +124,7 @@ namespace API.Controllers
             await _ownedGamesService.AdminAddGameForUser(userId, gameId);
             return Ok(new { status = "game added succesfully" }) ;
         }
-        [HttpPost("[action]")]
+        [HttpGet("[action]/userId")]
         public async Task<IActionResult> GetUserOwnedGames([FromQuery] QueryParams model,int userId)
         {
             return Ok( await _ownedGamesService.GetUserOwnedGames(model, userId));

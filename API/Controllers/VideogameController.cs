@@ -5,10 +5,12 @@ using Application.Services.Category;
 using Application.Services.UserTransactionsBalance;
 using Application.Services.Videogame;
 using Application.Services.VideogameImages;
+using Application.Services.VideogameLikes;
 using Infrastructure.Entities.UserRepo;
 using Infrastructure.Entities.Videogame.Dtos;
 using Infrastructure.Entities.VideogameFile.Dtos;
 using Infrastructure.Entities.VideogameImages.Dtos;
+using Infrastructure.Entities.VideogameLikesList.Dtos;
 using Infrastructure.Paging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -26,12 +28,15 @@ namespace API.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IVideogameImagesService _videogameImagesService;
         private readonly IUserTransactionsAndBalanceService _userTransactionsBalance;
+        private readonly IVideogameLikesService _videogameLikesService;
         public VideogameController(IVideogameService videogameService,
             UserContext userContext, ICategoryService categoryService,
             IVideogameImagesService videogameImagesService,
             IUserTransactionsAndBalanceService userTransactionsBalance,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IVideogameLikesService videogameLikesService)
         {
+            _videogameLikesService = videogameLikesService;
             _videogameService = videogameService;
             _userContext = userContext;
             _categoryService = categoryService;
@@ -90,7 +95,7 @@ namespace API.Controllers
         {
             return Ok(await  _videogameService.UploadGame(model));
         }
-        [HttpPost("[action]/VideogameId")]
+        [HttpGet("[action]/VideogameId")]
         public async Task<IActionResult> DownloadGame(int VideogameId)
         {
             var fileName = await _videogameService.ValidateFileDownload((int)_userContext.userId, VideogameId);
@@ -106,6 +111,7 @@ namespace API.Controllers
         {
             return Ok(await _videogameImagesService.RemoveImage(model));
         }
+        [AllowAnonymous]
         [HttpGet("[action]/{gameId}")]
         public async Task<IActionResult> LoadGame([FromRoute] int gameId)
         {
@@ -116,6 +122,20 @@ namespace API.Controllers
         {
             return Ok(await _videogameImagesService.GetVideogameImages(gameId));
         }
-
+        [HttpPost("[action]/{gameId}")]
+        public async Task<IActionResult> LikeDislikeGame(LikeDislikeDto model, [FromRoute]int gameId)
+        {
+            return Ok(await _videogameLikesService.LikeDislikeRemoveBothVideogame((int)_userContext.userId,gameId,model));
+        }
+        [HttpPost("[action]/{gameId}")]
+        public async Task<IActionResult> CheckIfLikesGame(LikeDislikeDto model, [FromRoute] int gameId)
+        {
+            return Ok(await _videogameLikesService.CheckIfLikes((int)_userContext.userId, gameId));
+        }
+        [HttpPost("[action]")]
+        public async Task<IActionResult> GetUserLikedGames([FromQuery]QueryParams model)
+        {
+            return Ok(await _videogameLikesService.GetUserLikedGamesAsync(model,(int)_userContext.userId));
+        }
     }
 }

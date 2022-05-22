@@ -4,6 +4,7 @@ using Infrastructure.Entities.Transactions;
 using Infrastructure.Entities.VideogameCategories;
 using Infrastructure.Entities.VideogameFile;
 using Infrastructure.Entities.VideogameImages;
+using Infrastructure.Entities.VideogameLikes;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace Infrastructure.Entities.Videogame
         public List<TransactionsEntity> transactionsEntities { get; set; }
         public List<OwnedGamesEntity> ownedGamesEntities { get; set; }
         public List<VideogameImagesEntity> videogameImagesEntities { get; set; }
+        public List<VideogameLikesEntity> VideogameLikesEntities { get; set; }
         //public List<CommentsEntity> commentsEntity { get; set; }
-        //public List<GameLikesEntity> gameLikesEntity { get; set; }
     }
 }

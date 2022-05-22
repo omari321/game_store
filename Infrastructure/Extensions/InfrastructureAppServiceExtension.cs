@@ -34,6 +34,8 @@ namespace Infrastructure.Extensions
             Services.AddScoped<IConfirmationMailToSendRepository, ConfirmationMailToSendRepository>();
             Services.AddScoped<IGameTransactionHistoryRepository , GameTransactionHistoryRepository>();
             Services.AddScoped<IVideogameFileRepository, VideogameFileRepository>();
+            Services.AddScoped<IVideogameLikesRepository, VideogameLikesRepository>();
+            Services.AddScoped<IVideogameLikesListRepository, VideogameLikesListRepository>();
         }
     }
 }

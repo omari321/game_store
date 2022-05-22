@@ -30,7 +30,8 @@ namespace Infrastructure.RepositoryRelated.Repositories
             var item= await GetAllQuery().Where(expression)
                 .Skip((model.Page - 1) * model.ItemsPerPage)
                 .Take(model.ItemsPerPage)
-                .Include(x => x.videoGameEntities).FirstAsync();
+                .Include(x => x.videoGameEntities)
+                .ThenInclude(x => x.VideogameLikesEntities).FirstAsync();
             var Dto = _mapper.Map<IEnumerable<PagingGameDto>>(item.videoGameEntities);
             return new PageReturnDto<PagingGameDto>(Dto,count, model.Page,model.ItemsPerPage);
         }
