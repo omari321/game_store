@@ -51,6 +51,7 @@ namespace API
                 var enumConverter = new JsonStringEnumConverter();
                 opts.JsonSerializerOptions.Converters.Add(enumConverter);
             });
+
         }
         public static void ConfigureCors(this IServiceCollection services)
         {

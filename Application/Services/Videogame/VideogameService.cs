@@ -7,6 +7,8 @@ using Infrastructure.Entities.Videogame.Dtos;
 using Infrastructure.Entities.VideogameFile;
 using Infrastructure.Entities.VideogameFile.Dtos;
 using Infrastructure.Entities.VideogameLikes;
+using Infrastructure.Entities.VideogameRequirements;
+using Infrastructure.Entities.VideogameRequirements.Dto;
 using Infrastructure.Paging;
 using Infrastructure.RepositoryRelated.IRepositories;
 using Infrastructure.UnitOfWorkRepo;
@@ -34,6 +36,7 @@ namespace Application.Services.Videogame
         private readonly IVideogameFileRepository _videogameFileRepository;
         private readonly IOwnedGamesRepository _ownedGamesRepository;
         private readonly IVideogameLikesRepository _likesRepository;
+        private readonly IVideogameRequirementsRepository _videogameRequirementsRepository;
         private readonly IMapper _mapper;
         public VideogameService(BasePath basePath,
                                 BaseUrl baseUrl,
@@ -43,6 +46,7 @@ namespace Application.Services.Videogame
                                 IBackgroundQueue<ThumbnailUpdateDto> queue,
                                 IOwnedGamesRepository ownedGamesRepository,
                                 IVideogameFileRepository videogameFileRepository,
+                                IVideogameRequirementsRepository videogameRequirementsRepository,
                                 IVideogameLikesRepository likesRepository)
         {
                             _basePath= basePath;
@@ -54,6 +58,7 @@ namespace Application.Services.Videogame
                             _videogameFileRepository=videogameFileRepository;
                             _ownedGamesRepository = ownedGamesRepository;
                             _likesRepository=likesRepository;   
+                            _videogameRequirementsRepository=videogameRequirementsRepository;
         }
         private async Task<VideogameEntity> GetGameByName(string name)
         {
@@ -107,11 +112,19 @@ namespace Application.Services.Videogame
                 DislikesCount=0
             });
             await _unitOfWork.CompleteAsync();
+            await _videogameRequirementsRepository.CreateAsync(new VideogameRequirementsEntity
+            {
+                VideogameId=newGame.Id,
+                MinRequirements=model.MinRequirements,
+                RecomendedRequirements=model.RecomendedRequirements,
+                DateCreated=DateTime.Now,
+            });
+            await _unitOfWork.CompleteAsync();
 
             var newFilename= Path.GetRandomFileName().Split(".").ToArray()[0];
             var newFullPath = Path.Combine(_basePath.ContentRootPath, BaseImagePath, newFilename + Path.GetExtension(model.File.FileName));
             var newFileUrl = _baseUrl.applicationUrl + BaseImageUrl + newFilename + Path.GetExtension(model.File.FileName);
-
+            
             
 
             _queue.Enqueue(new ThumbnailUpdateDto {VideogameId=newGame.Id,ThumbnailFilePath=temporaryFullPath,NewThumbnailUrl=newFileUrl,NewPath= newFullPath });
@@ -122,7 +135,9 @@ namespace Application.Services.Videogame
                 Price=newGame.Price,
                 OldPrice=newGame.OldPrice,
                 PublicsherId=newGame.PublicsherId,
-                Description =newGame.Description
+                Description =newGame.Description,
+                MinRequirements =model.MinRequirements,
+                RecomendedRequirements=model.RecomendedRequirements
             };
 
         }
@@ -303,6 +318,26 @@ namespace Application.Services.Videogame
                 throw new CustomException("this game does not have download file yet sorry :(", 400);
             }
             return GameEntity.VideogameName + Path.GetExtension(gameFile.VideogameFilePath);
+        }
+
+        public async Task<RequirementsReturnDto> UpdateGameRequirements(int videogameId,UpdateRequirementsDto model)
+        {
+            var requirements = await _videogameRequirementsRepository.FindByConditionAsync(x => x.VideogameId == videogameId);
+            if (requirements is null)
+            {
+                throw new CustomException("game with this id does not exist ", 404);
+            }
+            requirements.MinRequirements = model.MinRequirements;
+            requirements.RecomendedRequirements= model.RecomendedRequirements;
+            requirements.DateUpdated=DateTime.Now;
+            
+            await _unitOfWork.CompleteAsync();
+            return new RequirementsReturnDto
+            {
+                VideogameId = videogameId,
+                MinRequirements=model.MinRequirements,
+                RecomendedRequirements=model.RecomendedRequirements,
+            };
         }
     }
 }

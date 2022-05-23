@@ -11,6 +11,7 @@ using Infrastructure.Entities.Videogame.Dtos;
 using Infrastructure.Entities.VideogameFile.Dtos;
 using Infrastructure.Entities.VideogameImages.Dtos;
 using Infrastructure.Entities.VideogameLikesList.Dtos;
+using Infrastructure.Entities.VideogameRequirements.Dto;
 using Infrastructure.Paging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -80,6 +81,12 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateGame([FromForm]UpdateGameDto model)
         {
             return Ok(await _videogameService.UpdateGame(model));
+        }
+        [HttpPut("[action]/videogameId")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> UpdateGameRequirements([FromForm] UpdateRequirementsDto model,int videogameId)
+        {
+            return Ok(await _videogameService.UpdateGameRequirements(videogameId,model));
         }
         [HttpPost("[action]/{gameId}")]
         public async Task<IActionResult> BuyGame(int gameId)

@@ -36,6 +36,7 @@ namespace Infrastructure.Extensions
             Services.AddScoped<IVideogameFileRepository, VideogameFileRepository>();
             Services.AddScoped<IVideogameLikesRepository, VideogameLikesRepository>();
             Services.AddScoped<IVideogameLikesListRepository, VideogameLikesListRepository>();
+            Services.AddScoped<IVideogameRequirementsRepository, VideogameRequirementsRepository>();
         }
     }
 }

@@ -18,5 +18,7 @@ namespace Infrastructure.Entities.Videogame.Dtos
         public string? ThumbnailUrl { get; set; }
         public int TotalLikes { get; set; }
         public int TotalDislikes { get; set; }
+        public string MinRequirements { get; set; }
+        public string RecomendedRequirements { get; set; }
     }
 }

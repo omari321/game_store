@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Entities.Videogame;
 using Infrastructure.Entities.Videogame.Dtos;
 using Infrastructure.Entities.VideogameFile.Dtos;
+using Infrastructure.Entities.VideogameRequirements.Dto;
 using Infrastructure.Paging;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -23,6 +24,7 @@ namespace Application.Services.Videogame
         Task<PageReturnDto<GameInformationForAdminDto>> SearchInformationForAdmin(QueryParams model, string NameSearchTerm);
         Task<VideogameFileReturnDto> UploadGame(UploadVideogameFileDto model);
         Task<string> ValidateFileDownload(int userId, int videogameId);
+        Task<RequirementsReturnDto> UpdateGameRequirements(int videogameId,UpdateRequirementsDto model); 
         Task<byte[]> DownloadGame(int userId, int videogameId);
     }
 }

@@ -30,7 +30,7 @@ namespace Infrastructure.RepositoryRelated.Repositories
                 .Take(model.ItemsPerPage)
                 .Include(x => x.VideogameLikesEntities)
                 .ToListAsync();
-            var returnChunk= _mapper.Map<List<PagingGameDto>>(chunk);
+            var returnChunk= _mapper.Map<ICollection<PagingGameDto>>(chunk);
             return new PageReturnDto<PagingGameDto>(returnChunk, count, model.Page, model.ItemsPerPage);
         }
 
@@ -70,7 +70,12 @@ namespace Infrastructure.RepositoryRelated.Repositories
 
         public async Task<LoadGameDto> LoadGame(int id)
         {
-            var item=await GetAllQuery().Where(x => x.Id == id).Include(x=>x.Publicsher).Include(x=>x.VideogameLikesEntities).FirstOrDefaultAsync();
+            var item=await GetAllQuery()
+                .Where(x => x.Id == id)
+                .Include(x=>x.Publicsher)
+                .Include(x=>x.VideogameLikesEntities)
+                .Include(x=>x.videogameRequirementsEntities)
+                .FirstOrDefaultAsync();
           
             var returnDto=_mapper.Map<LoadGameDto>(item);
             return returnDto;

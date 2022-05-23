@@ -14,5 +14,7 @@ namespace Infrastructure.Entities.Videogame.Dtos
         public double? OldPrice { get; set; }
         public int PublicsherId { get; set; }
         public string Description { get; set; }
+        public string MinRequirements { get; set; }
+        public string RecomendedRequirements { get; set; }
     }
 }

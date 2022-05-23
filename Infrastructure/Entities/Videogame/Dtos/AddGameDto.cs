@@ -23,6 +23,10 @@ namespace Infrastructure.Entities.Videogame.Dtos
         [Display(Name = "Image")]
         [Required(ErrorMessage = "Pick an Image")]
         public IFormFile File { get; set; }
+        [Required]
+        public string MinRequirements { get; set; }
+        [Required]
+        public string RecomendedRequirements { get; set; }
 
     }
 }

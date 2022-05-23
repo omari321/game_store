@@ -20,7 +20,10 @@ namespace Infrastructure
         public AutoMapperConfiguration()
         {
 
+            
             CreateMap<VideogameEntity, PagingGameDto>()
+                .ForMember(x => x.TotalLikes,
+                opt => opt.MapFrom(z => z.VideogameLikesEntities.First().LikesCount))
                 .ForMember(x => x.TotalDislikes,
                 opt => opt.MapFrom(z => z.VideogameLikesEntities.First().DislikesCount));
             CreateMap<VideogameEntity, LoadGameDto>()
@@ -31,7 +34,11 @@ namespace Infrastructure
                 .ForMember(x => x.TotalLikes,
                 opt => opt.MapFrom(z => z.VideogameLikesEntities.First().LikesCount))
                 .ForMember(x => x.TotalDislikes,
-                opt => opt.MapFrom(z => z.VideogameLikesEntities.First().DislikesCount));
+                opt => opt.MapFrom(z => z.VideogameLikesEntities.First().DislikesCount))
+                .ForMember(x => x.MinRequirements,
+                opt => opt.MapFrom(z => z.videogameRequirementsEntities.First().MinRequirements))
+                .ForMember(x => x.RecomendedRequirements,
+                opt => opt.MapFrom(z => z.videogameRequirementsEntities.First().RecomendedRequirements));
             CreateMap<UserEntity, UserDto>();
             CreateMap<OwnedGamesEntity, GameNamesDto>()
                 .ForMember(x => x.Id,

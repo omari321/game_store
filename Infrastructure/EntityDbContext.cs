@@ -14,6 +14,7 @@ using Infrastructure.Entities.VideogameFile;
 using Infrastructure.Entities.VideogameImages;
 using Infrastructure.Entities.VideogameLikes;
 using Infrastructure.Entities.VideogameLikesList;
+using Infrastructure.Entities.VideogameRequirements;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Entities
@@ -42,6 +43,7 @@ namespace Infrastructure.Entities
         public DbSet<VideogameFilesEntity> videogameFileEntities { get; set; }
         public DbSet<VideogameLikesEntity> videogameLikesEntities { get; set; }
         public DbSet<VideogameLikesListEntity> VideogameLikesListEntities { get; set; }
+        public DbSet<VideogameRequirementsEntity> videogameRequirementsEntities { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CityEntityConfiguration());
