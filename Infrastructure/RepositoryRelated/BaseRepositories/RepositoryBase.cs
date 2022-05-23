@@ -17,6 +17,11 @@ namespace Infrastructure.Repositories
             _entityDbContext = entityDbContext;
         }
 
+        public async Task<bool> CheckIfMeetsAnyConditionAsync(Expression<Func<T, bool>> expression)
+        {
+            return await _entityDbContext.Set<T>().AnyAsync(expression);
+        }
+
         public async Task CreateAsync(T entity)
         {
             await _entityDbContext.Set<T>().AddAsync(entity);
@@ -26,7 +31,7 @@ namespace Infrastructure.Repositories
         {
             return await _entityDbContext.Set<T>().Where(expression).FirstOrDefaultAsync();
         }
-
+        public async Task Delete(T entity) => _entityDbContext.Set<T>().Remove(entity);
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
@@ -35,7 +40,7 @@ namespace Infrastructure.Repositories
 
         public  IQueryable<T> GetAllQuery()
         {
-            return _entityDbContext.Set<T>();
+            return _entityDbContext.Set<T>().AsQueryable();
         }
     }
 }

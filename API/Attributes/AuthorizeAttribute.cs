@@ -24,7 +24,7 @@ namespace API.Attributes
                 var item = context.HttpContext.Items[key];
             }
             var user = (UserEntity)context.HttpContext.Items["User"];
-
+            
             if (user == null || (_roles.Any() && !_roles.Contains(user.Role)))
             {
 

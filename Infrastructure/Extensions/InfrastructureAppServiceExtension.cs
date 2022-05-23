@@ -20,7 +20,23 @@ namespace Infrastructure.Extensions
 
             Services.AddScoped<IUnitOfWork, UnitOfWork>();
             Services.AddScoped<IUserRepository, UserRepository>();
-            
+            Services.AddScoped<IVideogameRepository, VideogameRepository>();
+            Services.AddScoped<IPublisherRepository, PublisherRepository>();
+            Services.AddScoped<ICityRepository,CityRepository>();
+            Services.AddScoped<ICountryRepository, CountryRepository>();
+            Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            Services.AddScoped<IVideogameCategoryRepository, VideogameCategoryRepository>();
+            Services.AddScoped<IPaymentCredentialRepository , PaymentCredentialRepository>();
+            Services.AddScoped<ITransactionsRepository,TransactionsRepository>();
+            Services.AddScoped<IOwnedGamesRepository, OwnedGamesRepository>();
+            Services.AddScoped<IVideogameImagesRepository, VideogameImagesRepository>();
+            Services.AddScoped<IUserBalanceRepository, UserBalanceRepository>();
+            Services.AddScoped<IConfirmationMailToSendRepository, ConfirmationMailToSendRepository>();
+            Services.AddScoped<IGameTransactionHistoryRepository , GameTransactionHistoryRepository>();
+            Services.AddScoped<IVideogameFileRepository, VideogameFileRepository>();
+            Services.AddScoped<IVideogameLikesRepository, VideogameLikesRepository>();
+            Services.AddScoped<IVideogameLikesListRepository, VideogameLikesListRepository>();
+            Services.AddScoped<IVideogameRequirementsRepository, VideogameRequirementsRepository>();
         }
     }
 }

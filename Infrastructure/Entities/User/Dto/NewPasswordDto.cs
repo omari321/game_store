@@ -12,6 +12,8 @@ namespace Infrastructure.Entities.User.Dto
         [Required]
         public string OldPassword { get; set; }
         [Required]
+        [RegularExpression(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
+         ErrorMessage = "please have password which contains minimum of 8 characters, letters ,numbers, one uppercase letter , one special character.")]
         public string newPassword { get; set; }
     }
 }

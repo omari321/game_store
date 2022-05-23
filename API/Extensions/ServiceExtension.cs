@@ -51,6 +51,7 @@ namespace API
                 var enumConverter = new JsonStringEnumConverter();
                 opts.JsonSerializerOptions.Converters.Add(enumConverter);
             });
+
         }
         public static void ConfigureCors(this IServiceCollection services)
         {
@@ -58,9 +59,9 @@ namespace API
             {
                 options.AddPolicy("CorsPolicy", builder =>
                 {
-                    builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
+                    builder.AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowAnyOrigin();
                 });
             });
         }
@@ -70,6 +71,17 @@ namespace API
             Services.AddScoped<ValidationFilterAttribute>();
             Services.AddScoped(UserContextFactory.Create);
             Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            Services.AddSingleton(sp =>
+            {
+                var webHostEnvironment= sp.CreateScope().ServiceProvider.GetService<IWebHostEnvironment>();
+                return new BasePath(webHostEnvironment.ContentRootPath);
+            });
+            Services.AddSingleton(sp =>
+            {
+                var configuration=sp.CreateScope().ServiceProvider.GetService<IConfiguration>();
+                var url=configuration.GetValue<string>("ASPNETCORE_URLS");
+                return new BaseUrl { applicationUrl = url };
+            });
         }
         public static void AddOptionsForObjects(this IServiceCollection Services, IConfiguration conf)
         {

@@ -21,7 +21,7 @@ namespace Application.Services.Admin
             _userRepository = userRepository;
         }
 
-        public async Task<bool> ChangeUserRole(RoleChangeDto model)
+        public async Task<UserDto> ChangeUserRole(RoleChangeDto model)
         {
             var user = await _userRepository.FindByConditionAsync(x => x.UserName == model.UserName);
             if (user==null)
@@ -30,7 +30,16 @@ namespace Application.Services.Admin
             }
             user.Role = model.newRole;
             await _unitOfWork.CompleteAsync();
-            return true;
+            return new UserDto
+            {
+                Id=user.Id,
+                UserName=user.UserName,
+                Role=user.Role,
+                Email=user.Email,
+                FirstName=user.FirstName,
+                LastName=user.LastName,
+                TelephoneNumber=user.TelephoneNumber,
+            };
         }
     }
 }

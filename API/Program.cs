@@ -20,7 +20,8 @@ builder.Services.AddOtherServices();
 builder.Services.AddOptionsForObjects(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddConnectionString(builder.Configuration);
-
+builder.Services.BackgroundServiceAppServiceExtensionMethod();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,6 +32,8 @@ if (app.Environment.IsDevelopment())
 }
 app.UseMiddleware<ExceptionMiddleWare>();
 app.UseMiddleware<JwtMiddleware>();
+app.UseStaticFiles();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

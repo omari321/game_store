@@ -16,12 +16,9 @@ namespace Infrastructure.Entities.City
     {
         [Key]
         public int Id { get; set; }
-        [Required]
         [Unicode(true)]
         [StringLength(65)]
         public string Name { get; set; }
-        [Required]
-
         public int CountryId { get; set; }
         public CountryEntity Country { get; set; }
         public List<UserEntity> userEntities { get; set; }

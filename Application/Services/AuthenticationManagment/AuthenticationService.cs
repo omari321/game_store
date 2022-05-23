@@ -11,6 +11,9 @@ using System.Security.Cryptography;
 using Infrastructure.Entities.UserRepo;
 using AutoMapper;
 using Application.Services.Mail;
+using Infrastructure.Entities.UserBalance;
+using Infrastructure.Entities.ConfirmationMailToSend;
+using System.Security.Policy;
 
 namespace Application.Services.AuthenticationManagment
 {
@@ -18,22 +21,32 @@ namespace Application.Services.AuthenticationManagment
     {
         private readonly IUserRepository _userRepository;
         private readonly JwtSettings _jwtSettings;
+        private readonly BaseUrl _baseUrl;
         private readonly IJwtUtilsService _jwtUtils;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMailService _mailService;
+        private readonly IUserBalanceRepository _userBalanceRepository;
+        private readonly IConfirmationMailToSendRepository _confirmationMailToSendRepository;
         private readonly IMapper _mapper;
-        public AuthenticationService(IOptions<JwtSettings> options, IUserRepository userRepository,
+        public AuthenticationService(BaseUrl baseUrl,
+            IOptions<JwtSettings> options, 
+            IUserRepository userRepository,
             IJwtUtilsService jwtUtils,
             IUnitOfWork unitOfWork,
             IMailService mailService,
+            IUserBalanceRepository userBalanceRepository,
+            IConfirmationMailToSendRepository confirmationMailToSendRepository,
             IMapper mapper)
         {
+            _baseUrl = baseUrl;
             _userRepository = userRepository;
             _jwtSettings = options.Value;
             _jwtUtils = jwtUtils;
             _unitOfWork = unitOfWork;
             _mapper = mapper;     
+            _userBalanceRepository = userBalanceRepository;
             _mailService = mailService;
+            _confirmationMailToSendRepository = confirmationMailToSendRepository;
          }
         public async Task<AuthenticateResponse> Authenticate(LoginDto model, string ipAddress)
         {
@@ -80,7 +93,6 @@ namespace Application.Services.AuthenticationManagment
             {
                 // revoke all descendant tokens in case this token has been compromised
                 await RevokeDescendantRefreshTokens(refreshToken, user, ipAddress, $"Attempted reuse of revoked ancestor token: {token}");
-                //await _userRepository.Update(user);
                 await _unitOfWork.CompleteAsync();
             }
 
@@ -95,7 +107,6 @@ namespace Application.Services.AuthenticationManagment
             RemoveOldRefreshTokens(user);
 
             // save changes to db
-            //_userRepository.Update(user);
             await _unitOfWork.CompleteAsync();
 
             // generate new jwt
@@ -117,7 +128,6 @@ namespace Application.Services.AuthenticationManagment
 
             // revoke token and save
             RevokeRefreshToken(refreshToken, ipAddress, "Revoked without replacement");
-            //_userRepository.Update(user);
             await _unitOfWork.CompleteAsync();
             return true;
         }
@@ -200,23 +210,31 @@ namespace Application.Services.AuthenticationManagment
             // map model to new account object
             var account = _mapper.Map<UserEntity>(model);
 
-            // first registered account is an admin
             var isFirstAccount = (await _userRepository.GetAllAsync()).Count() == 0;
             account.Role = Roles.NormalUser;
             account.DateCreated = DateTime.UtcNow;
             account.VerificationToken = await generateVerificationToken();
-
+  
             // hash password
             byte[] salt = new byte[128 / 8];
             RandomNumberGenerator.Fill(salt);
             account.Password = await PasswordEncryptor.EncryptPassword(model.Password, salt);
             account.Salt = Convert.ToBase64String(salt);
 
-            //await _mailService.SendMailConfirmationCode(account);
 
-
-            // save account
             await _userRepository.CreateAsync(account);
+            await _unitOfWork.CompleteAsync();
+            var ConfirmationLink = _baseUrl.applicationUrl + @"/api/Auth/VerifyEmail/" + account.VerificationToken;
+            //new Uri(@"/api/Auth/VerifyEmail/"+account.VerificationToken,UriKind.RelativeOrAbsolute);
+            var mailToSend = new ConfirmationMailToSendEntity
+            {
+                UserId=account.Id,
+                Email=account.Email,
+                ConfirmationLink=ConfirmationLink,
+                DateCreated=DateTime.Now,
+                UserName=account.UserName,
+            };
+            await _confirmationMailToSendRepository.CreateAsync(mailToSend);
             await _unitOfWork.CompleteAsync();
             return true;
         }
@@ -224,7 +242,6 @@ namespace Application.Services.AuthenticationManagment
         {
             // token is a cryptographically strong random sequence of values
             var token = Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
-
             // ensure token is unique by checking against db
             var tokenIsUnique = (await _userRepository.FindByConditionAsync(x => x.VerificationToken == token) == null);
             if (!tokenIsUnique)
@@ -239,6 +256,16 @@ namespace Application.Services.AuthenticationManagment
             if (account == null)
                 throw new CustomException("Verification failed", 400);
             account.Verified = DateTime.UtcNow;
+            account.VerificationToken = null;
+            
+
+            var userBalance = new UserBalanceEntity
+            {
+                UserId=account.Id,
+                balance=0,
+                DateCreated=DateTime.Now,
+            };
+            await _userBalanceRepository.CreateAsync(userBalance);
             await _unitOfWork.CompleteAsync();
             return true;
         }
@@ -246,12 +273,16 @@ namespace Application.Services.AuthenticationManagment
         public async Task<bool> SendNewPassword(string mail)
         {
             var user = await _userRepository.FindByConditionAsync(x => x.Email == mail);
-            var newPass = Guid.NewGuid();
+            Random random = new();
+            var length = random.Next(12, 20);
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var newPass=new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
             byte[] salt = new byte[128 / 8];
             RandomNumberGenerator.Fill(salt);
             user.Password = await PasswordEncryptor.EncryptPassword(newPass.ToString(), salt);
             user.Salt = Convert.ToBase64String(salt);
-            await _mailService.SendNewPassword(user);
+            await _mailService.SendNewPassword(new UserSendNewPasswordDto {UserName=user.UserName,Password=newPass,Email=user.Email });
             await _unitOfWork.CompleteAsync();
             return true;
         }

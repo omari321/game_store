@@ -7,6 +7,8 @@ using Application.Services.Mail;
 using Infrastructure.Entities.User;
 using Infrastructure.Entities.User.Dto;
 using Infrastructure.Entities.UserRepo;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 using System.ComponentModel.DataAnnotations;
@@ -15,7 +17,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles.NormalUser, Roles.Admin)]
+    [Authorize(Roles.NormalUser,Roles.Manager, Roles.Admin)]
     public class AuthController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
@@ -37,14 +39,6 @@ namespace API.Controllers
             this.SetTokenCookie(response.RefreshToken);
             return Ok(response);
         }
-        [AllowAnonymous]
-        [HttpGet("verify-email/{token}")]
-        public async Task<IActionResult> VerifyEmail(string token)
-        {
-            await _authenticationService.VerifyEmail(token);
-            return Ok(new { message = "Verification successful, you can now login" });
-        }
-
 
         [AllowAnonymous]
         [HttpPost("refresh-token")]
@@ -55,13 +49,6 @@ namespace API.Controllers
             
             return Ok(response);
         }
-        [HttpPost("ChangePassword")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> ChangePassword(NewPasswordDto model)
-        {
-            var res = await _authenticationService.ChangePassword(model,(int)_userContext.userId);
-            return Ok(res);
-        }
         [AllowAnonymous]
         [HttpPost("ForgotPassword")]
         public async Task<IActionResult> ForgotPassword(string mail)
@@ -71,6 +58,7 @@ namespace API.Controllers
         }
 
         [HttpPost("revoke-token")]
+        //drois gasvlaze armaq shemocmeba martivi dasamatebelia ubralod gatestvisas xels shemishlis
         public async Task<IActionResult> RevokeToken()
         {
             var token =  Request.Cookies["refreshToken"];
@@ -81,7 +69,15 @@ namespace API.Controllers
             await _authenticationService.RevokeToken(token, _userContext.ClientIpAddress);
             return Ok(new { message = "Token revoked" });
         }
-
+        [AllowAnonymous]
+        [HttpPost("[action]")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> Registrer(RegistrerDto model)
+        {
+            //HttpContext.Request.GetEncodedUrl().ToString().Substring(0, HttpContext.Request.GetEncodedUrl().ToString().LastIndexOf("/"));
+            var res = await _authenticationService.RegisterUser(model);
+            return Ok(new {status="registration successfull you will soon recieve link on email pls confirm" });
+        }
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -95,14 +91,12 @@ namespace API.Controllers
             var user = await _authenticationService.GetById(id);
             return Ok(user);
         }
-
         [AllowAnonymous]
-        [HttpPost("[action]")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> Registrer(RegistrerDto model)
+        [HttpGet("[action]/{token}")]
+        public async Task<IActionResult> VerifyEmail([FromRoute]string token)
         {
-            var res = await _authenticationService.RegisterUser(model);
-            return Ok(new {status="registration successfull you will soon recieve link on email pls confirm" }.ToJSON());
+            await _authenticationService.VerifyEmail(token);
+            return Ok(new { message = "Verification successful, you can now login" });
         }
 
     }

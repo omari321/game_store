@@ -9,6 +9,6 @@ namespace Application.Services.Admin
 {
     public interface IAdminService
     {
-        Task<bool> ChangeUserRole(RoleChangeDto model);
+        Task<UserDto> ChangeUserRole(RoleChangeDto model);
     }
 }
