@@ -49,7 +49,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             CategoryName = "moba",
-                            DateCreated = new DateTime(2022, 5, 23, 3, 12, 30, 995, DateTimeKind.Local).AddTicks(8127)
+                            DateCreated = new DateTime(2022, 5, 23, 5, 0, 38, 426, DateTimeKind.Local).AddTicks(3667)
                         });
                 });
 
@@ -87,14 +87,14 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             CountryId = 1,
-                            DateCreated = new DateTime(2022, 5, 23, 3, 12, 30, 979, DateTimeKind.Local).AddTicks(9439),
+                            DateCreated = new DateTime(2022, 5, 23, 5, 0, 38, 410, DateTimeKind.Local).AddTicks(5916),
                             Name = "Seattle"
                         },
                         new
                         {
                             Id = 2,
                             CountryId = 2,
-                            DateCreated = new DateTime(2022, 5, 23, 3, 12, 30, 979, DateTimeKind.Local).AddTicks(9450),
+                            DateCreated = new DateTime(2022, 5, 23, 5, 0, 38, 410, DateTimeKind.Local).AddTicks(5925),
                             Name = "Tokyo"
                         });
                 });
@@ -163,13 +163,13 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 5, 23, 3, 12, 30, 979, DateTimeKind.Local).AddTicks(9631),
+                            DateCreated = new DateTime(2022, 5, 23, 5, 0, 38, 410, DateTimeKind.Local).AddTicks(6096),
                             Name = "USA"
                         },
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2022, 5, 23, 3, 12, 30, 979, DateTimeKind.Local).AddTicks(9633),
+                            DateCreated = new DateTime(2022, 5, 23, 5, 0, 38, 410, DateTimeKind.Local).AddTicks(6097),
                             Name = "Japan(OwO)"
                         });
                 });
@@ -277,7 +277,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 5, 23, 3, 12, 30, 995, DateTimeKind.Local).AddTicks(7966),
+                            DateCreated = new DateTime(2022, 5, 23, 5, 0, 38, 426, DateTimeKind.Local).AddTicks(3503),
                             PublisherName = "valve"
                         });
                 });
@@ -459,12 +459,12 @@ namespace Infrastructure.Migrations
                             Email = "O_pirtskhalaishvili@cu.edu.ge",
                             FirstName = "admin",
                             LastName = "admin",
-                            Password = "TDYB9VTGXgVK37xtrTT/UpfWFuCsq338ISblbQafP7A=",
+                            Password = "wL9L1FCwmbZE2fkeVUgRP2+91x0c+raq0AEvPyYHA9A=",
                             Role = 1,
-                            Salt = "U5++OplSHmOYBezCt27MNQ==",
+                            Salt = "bxQPlHAkSlOz+CE5tP+CIA==",
                             TelephoneNumber = "551001100",
                             UserName = "string",
-                            Verified = new DateTime(2022, 5, 23, 3, 12, 30, 994, DateTimeKind.Local).AddTicks(2804)
+                            Verified = new DateTime(2022, 5, 23, 5, 0, 38, 424, DateTimeKind.Local).AddTicks(8571)
                         });
                 });
 
@@ -498,7 +498,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 5, 23, 3, 12, 30, 995, DateTimeKind.Local).AddTicks(7849),
+                            DateCreated = new DateTime(2022, 5, 23, 5, 0, 38, 426, DateTimeKind.Local).AddTicks(3396),
                             UserId = 1,
                             balance = 0.0
                         });
@@ -559,7 +559,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 5, 23, 3, 12, 30, 995, DateTimeKind.Local).AddTicks(8048),
+                            DateCreated = new DateTime(2022, 5, 23, 5, 0, 38, 426, DateTimeKind.Local).AddTicks(3589),
                             Description = "Mobile battle arena where 10 players play vs each other in teams of 5",
                             Price = 0.0,
                             PublicsherId = 1,
@@ -592,7 +592,7 @@ namespace Infrastructure.Migrations
                         {
                             VideogameId = 1,
                             CategoryId = 1,
-                            DateCreated = new DateTime(2022, 5, 23, 3, 12, 30, 995, DateTimeKind.Local).AddTicks(8206)
+                            DateCreated = new DateTime(2022, 5, 23, 5, 0, 38, 426, DateTimeKind.Local).AddTicks(3743)
                         });
                 });
 
@@ -701,7 +701,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 5, 23, 3, 12, 30, 995, DateTimeKind.Local).AddTicks(8282),
+                            DateCreated = new DateTime(2022, 5, 23, 5, 0, 38, 426, DateTimeKind.Local).AddTicks(3867),
                             DislikesCount = 0,
                             LikesCount = 0,
                             VideogameId = 1
