@@ -39,7 +39,7 @@ namespace Application.Services.JwtUtils
                 Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
                 Issuer = _JwtSettings.Issuer,
                 Audience = _JwtSettings.Audiance,
-                Expires = DateTime.UtcNow.AddMinutes(15),
+                Expires = DateTime.Now.AddMinutes(15),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -65,14 +65,14 @@ namespace Application.Services.JwtUtils
                     ValidAudience = _JwtSettings.Audiance,
                     // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
                     ValidateLifetime = true,
-                    LifetimeValidator= (DateTime? notBefore, DateTime? expires, SecurityToken token, TokenValidationParameters @params)=>
-                    {
-                        if (expires != null)
-                        {
-                            return expires > DateTime.UtcNow;
-                        }
-                        return false;
-                    },    
+                    //LifetimeValidator= (DateTime? notBefore, DateTime? expires, SecurityToken token, TokenValidationParameters @params)=>
+                    //{
+                    //    if (expires != null)
+                    //    {
+                    //        return expires > DateTime.UtcNow;
+                    //    }
+                    //    return false;
+                    //},    
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
                 var jwtToken = (JwtSecurityToken)validatedToken;
