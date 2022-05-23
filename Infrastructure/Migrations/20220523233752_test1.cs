@@ -523,7 +523,7 @@ namespace Infrastructure.Migrations
                 schema: "dbo",
                 table: "Category",
                 columns: new[] { "Id", "CategoryName", "DateCreated", "DateUpdated" },
-                values: new object[] { 1, "moba", new DateTime(2022, 5, 23, 5, 0, 38, 426, DateTimeKind.Local).AddTicks(3667), null });
+                values: new object[] { 1, "moba", new DateTime(2022, 5, 24, 3, 37, 52, 148, DateTimeKind.Local).AddTicks(1550), null });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
@@ -531,57 +531,63 @@ namespace Infrastructure.Migrations
                 columns: new[] { "Id", "DateCreated", "DateUpdated", "Name" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2022, 5, 23, 5, 0, 38, 410, DateTimeKind.Local).AddTicks(6096), null, "USA" },
-                    { 2, new DateTime(2022, 5, 23, 5, 0, 38, 410, DateTimeKind.Local).AddTicks(6097), null, "Japan(OwO)" }
+                    { 1, new DateTime(2022, 5, 24, 3, 37, 52, 132, DateTimeKind.Local).AddTicks(179), null, "USA" },
+                    { 2, new DateTime(2022, 5, 24, 3, 37, 52, 132, DateTimeKind.Local).AddTicks(180), null, "Japan(OwO)" }
                 });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "Publisher",
                 columns: new[] { "Id", "DateCreated", "DateUpdated", "PublisherName" },
-                values: new object[] { 1, new DateTime(2022, 5, 23, 5, 0, 38, 426, DateTimeKind.Local).AddTicks(3503), null, "valve" });
+                values: new object[] { 1, new DateTime(2022, 5, 24, 3, 37, 52, 148, DateTimeKind.Local).AddTicks(1378), null, "valve" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "City",
                 columns: new[] { "Id", "CountryId", "DateCreated", "DateUpdated", "Name" },
-                values: new object[] { 1, 1, new DateTime(2022, 5, 23, 5, 0, 38, 410, DateTimeKind.Local).AddTicks(5916), null, "Seattle" });
+                values: new object[] { 1, 1, new DateTime(2022, 5, 24, 3, 37, 52, 131, DateTimeKind.Local).AddTicks(9939), null, "Seattle" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "City",
                 columns: new[] { "Id", "CountryId", "DateCreated", "DateUpdated", "Name" },
-                values: new object[] { 2, 2, new DateTime(2022, 5, 23, 5, 0, 38, 410, DateTimeKind.Local).AddTicks(5925), null, "Tokyo" });
+                values: new object[] { 2, 2, new DateTime(2022, 5, 24, 3, 37, 52, 131, DateTimeKind.Local).AddTicks(9951), null, "Tokyo" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "Videogame",
                 columns: new[] { "Id", "DateCreated", "DateUpdated", "Description", "DownloadFileUrl", "OldPrice", "Price", "PublicsherId", "ThumbnailPath", "ThumbnailUrl", "VideogameName" },
-                values: new object[] { 1, new DateTime(2022, 5, 23, 5, 0, 38, 426, DateTimeKind.Local).AddTicks(3589), null, "Mobile battle arena where 10 players play vs each other in teams of 5", null, null, 0.0, 1, null, null, "dota2" });
+                values: new object[] { 1, new DateTime(2022, 5, 24, 3, 37, 52, 148, DateTimeKind.Local).AddTicks(1468), null, "Mobile battle arena where 10 players play vs each other in teams of 5", null, null, 0.0, 1, null, null, "dota2" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "User",
                 columns: new[] { "Id", "Adress", "CityId", "DateCreated", "DateUpdated", "Email", "FirstName", "LastName", "Password", "Role", "Salt", "TelephoneNumber", "UserName", "VerificationToken", "Verified" },
-                values: new object[] { 1, "admin", 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "O_pirtskhalaishvili@cu.edu.ge", "admin", "admin", "wL9L1FCwmbZE2fkeVUgRP2+91x0c+raq0AEvPyYHA9A=", 1, "bxQPlHAkSlOz+CE5tP+CIA==", "551001100", "string", null, new DateTime(2022, 5, 23, 5, 0, 38, 424, DateTimeKind.Local).AddTicks(8571) });
+                values: new object[] { 1, "admin", 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "O_pirtskhalaishvili@cu.edu.ge", "admin", "admin", "H6ZWFaNFIkg8U00LTpHzh7QpaOnxAsBi9GKaoFGm8+c=", 1, "Vki2kwjpGeNbo7cR8nkIpA==", "551001100", "string", null, new DateTime(2022, 5, 24, 3, 37, 52, 146, DateTimeKind.Local).AddTicks(2675) });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "VideogameCategory",
                 columns: new[] { "CategoryId", "VideogameId", "DateCreated", "DateUpdated" },
-                values: new object[] { 1, 1, new DateTime(2022, 5, 23, 5, 0, 38, 426, DateTimeKind.Local).AddTicks(3743), null });
+                values: new object[] { 1, 1, new DateTime(2022, 5, 24, 3, 37, 52, 148, DateTimeKind.Local).AddTicks(1685), null });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "VideogameLikes",
                 columns: new[] { "Id", "DateCreated", "DateUpdated", "DislikesCount", "LikesCount", "VideogameId" },
-                values: new object[] { 1, new DateTime(2022, 5, 23, 5, 0, 38, 426, DateTimeKind.Local).AddTicks(3867), null, 0, 0, 1 });
+                values: new object[] { 1, new DateTime(2022, 5, 24, 3, 37, 52, 148, DateTimeKind.Local).AddTicks(1784), null, 0, 0, 1 });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "VideogameRequirements",
+                columns: new[] { "Id", "DateCreated", "DateUpdated", "MinRequirements", "RecomendedRequirements", "VideogameId" },
+                values: new object[] { 1, new DateTime(2022, 5, 24, 3, 37, 52, 148, DateTimeKind.Local).AddTicks(2009), null, "core i3-5400, 8gb ram , gtx 660", "core i9-12900ks, 32gb lp DDR5 4600mhz, RTX 3090TI", 1 });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "UserBalance",
                 columns: new[] { "Id", "DateCreated", "DateUpdated", "UserId", "balance" },
-                values: new object[] { 1, new DateTime(2022, 5, 23, 5, 0, 38, 426, DateTimeKind.Local).AddTicks(3396), null, 1, 0.0 });
+                values: new object[] { 1, new DateTime(2022, 5, 24, 3, 37, 52, 148, DateTimeKind.Local).AddTicks(1234), null, 1, 0.0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_City_CountryId",

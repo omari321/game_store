@@ -37,6 +37,7 @@
   <ItemGroup>
     <Folder Include="Entities\OwnedGames\Dtos\" />
     <Folder Include="Entities\Token\Dtos\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
