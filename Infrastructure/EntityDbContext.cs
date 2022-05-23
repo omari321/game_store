@@ -57,6 +57,7 @@ namespace Infrastructure.Entities
             modelBuilder.ApplyConfiguration(new CategoryInitialData());
             modelBuilder.ApplyConfiguration(new VideogameCategoryInitialData());
             modelBuilder.ApplyConfiguration(new VideogameLikesInitialData());
+            modelBuilder.ApplyConfiguration(new VideogameRequirementsInitialData());
 
             base.OnModelCreating(modelBuilder);
         }

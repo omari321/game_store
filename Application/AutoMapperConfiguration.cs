@@ -31,7 +31,6 @@ namespace Application
             CreateMap<PublisherEntity, GetPublisherDto>()
                 .ForMember(x => x.PublisherId,
                 opt => opt.MapFrom(c => c.Id));
-            CreateMap<VideogameEntity,PagingGameDto>();
             CreateMap<CityEntity, GetCityDto>();
             CreateMap<CountryEntity,GetCountryDto>()
                 .ForMember(x=>x.CountryName,

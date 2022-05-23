@@ -87,7 +87,7 @@ namespace Application.Services.AuthenticationManagment
         public async Task<AuthenticateResponse> RefreshToken(string token, string ipAddress)
         {
             var user = await GetUserByRefreshToken(token);
-            var refreshToken = user.RefreshTokens.Single(x => x.Token == token);
+            var refreshToken = user.RefreshTokens.OrderByDescending(x=>x.Id).Single(x => x.Token == token);
 
             if (refreshToken.IsRevoked)
             {
@@ -168,7 +168,7 @@ namespace Application.Services.AuthenticationManagment
             // remove old inactive refresh tokens from user based on TTL in app settings
             user.RefreshTokens.RemoveAll(x =>
                 !x.IsActive &&
-                x.Created.AddDays(_jwtSettings.RefreshTokenTTL) <= DateTime.UtcNow);
+                x.Created.AddDays(_jwtSettings.RefreshTokenTTL) <= DateTime.Now);
         }
 
         private async Task RevokeDescendantRefreshTokens(RefreshToken refreshToken, UserEntity user, string ipAddress, string reason)
@@ -186,7 +186,7 @@ namespace Application.Services.AuthenticationManagment
 
         private Task RevokeRefreshToken(RefreshToken token, string ipAddress, string reason = null, string replacedByToken = null)
         {
-            token.Revoked = DateTime.UtcNow;
+            token.Revoked = DateTime.Now;
             token.RevokedByIp = ipAddress;
             token.ReasonRevoked = reason;
             token.ReplacedByToken = replacedByToken;
@@ -212,7 +212,7 @@ namespace Application.Services.AuthenticationManagment
 
             var isFirstAccount = (await _userRepository.GetAllAsync()).Count() == 0;
             account.Role = Roles.NormalUser;
-            account.DateCreated = DateTime.UtcNow;
+            account.DateCreated = DateTime.Now;
             account.VerificationToken = await generateVerificationToken();
   
             // hash password
@@ -255,7 +255,7 @@ namespace Application.Services.AuthenticationManagment
             var account = await _userRepository.FindByConditionAsync(x => x.VerificationToken == token);
             if (account == null)
                 throw new CustomException("Verification failed", 400);
-            account.Verified = DateTime.UtcNow;
+            account.Verified = DateTime.Now;
             account.VerificationToken = null;
             
 

@@ -11,9 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{14AF8184-5E0E-47B2-BAC5-1E5DC3C6083E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "UnitTest\UnitTest.csproj", "{3B93369F-2C9E-452D-B3DF-FF9CF6C2BB4B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundProcess", "BackgroundProcess\BackgroundProcess.csproj", "{4531B137-F2C1-4733-9BB3-85D3EC946F29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackgroundProcess", "BackgroundProcess\BackgroundProcess.csproj", "{4531B137-F2C1-4733-9BB3-85D3EC946F29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +35,6 @@ Global
 		{14AF8184-5E0E-47B2-BAC5-1E5DC3C6083E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14AF8184-5E0E-47B2-BAC5-1E5DC3C6083E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14AF8184-5E0E-47B2-BAC5-1E5DC3C6083E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B93369F-2C9E-452D-B3DF-FF9CF6C2BB4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B93369F-2C9E-452D-B3DF-FF9CF6C2BB4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B93369F-2C9E-452D-B3DF-FF9CF6C2BB4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B93369F-2C9E-452D-B3DF-FF9CF6C2BB4B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4531B137-F2C1-4733-9BB3-85D3EC946F29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4531B137-F2C1-4733-9BB3-85D3EC946F29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4531B137-F2C1-4733-9BB3-85D3EC946F29}.Release|Any CPU.ActiveCfg = Release|Any CPU
