@@ -20,7 +20,6 @@ namespace Infrastructure
         public AutoMapperConfiguration()
         {
 
-            
             CreateMap<VideogameEntity, PagingGameDto>()
                 .ForMember(x => x.TotalLikes,
                 opt => opt.MapFrom(z => z.VideogameLikesEntities.First().LikesCount))

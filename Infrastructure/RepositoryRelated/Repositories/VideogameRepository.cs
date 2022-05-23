@@ -26,9 +26,9 @@ namespace Infrastructure.RepositoryRelated.Repositories
         {
             var count=await GetAllQuery().CountAsync();
             var chunk = await GetAllQuery()
+                .Include(x => x.VideogameLikesEntities)
                 .Skip((model.Page - 1) * model.ItemsPerPage)
                 .Take(model.ItemsPerPage)
-                .Include(x => x.VideogameLikesEntities)
                 .ToListAsync();
             var returnChunk= _mapper.Map<ICollection<PagingGameDto>>(chunk);
             return new PageReturnDto<PagingGameDto>(returnChunk, count, model.Page, model.ItemsPerPage);
