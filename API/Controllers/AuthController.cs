@@ -46,7 +46,7 @@ namespace API.Controllers
         {
             var refreshToken = Request.Cookies["refreshToken"];
             var response = await _authenticationService.RefreshToken(refreshToken, _userContext.ClientIpAddress);
-            
+            this.SetTokenCookie(response.RefreshToken);
             return Ok(response);
         }
         [AllowAnonymous]

@@ -96,8 +96,8 @@ namespace Application.Services.JwtUtils
                 Token = await getUniqueTokenAsync(),
                 role = Roles.NormalUser,
                 // token is valid for 7 days
-                Expires = DateTime.UtcNow.AddDays(7),
-                Created = DateTime.UtcNow,
+                Expires = DateTime.Now.AddDays(7),
+                Created = DateTime.Now,
                 CreatedByIp = ipAddress
             };
 
