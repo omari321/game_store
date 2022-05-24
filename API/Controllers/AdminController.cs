@@ -21,6 +21,7 @@ using Application.Services.EnumCollections;
 using Application.Services.User;
 using Application.Services.OwnedGames;
 using Application.Services.UserTransactionsBalance;
+using API.Context;
 
 namespace API.Controllers
 {
@@ -36,8 +37,9 @@ namespace API.Controllers
         private readonly IUserService _userService;
         private readonly IOwnedGamesService _ownedGamesService;
         private readonly IUserTransactionsAndBalanceService _userTransactionsAndBalance;
-
+        private readonly UserContext _userContext;
         public AdminController(IAdminService adminService, 
+            UserContext userContext,
             IVideogameService videogameService,
             ICityCountryService cityCountryService,
             IEnumCollections enumCollection, 
@@ -52,13 +54,14 @@ namespace API.Controllers
             _userService = userService;
             _ownedGamesService = ownedGamesService;
             _userTransactionsAndBalance = userTransactionsAndBalance;
+            _userContext = userContext;
         }
 
         [HttpPost("[action]")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ChangeUserRole(RoleChangeDto model)
         {
-            return Ok(await _AdminService.ChangeUserRole(model));
+            return Ok(await _AdminService.ChangeUserRole((int)_userContext.userId,model));
         }
         [HttpPost("[action]")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
