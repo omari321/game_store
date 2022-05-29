@@ -196,10 +196,10 @@ namespace Application.Services.AuthenticationManagment
         public async Task<bool> RegisterUser(RegistrerDto model)
         {
             // validate
-            var user = await _userRepository.FindByConditionAsync(x => x.UserName == model.Username);
+            var user = await _userRepository.FindByConditionAsync(x => x.UserName == model.Username||x.Email==model.Email);
             if (user != null)
             {
-                throw new CustomException("user already exists", 400);
+                throw new CustomException("user or emails already exists", 400);
             }
             var mail = await _userRepository.FindByConditionAsync(x => x.Email == model.Email);
             if (mail != null)

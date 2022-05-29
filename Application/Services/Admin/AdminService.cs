@@ -21,14 +21,18 @@ namespace Application.Services.Admin
             _userRepository = userRepository;
         }
 
-        public async Task<UserDto> ChangeUserRole(RoleChangeDto model)
+        public async Task<UserDto> ChangeUserRole(int selfId,RoleChangeDto model)
         {
             var user = await _userRepository.FindByConditionAsync(x => x.UserName == model.UserName);
             if (user==null)
             {
                 throw new CustomException("this user does not exist ", 400);
             }
-            user.Role = model.newRole;
+            if (selfId == user.Id)
+            {
+                throw new CustomException("user cant change his own role", 400);
+            }
+                user.Role = model.newRole;
             await _unitOfWork.CompleteAsync();
             return new UserDto
             {
