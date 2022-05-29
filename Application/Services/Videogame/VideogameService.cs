@@ -156,16 +156,17 @@ namespace Application.Services.Videogame
             {
                 throw new CustomException("game with this name already exists", 400);
             }
-            if (model.File.Length > 8_200_000)
-            {
-                throw new CustomException("Image too big", 400);
-            }
-            if (!ImageExtensions.Contains(Path.GetExtension(model.File.FileName).ToUpper()))
-            {
-                throw new CustomException("unsaported image type", 400);
-            }
+  
             if (model.File!=null)
             {
+                if (model.File.Length > 8_200_000)
+                {
+                    throw new CustomException("Image too big", 400);
+                }  
+                if (!ImageExtensions.Contains(Path.GetExtension(model.File.FileName).ToUpper()))
+                {
+                    throw new CustomException("unsaported image type", 400);
+                }
                 var FileName = Path.GetRandomFileName().Split(".").ToArray()[0];
                 var fullPath = Path.Combine(_basePath.ContentRootPath, BaseImagePath, FileName + Path.GetExtension(model.File.FileName));
                 var newFileUrl = _baseUrl.applicationUrl + BaseImageUrl + FileName + Path.GetExtension(model.File.FileName);
