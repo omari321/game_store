@@ -76,7 +76,7 @@ namespace API.Controllers
         {
             return Ok( await _videogameService.AddGame(model));
         }
-        [HttpPut("[action]")]
+        [HttpPost("[action]")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateGame([FromForm]UpdateGameDto model)
         {

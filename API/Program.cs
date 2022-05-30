@@ -3,13 +3,15 @@ using API.Middlewares;
 using Application.Extensions;
 using Infrastructure.Extensions;
 using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Host.UseSerilog((context, config) =>
-{
-    config.WriteTo.Console();
-    config.WriteTo.File(Path.Combine(Directory.GetCurrentDirectory(),"LogFile.txt"));
-});
+
+builder.Logging.AddSerilog(new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/Information.txt", LogEventLevel.Information, rollingInterval: RollingInterval.Day)
+    .WriteTo.File("Logs/Error.txt", LogEventLevel.Error, rollingInterval: RollingInterval.Day)
+    .CreateLogger());
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
